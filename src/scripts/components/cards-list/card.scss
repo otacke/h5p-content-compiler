@@ -1,0 +1,99 @@
+@import "@styles/main";
+
+.h5p-grid-view-card {
+  border: 0.1rem solid $color-shadow-dark;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  list-style-type: none;
+  height: 16.5rem;
+  width: 12rem;
+  padding: 0.5rem;
+
+  &.display-none {
+    display: none;
+  }
+
+  &.dragging {
+    background: #e9edfe;
+    border-color: #0825ff;
+    color: #6774ff;
+
+    .h5p-grid-view-card-content .h5p-grid-view-card-label {
+      background-color: #6774ff;
+    }
+  }
+
+  &.filter {
+    &.selected {
+      border-color: $color-primary;
+      box-shadow: 0 0 0.25rem $color-primary;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.reorder {
+    &:not(.selected) {
+      display: none;
+    }
+
+    &:hover {
+      cursor: move;
+    }
+  }
+
+  &.view {
+    &:not(.selected) {
+      display: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .h5p-grid-view-card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 0.5rem;
+    user-select: none;
+
+    .h5p-grid-view-card-label {
+      background-color: $color-primary;
+      border-radius: 0.25rem;
+      color: $color-background;
+      flex-grow: 0;
+      font-weight: bold;
+      overflow: hidden;
+      padding: 0.25rem 0.5rem;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .h5p-grid-view-card-introduction {
+      display: -webkit-box;
+      flex-grow: 1;
+      margin: 0;
+      overflow: hidden;
+      padding: 0;
+      -webkit-line-clamp: 7;
+      -webkit-box-orient: vertical;
+    }
+
+    .h5p-grid-view-card-status {
+      border-top: 1px solid $color-shadow-dark;
+      min-height: 1.5rem;
+      overflow: hidden;
+      padding: 0.5rem 0 0 0;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

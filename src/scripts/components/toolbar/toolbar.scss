@@ -1,0 +1,103 @@
+@import '@styles/main';
+
+.h5p-game-map-toolbar-tool-bar {
+  align-items: center;
+  background-color: $color-background;
+  box-shadow: 10px 10px 30px $color-shadow-light;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  gap: 1rem;
+  margin-bottom : .5em;
+  overflow: hidden;
+  padding: 0.5rem;
+
+  .toolbar-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    .toolbar-button {
+      color: #1768C4;
+      position: relative;
+
+      &.toolbar-button-active {
+        color: $color-background;
+      }
+
+      &.toolbar-button-filter {
+        &::before {
+          content: "\f0b0";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: 1.15rem;
+          height: 1.15rem;
+          left: 50%;
+          margin-left: -0.575rem;
+          margin-top: -0.575rem;
+          position: absolute;
+          top: 50%;
+          width: 1.15rem;
+        }
+      }
+
+      &.toolbar-button-reorder {
+        &::before {
+          content: "\f0b2";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: 1.15rem;
+          height: 1.15rem;
+          left: 50%;
+          margin-left: -0.575rem;
+          margin-top: -0.575rem;
+          position: absolute;
+          top: 50%;
+          width: 1.15rem;
+        }
+      }
+
+      &.toolbar-button-view {
+        &::before {
+          content: "\f00c";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: 1.15rem;
+          height: 1.15rem;
+          left: 50%;
+          margin-left: -0.575rem;
+          margin-top: -0.575rem;
+          position: absolute;
+          top: 50%;
+          width: 1.15rem;
+        }
+      }
+
+      &.toolbar-button-tags {
+        margin-left: auto;
+
+        &.toolbar-button-disabled {
+          background-color: $color-disabled;
+          color: $color-background;
+        }
+
+        &::before {
+          content: "\f02c";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: 1.15rem;
+          height: 1.15rem;
+          left: 50%;
+          margin-left: -0.575rem;
+          margin-top: -0.575rem;
+          position: absolute;
+          top: 50%;
+          width: 1.15rem;
+        }
+      }
+    }
+  }
+
+  &.display-none {
+    display: none;
+  }
+}

@@ -1,0 +1,10 @@
+@import "@styles/main";
+
+.h5p-grid-view-cards-list {
+  box-sizing: border-box;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, 12rem);
+  margin: 0;
+  padding: 0;
+}
