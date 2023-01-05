@@ -24,7 +24,9 @@ export default class GridView extends H5P.EventDispatcher {
       l10n: {
         selected: 'selected',
         statusNone: '',
-        statusCompleted: 'completed'
+        statusCompleted: 'completed',
+        noCardsFilter: 'The keywords that you chose do not match any content.',
+        noCardsSelected: 'You have not selected any content.'
       },
       a11y: {
         sample: 'Sample a11y'
@@ -70,10 +72,10 @@ export default class GridView extends H5P.EventDispatcher {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-grid-view-main');
 
-    const content = new Content({
+    this.content = new Content({
       contents: this.params.contents
     });
-    this.dom.append(content.getDOM());
+    this.dom.append(this.content.getDOM());
   }
 
   /**

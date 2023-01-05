@@ -42,17 +42,16 @@ export default class CardsList {
 
     this.placeholder = new CardPlaceholder();
 
-    let position = 0;
     for (const id in this.params.contents) {
       const contentParams = this.params.contents[id];
 
       this.addCard(
         {
           id: id,
-          position: position,
           card: {
             label: contentParams.label,
-            introduction: contentParams.introduction
+            introduction: contentParams.introduction,
+            keywords: contentParams.keywords
           }
         },
         {
@@ -76,8 +75,6 @@ export default class CardsList {
           }
         }
       );
-
-      position++;
     }
 
     this.setMode(this.params.mode);
@@ -121,6 +118,44 @@ export default class CardsList {
     }
 
     delete this.card[id];
+  }
+
+  /**
+   * Show cards based on keywords.
+   *
+   * @param {object} [params = {}] Parameters.
+   * @param {number} params.mode Mode id.
+   * @param {string[]} params.selectedTexts Selectec keywords.
+   * @returns {number} Number of filtered cards.
+   */
+  filter(params = {}) {
+    let numberSelected = 0;
+
+    if (params.mode === CardsList.MODE['filter']) {
+      Object.values(this.cards).forEach((card) => {
+        const cardKeywords = card.getKeywords();
+        if (
+          !cardKeywords.length ||
+          cardKeywords.some((word) => params.selectedTexts.includes(word))
+        ) {
+          card.show();
+          numberSelected++;
+        }
+        else {
+          card.hide();
+        }
+      });
+    }
+    else {
+      Object.values(this.cards).forEach((card) => {
+        card.show();
+        if (card.isSelected) {
+          numberSelected++;
+        }
+      });
+    }
+
+    return numberSelected;
   }
 
   /**

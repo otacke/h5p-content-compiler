@@ -8,6 +8,9 @@ export default class Card {
   /**
    * @class
    * @param {object} [params={}] Parameters.
+   * @param {string} params.label Label.
+   * @param {string} [params.introduction] Introduction text.
+   * @param {string[]} [params.keywords=[]] Keywords.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onClicked] Callback click.
    * @param {function} [callbacks.onMouseDown] Callback mouse down.
@@ -18,6 +21,7 @@ export default class Card {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
+      keywords: []
     }, params);
 
     this.callbacks = Util.extend({
@@ -159,6 +163,15 @@ export default class Card {
     Object.keys(CardsList.MODE).forEach((key) => {
       this.dom.classList.toggle(key, mode === CardsList.MODE[key]);
     });
+  }
+
+  /**
+   * Get keywords.
+   *
+   * @returns {string[]} Keywords.
+   */
+  getKeywords() {
+    return this.params.keywords;
   }
 
   /**

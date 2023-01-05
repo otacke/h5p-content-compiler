@@ -68,6 +68,7 @@ export default class Toolbar {
 
     this.buttons[button.id] = new ToolbarButton(
       {
+        id: button.id,
         ...(button.a11y && { a11y: button.a11y }),
         classes: ['toolbar-button', `toolbar-button-${button.id}`],
         ...(typeof button.disabled === 'boolean' && {
@@ -103,6 +104,16 @@ export default class Toolbar {
     for (let attribute in attributes) {
       this.buttons[id].setAttribute(attribute, attributes[attribute]);
     }
+  }
+
+  /**
+   * Get button.
+   *
+   * @param {string} id Button id.
+   * @returns {ToolbarButton|null} Button.
+   */
+  getButton(id) {
+    return this.buttons[id] || null;
   }
 
   /**

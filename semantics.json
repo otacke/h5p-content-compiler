@@ -162,6 +162,20 @@
         "label": "Status: completed",
         "description": "Status label for completed content.",
         "default": "completed"
+      },
+      {
+        "name": "noCardsFilter",
+        "type": "text",
+        "label": "No cards to show",
+        "description": "Message when no content matches any of the chosen keywords.",
+        "default": "The keywords that you chose do not match any content."
+      },
+      {
+        "name": "noCardsSelected",
+        "type": "text",
+        "label": "No cards were selected",
+        "description": "Message when no contents were selected.",
+        "default": "You have not selected any contents."
       }
     ]
   },
