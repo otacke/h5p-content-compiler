@@ -25,7 +25,7 @@ export default class GridView extends H5P.EventDispatcher {
         selected: 'selected',
         statusNone: '',
         statusCompleted: 'completed',
-        noCardsFilter: 'The keywords that you chose do not match any content.',
+        noCardsFilter: 'You need to select keywords in order to see contents to select from.',
         noCardsSelected: 'You have not selected any content.'
       },
       a11y: {

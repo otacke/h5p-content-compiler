@@ -80,6 +80,7 @@ export default class Content {
         {
           id: 'tags',
           type: 'toggle',
+          active: true,
           a11y: {
             active: Dictionary.get('a11y.buttonTags'), // TODO
             inactive: Dictionary.get('a11y.buttonTags'), // TODO
@@ -108,6 +109,7 @@ export default class Content {
         }
       }
     );
+    this.handleTagSelectorClicked({ active: true });
     this.dom.append(this.tagSelector.getDOM());
 
     // Pool of contents
@@ -126,7 +128,6 @@ export default class Content {
     this.dom.appendChild(this.messageBox.getDOM());
 
     // TODO: Previous state
-    debugger
     this.setMode(CardsList.MODE['filter']);
   }
 

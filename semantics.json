@@ -170,7 +170,7 @@
         "type": "text",
         "label": "No cards to show",
         "description": "Message when no content matches any of the chosen keywords.",
-        "default": "The keywords that you chose do not match any content."
+        "default": "You need to select keywords in order to see contents to select from."
       },
       {
         "name": "noCardsSelected",
