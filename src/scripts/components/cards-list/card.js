@@ -166,15 +166,6 @@ export default class Card {
   }
 
   /**
-   * Get keywords.
-   *
-   * @returns {string[]} Keywords.
-   */
-  getKeywords() {
-    return this.params.keywords;
-  }
-
-  /**
    * Handle card drag start.
    *
    * @param {DragEvent} event Drag event.
