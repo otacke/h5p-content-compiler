@@ -22,10 +22,14 @@ export default class TagSelector {
 
     this.dom = document.createElement('li');
     this.dom.classList.add('tag');
-    this.dom.innerText = this.params.text;
-    this.dom.addEventListener('click', () => {
+
+    this.button = document.createElement('button');
+    this.button.classList.add('tag-button');
+    this.button.innerText = this.params.text;
+    this.button.addEventListener('click', () => {
       this.handleClicked();
     });
+    this.dom.append(this.button);
 
     this.toggleState(this.selected);
   }
@@ -49,7 +53,7 @@ export default class TagSelector {
       state :
       !(this.selected ?? true);
 
-    this.dom.classList.toggle('selected', this.selected);
+    this.button.classList.toggle('selected', this.selected);
   }
 
   /**
