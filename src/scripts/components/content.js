@@ -16,7 +16,7 @@ export default class Content {
     }, params);
 
     // TODO: Previous state
-    this.selectedTexts = this.params.contents
+    this.filteredTexts = this.params.contents
       .reduce((result, content) => {
         const keywords = (content.keywords || '')
           .split(',')
@@ -37,7 +37,6 @@ export default class Content {
 
     // TODO: previous state
     this.pool = new Contents({ contents: this.params.contents });
-    this.chosen = new Contents();
 
     // Toolbar
     this.toolbar = new Toolbar({
@@ -93,13 +92,13 @@ export default class Content {
 
     this.tagSelector = new TagSelector(
       {
-        tags: this.selectedTexts.map((word) => {
+        tags: this.filteredTexts.map((word) => {
           return { text: word, selected: true }; // TODO: previous state
         })
       },
       {
-        onChanged: (selectedTexts) => {
-          this.handleFilterChanged(selectedTexts);
+        onChanged: (filteredTexts) => {
+          this.handleFilterChanged(filteredTexts);
         }
       }
     );
@@ -166,6 +165,21 @@ export default class Content {
       this.tagSelector.hide();
     }
 
+    const visibleContents = [];
+    const contents = this.pool.getContents();
+    for (const id in contents) {
+      if (mode === CardsList.MODE['filter']) {
+        if (contents[id].isFiltered) {
+          visibleContents.push(id);
+        }
+      }
+      else {
+        visibleContents.push(id);
+      }
+    }
+
+    this.poolList.filter(visibleContents);
+
     this.updateMessageBox();
 
     Globals.get('resize')();
@@ -175,22 +189,29 @@ export default class Content {
    * Update message.
    */
   updateMessageBox() {
-    const numberCardsVisible = this.poolList.filter({
-      mode: this.mode,
-      selectedTexts: this.selectedTexts
-    });
+    if (this.mode === CardsList.MODE['filter']) {
+      const numberCardsFiltered = Object.values(this.pool.getContents())
+        .filter((content) => content.isFiltered).length;
 
-    if (numberCardsVisible === 0) {
-      if (this.mode === CardsList.MODE['filter']) {
+      if (numberCardsFiltered === 0) {
         this.messageBox.setText(Dictionary.get('l10n.noCardsFilter'));
+        this.messageBox.show();
       }
       else {
-        this.messageBox.setText(Dictionary.get('l10n.noCardsSelected'));
+        this.messageBox.hide();
       }
-      this.messageBox.show();
     }
     else {
-      this.messageBox.hide();
+      const numberCardsSelected = Object.values(this.pool.getContents())
+        .filter((content) => content.isSelected).length;
+
+      if (numberCardsSelected === 0) {
+        this.messageBox.setText(Dictionary.get('l10n.noCardsSelected'));
+        this.messageBox.show();
+      }
+      else {
+        this.messageBox.hide();
+      }
     }
   }
 
@@ -207,26 +228,28 @@ export default class Content {
     }
 
     if (typeof params.selected === 'boolean') {
-      if (params.selected) {
-        const content = this.pool.getContent(params.id);
-        this.chosen.addContentReady(params.id, content);
-        this.pool.removeContent(params.id);
-      }
-      else {
-        const content = this.chosen.getContent(params.id);
-        this.pool.addContentReady(params.id, content);
-        this.chosen.removeContent(params.id);
-      }
+      this.pool.setSelected(params.id, params.selected);
     }
   }
 
   /**
    * Handle selection of keywords changed.
    *
-   * @param {string[]} selectedTexts Selected Keywords.
+   * @param {string[]} filteredTexts Filtered Keywords.
    */
-  handleFilterChanged(selectedTexts) {
-    this.selectedTexts = selectedTexts;
+  handleFilterChanged(filteredTexts) {
+    this.filteredTexts = filteredTexts;
+    this.pool.setFiltered(this.filteredTexts);
+
+    const visibleContents = [];
+    const contents = this.pool.getContents();
+    for (const id in contents) {
+      if (contents[id].isFiltered) {
+        visibleContents.push(id);
+      }
+    }
+    this.poolList.filter(visibleContents);
+
     this.updateMessageBox();
 
     Globals.get('resize')();

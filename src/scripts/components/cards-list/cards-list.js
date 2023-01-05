@@ -123,39 +123,17 @@ export default class CardsList {
   /**
    * Show cards based on keywords.
    *
-   * @param {object} [params = {}] Parameters.
-   * @param {number} params.mode Mode id.
-   * @param {string[]} params.selectedTexts Selectec keywords.
-   * @returns {number} Number of filtered cards.
+   * @param {string[]} visibleCardIds Selectec keywords.
    */
-  filter(params = {}) {
-    let numberSelected = 0;
-
-    if (params.mode === CardsList.MODE['filter']) {
-      Object.values(this.cards).forEach((card) => {
-        const cardKeywords = card.getKeywords();
-        if (
-          !cardKeywords.length ||
-          cardKeywords.some((word) => params.selectedTexts.includes(word))
-        ) {
-          card.show();
-          numberSelected++;
-        }
-        else {
-          card.hide();
-        }
-      });
+  filter(visibleCardIds = []) {
+    for (const id in this.cards) {
+      if (visibleCardIds.includes(id)) {
+        this.cards[id].show();
+      }
+      else {
+        this.cards[id].hide();
+      }
     }
-    else {
-      Object.values(this.cards).forEach((card) => {
-        card.show();
-        if (card.isSelected) {
-          numberSelected++;
-        }
-      });
-    }
-
-    return numberSelected;
   }
 
   /**

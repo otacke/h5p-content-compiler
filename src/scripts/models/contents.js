@@ -51,7 +51,9 @@ export default class Contents {
       label: label,
       introduction: introduction,
       contentInstance: contentInstance,
-      keywords: keywords
+      keywords: keywords,
+      isSelected: false, // TODO: Previous state
+      isFiltered: true // TODO: Previous state
     };
 
     this.contents[params.contentType.subContentId] = content;
@@ -91,5 +93,31 @@ export default class Contents {
    */
   getContents() {
     return this.contents;
+  }
+
+  /**
+   * Set content selected.
+   *
+   * @param {string} id Content id.
+   * @param {boolean} state Selected state.
+   */
+  setSelected(id, state) {
+    if (typeof id !== 'string' || typeof state !== 'boolean') {
+      return;
+    }
+
+    this.contents[id].isSelected = state;
+  }
+
+  /**
+   * Set filtered.
+   *
+   * @param {string[]} filteredTexts Filtered keywords.
+   */
+  setFiltered(filteredTexts) {
+    Object.values(this.contents).forEach((content) => {
+      content.isFiltered = content.keywords
+        .some((keyword) => filteredTexts.includes(keyword));
+    });
   }
 }
