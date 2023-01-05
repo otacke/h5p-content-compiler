@@ -53,7 +53,7 @@ export default class Contents {
       contentInstance: contentInstance,
       keywords: keywords,
       isSelected: false, // TODO: Previous state
-      isFiltered: true // TODO: Previous state
+      isFiltered: this.params.allKeywordsPreselected // TODO: Previous state
     };
 
     this.contents[params.contentType.subContentId] = content;

@@ -19,7 +19,7 @@ export default class GridView extends H5P.EventDispatcher {
       sample: true,
       contents: [],
       behaviour: {
-        sample: 'Sample behaviour'
+        allKeywordsPreselected: true
       },
       l10n: {
         selected: 'selected',
@@ -73,6 +73,7 @@ export default class GridView extends H5P.EventDispatcher {
     this.dom.classList.add('h5p-grid-view-main');
 
     this.content = new Content({
+      allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
       contents: this.params.contents
     });
     this.dom.append(this.content.getDOM());

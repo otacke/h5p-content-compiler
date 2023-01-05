@@ -36,7 +36,10 @@ export default class Content {
     this.dom.classList.add('h5p-grid-view-content');
 
     // TODO: previous state
-    this.pool = new Contents({ contents: this.params.contents });
+    this.pool = new Contents({
+      contents: this.params.contents,
+      allKeywordsPreselected: this.params.allKeywordsPreselected
+    });
 
     // Toolbar
     this.toolbar = new Toolbar({
@@ -93,7 +96,10 @@ export default class Content {
     this.tagSelector = new TagSelector(
       {
         tags: this.filteredTexts.map((word) => {
-          return { text: word, selected: true }; // TODO: previous state
+          return {
+            text: word,
+            selected: this.params.allKeywordsPreselected // TODO: previous state
+          };
         })
       },
       {
@@ -120,6 +126,7 @@ export default class Content {
     this.dom.appendChild(this.messageBox.getDOM());
 
     // TODO: Previous state
+    debugger
     this.setMode(CardsList.MODE['filter']);
   }
 
