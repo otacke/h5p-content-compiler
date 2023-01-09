@@ -7,6 +7,7 @@ import Toolbar from '@components/toolbar/toolbar';
 import TagSelector from '@components/tag-selector/tag-selector';
 import './content.scss';
 import MessageBox from './message-box/message-box';
+import MessageBoxHint from './message-box/message-box-hint';
 
 export default class Content {
 
@@ -94,6 +95,10 @@ export default class Content {
     });
     this.dom.append(this.toolbar.getDOM());
 
+    this.messageBoxIntroduction = new MessageBox();
+    // this.messageBoxIntroduction.hide();
+    this.dom.appendChild(this.messageBoxIntroduction.getDOM());
+
     this.tagSelector = new TagSelector(
       {
         tags: this.filteredTexts.map((word) => {
@@ -123,9 +128,9 @@ export default class Content {
     );
     this.dom.append(this.poolList.getDOM());
 
-    this.messageBox = new MessageBox();
-    this.messageBox.hide();
-    this.dom.appendChild(this.messageBox.getDOM());
+    this.messageBoxHint = new MessageBoxHint();
+    this.messageBoxHint.hide();
+    this.dom.appendChild(this.messageBoxHint.getDOM());
 
     // TODO: Previous state
     this.setMode(CardsList.MODE['filter']);
@@ -189,24 +194,52 @@ export default class Content {
     this.poolList.filter(visibleContents);
 
     this.updateMessageBox();
+    this.updateMessageBoxHint();
 
     Globals.get('resize')();
   }
 
   /**
-   * Update message.
+   * Update message for introduction.
    */
   updateMessageBox() {
+    let html;
+
+    if (this.mode === CardsList.MODE['filter']) {
+      html = this.params.introductionTexts.introFilter;
+    }
+    else if (this.mode === CardsList.MODE['reorder']) {
+      html = this.params.introductionTexts.introReorder;
+    }
+    else if (this.mode === CardsList.MODE['view']) {
+      html = this.params.introductionTexts.introView;
+    }
+
+    html = (html || '').trim();
+
+    if (html.length) {
+      this.messageBoxIntroduction.setText(html);
+      this.messageBoxIntroduction.show();
+    }
+    else {
+      this.messageBoxIntroduction.hide();
+    }
+  }
+
+  /**
+   * Update message.
+   */
+  updateMessageBoxHint() {
     if (this.mode === CardsList.MODE['filter']) {
       const numberCardsFiltered = Object.values(this.pool.getContents())
         .filter((content) => content.isFiltered).length;
 
       if (numberCardsFiltered === 0) {
-        this.messageBox.setText(Dictionary.get('l10n.noCardsFilter'));
-        this.messageBox.show();
+        this.messageBoxHint.setText(Dictionary.get('l10n.noCardsFilter'));
+        this.messageBoxHint.show();
       }
       else {
-        this.messageBox.hide();
+        this.messageBoxHint.hide();
       }
     }
     else {
@@ -214,11 +247,11 @@ export default class Content {
         .filter((content) => content.isSelected).length;
 
       if (numberCardsSelected === 0) {
-        this.messageBox.setText(Dictionary.get('l10n.noCardsSelected'));
-        this.messageBox.show();
+        this.messageBoxHint.setText(Dictionary.get('l10n.noCardsSelected'));
+        this.messageBoxHint.show();
       }
       else {
-        this.messageBox.hide();
+        this.messageBoxHint.hide();
       }
     }
   }
@@ -258,7 +291,7 @@ export default class Content {
     }
     this.poolList.filter(visibleContents);
 
-    this.updateMessageBox();
+    this.updateMessageBoxHint();
 
     Globals.get('resize')();
   }

@@ -16,7 +16,7 @@ export default class GridView extends H5P.EventDispatcher {
 
     // Sanitize parameters
     this.params = Util.extend({
-      sample: true,
+      introductionTexts: {},
       contents: [],
       behaviour: {
         allKeywordsPreselected: true
@@ -74,7 +74,8 @@ export default class GridView extends H5P.EventDispatcher {
 
     this.content = new Content({
       allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
-      contents: this.params.contents
+      contents: this.params.contents,
+      introductionTexts: this.params.introductionTexts
     });
     this.dom.append(this.content.getDOM());
   }

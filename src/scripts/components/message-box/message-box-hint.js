@@ -1,6 +1,7 @@
-import './message-box.scss';
+import MessageBox from './message-box';
+import './message-box-hint.scss';
 
-export default class MessageBox {
+export default class MessageBoxHint extends MessageBox {
 
   /**
    * General purpose message box.
@@ -8,12 +9,9 @@ export default class MessageBox {
    * @class
    */
   constructor() {
-    this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-message-box');
+    super();
 
-    this.message = document.createElement('p');
-    this.message.classList.add('h5p-game-map-message-box-message');
-    this.dom.append(this.message);
+    this.dom.classList.add('message-box-hint');
   }
 
   /**
@@ -46,6 +44,7 @@ export default class MessageBox {
    */
   setText(html) {
     this.message.innerHTML = html || MessageBox.DEFAULT_TEXT;
+
   }
 }
 

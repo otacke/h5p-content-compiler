@@ -1,40 +1,103 @@
 [
   {
-    "name": "Introduction",
-    "type": "text",
-    "widget": "html",
-    "label": "Introduction",
-    "importance": "medium",
-    "optional": true,
-    "description": "Explain what the users are expected to do.",
-    "enterMode": "p",
-    "tags": [
-      "sub",
-      "sup",
-      "strong",
-      "em",
-      "p",
-      "code",
-      "u",
-      "del",
-      "a",
-      "ul",
-      "ol",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "pre",
-      "hr",
-      "table"
-    ],
-    "font": {
-      "size": true,
-      "color": true,
-      "background": true
-    }
+    "name": "introductionTexts",
+    "type": "group",
+    "label": "Introduction texts",
+    "fields": [
+      {
+        "name": "introFilter",
+        "type": "text",
+        "widget": "html",
+        "label": "Introduction for filtering and selection",
+        "importance": "medium",
+        "optional": true,
+        "description": "Explain what the users are expected to do when filtering and selecting content.",
+        "enterMode": "p",
+        "tags": [
+          "sub",
+          "sup",
+          "strong",
+          "em",
+          "p",
+          "code",
+          "u",
+          "del",
+          "a",
+          "ul",
+          "ol",
+          "pre",
+          "hr",
+          "table"
+        ],
+        "font": {
+          "size": true,
+          "color": true,
+          "background": true
+        }
+      },
+      {
+        "name": "introReorder",
+        "type": "text",
+        "widget": "html",
+        "label": "Introduction for reordering",
+        "importance": "medium",
+        "optional": true,
+        "description": "Explain what the users are expected to do reordering content.",
+        "enterMode": "p",
+        "tags": [
+          "sub",
+          "sup",
+          "strong",
+          "em",
+          "p",
+          "code",
+          "u",
+          "del",
+          "a",
+          "ul",
+          "ol",
+          "pre",
+          "hr",
+          "table"
+        ],
+        "font": {
+          "size": true,
+          "color": true,
+          "background": true
+        }
+      },
+      {
+        "name": "introView",
+        "type": "text",
+        "widget": "html",
+        "label": "Introduction for viewing",
+        "importance": "medium",
+        "optional": true,
+        "description": "Explain what the users are expected to do when viewing content.",
+        "enterMode": "p",
+        "tags": [
+          "sub",
+          "sup",
+          "strong",
+          "em",
+          "p",
+          "code",
+          "u",
+          "del",
+          "a",
+          "ul",
+          "ol",
+          "pre",
+          "hr",
+          "table"
+        ],
+        "font": {
+          "size": true,
+          "color": true,
+          "background": true
+        }
+      }
+    ]
   },
   {
     "name": "contents",
