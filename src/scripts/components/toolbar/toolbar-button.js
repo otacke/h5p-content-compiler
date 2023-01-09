@@ -82,24 +82,8 @@ export default class ToolbarButton {
     }
 
     this.button.addEventListener('click', (event) => {
-      if (this.disabled) {
-        return;
-      }
-
-      if (this.params.type === 'toggle') {
-        this.toggle();
-      }
-      else if (this.params.type === 'pulse') {
-        this.pulse();
-      }
-
-      this.callbacks.onClick(
-        event, {
-          active: this.active,
-          id: this.params.id
-        }
-      );
-    });
+      this.handleClick(event);
+    } );
   }
 
   /**
@@ -167,6 +151,7 @@ export default class ToolbarButton {
     this.disabled = false;
 
     this.button.classList.remove('toolbar-button-disabled');
+    this.button.removeAttribute('aria-disabled');
 
     if (this.params.type === 'toggle') {
       if (this.active) {
@@ -187,6 +172,7 @@ export default class ToolbarButton {
   disable() {
     this.button.classList.add('toolbar-button-disabled');
     this.button.setAttribute('aria-label', this.params.a11y.disabled);
+    this.button.setAttribute('aria-disabled', 'true');
 
     this.disabled = true;
   }
@@ -316,6 +302,32 @@ export default class ToolbarButton {
 
     this.button.setAttribute(
       'aria-label', this.params.pulseStates[this.pulseIndex].label
+    );
+  }
+
+  /**
+   * Handle click.
+   *
+   * @param {Event} event Click event.
+   */
+  handleClick(event) {
+    if (this.disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    if (this.params.type === 'toggle') {
+      this.toggle();
+    }
+    else if (this.params.type === 'pulse') {
+      this.pulse();
+    }
+
+    this.callbacks.onClick(
+      event, {
+        active: this.active,
+        id: this.params.id
+      }
     );
   }
 
