@@ -257,12 +257,12 @@
         "name": "cardWidth",
         "type": "text",
         "label": "Card width",
-        "description": "Set the default card width as a CSS value (e.g. 100px or 12rem or 15em). If you leave out the unit, px will be assumed.",
+        "description": "Set the default card width as a CSS value (e.g. 100px or 15rem or 15em). If you leave out the unit, px will be assumed.",
         "regexp": {
           "pattern": "^\\d+(?:\\.\\d+)?(?: )?(px|rem|em)?$",
           "modifiers": ""
         },
-        "default": "12rem"
+        "default": "15rem"
       },
       {
         "name": "imageSizing",
