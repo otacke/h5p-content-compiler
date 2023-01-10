@@ -1,5 +1,65 @@
 [
   {
+    "name": "showTitleScreen",
+    "label": "Show title screen",
+    "description": "If checked, a title screen will show up when starting.",
+    "type": "boolean",
+    "default": false,
+    "optional": true
+  },
+  {
+    "name": "titleScreen",
+    "label": "Title screen",
+    "type": "group",
+    "importance": "low",
+    "fields": [
+      {
+        "name": "titleScreenIntroduction",
+        "label": "Introduction",
+        "type": "text",
+        "widget": "html",
+        "placeholder": "Welcome to ...",
+        "optional": true,
+        "enterMode": "div",
+        "tags": [
+          "sub",
+          "sup",
+          "strong",
+          "em",
+          "u",
+          "del",
+          "pre",
+          "code"
+        ],
+        "font": {
+          "size": true,
+          "color": true,
+          "background": true
+        },
+        "default": "<p style=\"text-align: center;\"></p>"
+      },
+      {
+        "name": "titleScreenMedium",
+        "label": "Title screen medium",
+        "type": "library",
+        "optional": true,
+        "options": [
+          "H5P.Image 1.1",
+          "H5P.Video 1.6"
+        ]
+      }
+    ],
+    "widget": "showWhen",
+    "showWhen": {
+      "rules": [
+        {
+          "field": "showTitleScreen",
+          "equals": true
+        }
+      ]
+    }
+  },
+  {
     "name": "introductionTexts",
     "type": "group",
     "label": "Introduction texts",
@@ -207,6 +267,13 @@
     "label": "User interface",
     "common": true,
     "fields": [
+      {
+        "name": "start",
+        "type": "text",
+        "label": "Start",
+        "description": "Label of start button.",
+        "default": "Start"
+      },
       {
         "name": "selected",
         "type": "text",

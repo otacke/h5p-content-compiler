@@ -2,6 +2,7 @@ import Contents from '@models/contents';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
+import MediaScreen from './media-screen/media-screen';
 import CardsList from '@components/cards-list/cards-list';
 import Toolbar from '@components/toolbar/toolbar';
 import TagSelector from '@components/tag-selector/tag-selector';
@@ -11,10 +12,14 @@ import MessageBoxHint from './message-box/message-box-hint';
 
 export default class Content {
 
-  constructor(params = {}) {
+  constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       contents: []
     }, params);
+
+    this.callbacks = Util.extend({
+      resize: () => {}
+    }, callbacks);
 
     // TODO: Previous state
     this.filteredTexts = this.params.contents
@@ -33,14 +38,45 @@ export default class Content {
       }, [])
       .sort();
 
-    this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-grid-view-content');
-
     // TODO: previous state
     this.pool = new Contents({
       contents: this.params.contents,
       allKeywordsPreselected: this.params.allKeywordsPreselected
     });
+
+    this.dom = document.createElement('div');
+    this.dom.classList.add('h5p-grid-view-content');
+
+    // Title screen if set
+    if (this.params.titleScreen) {
+      this.intro = document.createElement('div');
+      this.intro.classList.add('h5p-grid-view-content-intro');
+
+      this.startScreen = new MediaScreen({
+        id: 'start',
+        contentId: this.params.contentId,
+        introduction: this.params.titleScreen.titleScreenIntroduction,
+        medium: this.params.titleScreen.titleScreenMedium,
+        buttons: [
+          { id: 'start', text: Dictionary.get('l10n.start') }
+        ],
+        a11y: {
+          screenOpened: Dictionary.get('a11y.startScreenWasOpened')
+        }
+      }, {
+        onButtonClicked: () => {
+          this.handleTitleScreenClosed();
+        }
+      });
+
+      this.intro.append(this.startScreen.getDOM());
+
+      this.dom.append(this.intro);
+    }
+
+    this.main = document.createElement('div');
+    this.main.classList.add('h5p-grid-view-content-main');
+    this.dom.append(this.main);
 
     // Toolbar
     this.toolbar = new Toolbar({
@@ -93,11 +129,11 @@ export default class Content {
         }
       ]
     });
-    this.dom.append(this.toolbar.getDOM());
+    this.main.append(this.toolbar.getDOM());
 
     this.messageBoxIntroduction = new MessageBox();
     // this.messageBoxIntroduction.hide();
-    this.dom.appendChild(this.messageBoxIntroduction.getDOM());
+    this.main.appendChild(this.messageBoxIntroduction.getDOM());
 
     this.tagSelector = new TagSelector(
       {
@@ -115,7 +151,7 @@ export default class Content {
       }
     );
     this.handleTagSelectorClicked({ active: true });
-    this.dom.append(this.tagSelector.getDOM());
+    this.main.append(this.tagSelector.getDOM());
 
     // Pool of contents
     this.poolList = new CardsList(
@@ -126,11 +162,15 @@ export default class Content {
         }
       }
     );
-    this.dom.append(this.poolList.getDOM());
+    this.main.append(this.poolList.getDOM());
 
     this.messageBoxHint = new MessageBoxHint();
     this.messageBoxHint.hide();
-    this.dom.appendChild(this.messageBoxHint.getDOM());
+    this.main.append(this.messageBoxHint.getDOM());
+
+    if (this.intro) {
+      this.main.classList.add('display-none');
+    }
 
     // TODO: Previous state
     this.setMode(CardsList.MODE['filter']);
@@ -310,5 +350,15 @@ export default class Content {
     }
 
     Globals.get('resize')();
+  }
+
+  /**
+   * Handle title screen closed.
+   */
+  handleTitleScreenClosed() {
+    this.main.classList.remove('display-none');
+    this.toolbar.focusButton('filter');
+
+    this.callbacks.resize();
   }
 }

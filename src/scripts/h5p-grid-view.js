@@ -22,6 +22,7 @@ export default class GridView extends H5P.EventDispatcher {
         allKeywordsPreselected: true
       },
       l10n: {
+        start: 'Start',
         selected: 'selected',
         statusNone: '',
         statusCompleted: 'completed',
@@ -72,11 +73,23 @@ export default class GridView extends H5P.EventDispatcher {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-grid-view-main');
 
-    this.content = new Content({
-      allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
-      contents: this.params.contents,
-      introductionTexts: this.params.introductionTexts
-    });
+    this.content = new Content(
+      {
+        allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
+        contents: this.params.contents,
+        contentId: this.contentId,
+        introductionTexts: this.params.introductionTexts,
+        ...(
+          this.params.showTitleScreen &&
+          { titleScreen: this.params.titleScreen }
+        )
+      },
+      {
+        resize: () => {
+          this.trigger('resize');
+        }
+      }
+    );
     this.dom.append(this.content.getDOM());
   }
 
