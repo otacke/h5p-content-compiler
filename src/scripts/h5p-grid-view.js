@@ -18,6 +18,13 @@ export default class GridView extends H5P.EventDispatcher {
     this.params = Util.extend({
       introductionTexts: {},
       contents: [],
+      visuals: {
+        cardWidth: '12rem',
+        imageSizing: 'custom',
+        customRatioWidth: 16,
+        customRatioHeight: 9,
+        introClamp: 'unset'
+      },
       behaviour: {
         allKeywordsPreselected: true
       },
@@ -45,6 +52,12 @@ export default class GridView extends H5P.EventDispatcher {
     });
 
     // TODO: Sanitize contents
+    this.params.contents = this.params.contents.map((content) => {
+      const amendedContent = content;
+      amendedContent.visuals = this.params.visuals;
+
+      return amendedContent;
+    });
 
     // Fill dictionary
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
@@ -55,6 +68,8 @@ export default class GridView extends H5P.EventDispatcher {
     this.languageTag = Util.formatLanguageCode(defaultLanguage);
 
     this.buildDOM();
+
+    this.setCustomCSSProperties();
   }
 
   /**
@@ -65,6 +80,28 @@ export default class GridView extends H5P.EventDispatcher {
   attach($wrapper) {
     $wrapper.get(0).classList.add('h5p-grid-view');
     $wrapper.get(0).appendChild(this.dom);
+  }
+
+  /**
+   * Set custom CSS properties.
+   */
+  setCustomCSSProperties() {
+    if (this.params.visuals.cardWidth.match(/^\d+(?:\.\d+)?(?: )?$/)) {
+      this.params.visuals.cardWidth = `${this.params.visuals.cardWidth}px`;
+    }
+    this.dom.style.setProperty('--card-width', this.params.visuals.cardWidth);
+
+    this.dom.style.setProperty(
+      '--card-image-ratio-width', this.params.visuals.customRatioWidth
+    );
+
+    this.dom.style.setProperty(
+      '--card-image-ratio-height', this.params.visuals.customRatioHeight
+    );
+
+    this.dom.style.setProperty(
+      '--card-introduction-clamp', this.params.visuals.introClamp
+    );
   }
 
   /**
@@ -115,5 +152,8 @@ export default class GridView extends H5P.EventDispatcher {
   }
 }
 
-/** @constant {string} Default description */
+/** @constant {string} DEFAULT_DESCRIPTION Default description. */
 GridView.DEFAULT_DESCRIPTION = 'Grid View';
+
+/** @constant {string} DEFAULT_CARD_IMAGE_RATIO Default ratio. */
+GridView.DEFAULT_CARD_IMAGE_RATIO = '16/9';

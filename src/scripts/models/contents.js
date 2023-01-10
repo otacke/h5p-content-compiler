@@ -59,6 +59,7 @@ export default class Contents {
       introduction: introduction,
       contentInstance: contentInstance,
       keywords: keywords,
+      visuals: params.visuals,
       isSelected: false, // TODO: Previous state
       isFiltered: this.params.allKeywordsPreselected // TODO: Previous state
     };

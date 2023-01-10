@@ -1,13 +1,16 @@
 @import "@styles/main";
 
+$card-width: var(--card-width, 12rem);
+$card-padding: 0.5rem;
+
 .h5p-grid-view-card {
   border: 0.1rem solid $color-shadow-dark;
   border-radius: 0.25rem;
   box-sizing: border-box;
   display: flex;
   list-style-type: none;
-  width: 12rem;
-  padding: 0.5rem;
+  width: $card-width;
+  padding: $card-padding;
 
   &.display-none {
     display: none;
@@ -77,6 +80,11 @@
     .h5p-grid-view-card-image {
       border-radius: 0.25rem;
       max-width: 100%;
+
+      &.fixed-ratio {
+        height: calc(($card-width - 2 * $card-padding) / var(--card-image-ratio-width, 16) * var(--card-image-ratio-height, 9));
+        object-fit: cover;
+      }
     }
 
     .h5p-grid-view-card-introduction {
@@ -85,7 +93,7 @@
       margin: 0;
       overflow: hidden;
       padding: 0;
-      -webkit-line-clamp: 7;
+      -webkit-line-clamp: var(--card-introduction-clamp);
       -webkit-box-orient: vertical;
     }
 

@@ -52,7 +52,8 @@ export default class CardsList {
             label: contentParams.label,
             image: contentParams.image,
             introduction: contentParams.introduction,
-            keywords: contentParams.keywords
+            keywords: contentParams.keywords,
+            visuals: contentParams.visuals
           }
         },
         {

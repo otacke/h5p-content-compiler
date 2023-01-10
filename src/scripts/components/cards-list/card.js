@@ -67,14 +67,15 @@ export default class Card {
     }
 
     if (this.params.image?.path) {
-      // TODO: Replace with CSS `:has()` logic once it has enough coverage
-      // content.classList.add('contains-image');
-
       const image = document.createElement('img');
       image.classList.add('h5p-grid-view-card-image');
       image.addEventListener('load', () => {
         Globals.get('resize')();
       });
+
+      if (this.params.visuals?.imageSizing === 'custom') {
+        image.classList.add('fixed-ratio');
+      }
 
       H5P.setSource(image, this.params.image, Globals.get('contentId'));
 

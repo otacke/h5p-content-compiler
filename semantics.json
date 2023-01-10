@@ -248,6 +248,84 @@
     }
   },
   {
+    "name": "visuals",
+    "type": "group",
+    "importance": "low",
+    "label": "Visual settings",
+    "fields": [
+      {
+        "name": "cardWidth",
+        "type": "text",
+        "label": "Card width",
+        "description": "Set the default card width as a CSS value (e.g. 100px or 12rem or 15em). If you leave out the unit, px will be assumed.",
+        "regexp": {
+          "pattern": "^\\d+(?:\\.\\d+)?(?: )?(px|rem|em)?$",
+          "modifiers": ""
+        },
+        "default": "12rem"
+      },
+      {
+        "name": "imageSizing",
+        "type": "select",
+        "label": "Image sizing",
+        "description": "Choose how content images should be sized.",
+        "options": [
+          {
+            "label": "Use image size ratio",
+            "value": "original"
+          },
+          {
+            "label": "Use custom ratio",
+            "value": "custom"
+          }
+        ],
+        "default": "custom"
+      },
+      {
+        "name": "customRatioWidth",
+        "type": "number",
+        "label": "Custom ratio width",
+        "description": "Set the horizontal ratio component for content images.",
+        "min": 1,
+        "default": 16,
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "imageSizing",
+              "equals": "custom"
+            }
+          ]
+        }
+      },
+      {
+        "name": "customRatioHeight",
+        "type": "number",
+        "label": "Custom ratio height",
+        "description": "Set the vertical ratio component for content images.",
+        "min": 1,
+        "default": 9,
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "imageSizing",
+              "equals": "custom"
+            }
+          ]
+        }
+      },
+      {
+        "name": "introClamp",
+        "type": "number",
+        "label": "Maximum introduction lines",
+        "description": "Set the maximum number of lines to display for the content introduction.",
+        "min": 1,
+        "default": 4
+      }
+    ]
+  },
+  {
     "name": "behaviour",
     "type": "group",
     "importance": "low",
@@ -257,7 +335,7 @@
         "name": "allKeywordsPreselected",
         "type": "boolean",
         "label": "Preselect all keywords",
-        "description": "Choose whether all or no keywords should be selected when starting the content",
+        "description": "Choose whether all or no keywords should be selected when starting the content.",
         "default": true
       },
       {
