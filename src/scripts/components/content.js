@@ -36,6 +36,7 @@ export default class Content {
 
         return result;
       }, [])
+      .filter((text) => text.trim() !== '')
       .sort();
 
     // TODO: previous state
