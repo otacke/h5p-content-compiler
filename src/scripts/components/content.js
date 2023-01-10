@@ -4,6 +4,7 @@ import Globals from '@services/globals';
 import Util from '@services/util';
 import MediaScreen from './media-screen/media-screen';
 import CardsList from '@components/cards-list/cards-list';
+import ExerciseOverlay from '@components/exercise-overlay/exercise-overlay';
 import Toolbar from '@components/toolbar/toolbar';
 import TagSelector from '@components/tag-selector/tag-selector';
 import './content.scss';
@@ -36,10 +37,17 @@ export default class Content {
       .sort();
 
     // TODO: previous state
-    this.pool = new Contents({
-      contents: this.params.contents,
-      allKeywordsPreselected: this.params.allKeywordsPreselected
-    });
+    this.pool = new Contents(
+      {
+        contents: this.params.contents,
+        allKeywordsPreselected: this.params.allKeywordsPreselected
+      },
+      {
+        onStateChanged: (params) => {
+          this.handleExerciseStateChanged(params);
+        }
+      }
+    );
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-grid-view-content');
@@ -168,6 +176,13 @@ export default class Content {
     if (this.intro) {
       this.main.classList.add('display-none');
     }
+
+    this.exerciseOverlay = new ExerciseOverlay({}, {
+      onClosed: () => {
+        this.handleExerciseClosed();
+      }
+    });
+    this.dom.append(this.exerciseOverlay.getDOM());
 
     // TODO: Previous state
     this.setMode(CardsList.MODE['filter']);
@@ -307,7 +322,25 @@ export default class Content {
 
     if (typeof params.selected === 'boolean') {
       this.pool.setSelected(params.id, params.selected);
+      return;
     }
+
+    const content = this.pool.getContent(params.id);
+
+    this.exerciseOverlay.setH5PContent(content.contentInstance.getDOM());
+    this.exerciseOverlay.setTitle(
+      content?.label || content?.contentInstance?.params?.metadata?.title || ''
+    );
+    this.exerciseOverlay.show();
+
+    content.contentInstance.setState(Globals.get('states')['viewed']);
+
+    // Keep track to give back focus later
+    this.currentCardId = params.id;
+
+    window.requestAnimationFrame(() => {
+      Globals.get('resize')();
+    });
   }
 
   /**
@@ -357,5 +390,31 @@ export default class Content {
     this.toolbar.focusButton('filter');
 
     Globals.get('resize')();
+  }
+
+  /**
+   * Handle exercise state changed.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {string} params.id Subcontent id of exercise.
+   * @param {number} params.state State id.
+   */
+  handleExerciseStateChanged(params = {}) {
+    if (typeof params.id !== 'string' || typeof params.state !== 'number') {
+      return;
+    }
+
+    this.pool.setStatus(params.id, params.state);
+    this.poolList.setStatus(params.id, params.state);
+  }
+
+  /**
+   * Handle exercise closed.
+   */
+  handleExerciseClosed() {
+    this.exerciseOverlay.hide();
+
+    // Give focus back to previously focussed card
+    this.poolList.focusCard(this.currentCardId);
   }
 }

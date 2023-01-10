@@ -1,9 +1,14 @@
 .h5p-grid-view-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+
   .h5p-grid-view-content-main {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    grid-area: 1/1/1/1;
     padding: 1rem;
 
     &.display-none {

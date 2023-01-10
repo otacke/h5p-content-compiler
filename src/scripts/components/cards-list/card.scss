@@ -60,11 +60,19 @@ $content-gap: 0.5rem;
   }
 
   .h5p-grid-view-card-content {
+    align-items: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    font-size: 1rem;
     gap: $content-gap;
+    margin: 0;
+    padding: 0;
+    text-align: left;
     user-select: none;
+    width: 100%;
 
     .h5p-grid-view-card-label {
       background-color: $color-primary;

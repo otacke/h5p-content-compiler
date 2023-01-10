@@ -367,11 +367,18 @@
         "default": "selected"
       },
       {
-        "name": "statusNone",
+        "name": "statusUnstarted",
         "type": "text",
-        "label": "Status: none",
-        "description": "Status label for neutral state.",
-        "default": ""
+        "label": "Status: unstarted",
+        "description": "Status label for unstarted content.",
+        "default": "unstarted"
+      },
+      {
+        "name": "statusViewed",
+        "type": "text",
+        "label": "Status: viewed",
+        "description": "Status label for viewed content.",
+        "default": "viewed"
       },
       {
         "name": "statusCompleted",
@@ -379,6 +386,13 @@
         "label": "Status: completed",
         "description": "Status label for completed content.",
         "default": "completed"
+      },
+      {
+        "name": "statusCleared",
+        "type": "text",
+        "label": "Status: cleared",
+        "description": "Status label for cleared content.",
+        "default": "cleared"
       },
       {
         "name": "noCardsFilter",

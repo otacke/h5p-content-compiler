@@ -2,9 +2,13 @@ import Util from '@services/util';
 import Globals from '@services/globals';
 export default class ContentInstance {
 
-  constructor(params = {}) {
+  constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
     }, params);
+
+    this.callbacks = Util.extend({
+      onStateChanged: () => {}
+    }, callbacks);
 
     this.instance = undefined;
     this.isAttached = false;
@@ -69,6 +73,12 @@ export default class ContentInstance {
 
     // Resize children to fit inside parent
     Util.bubbleDown(Globals.get('mainInstance'), 'resize', [this.instance]);
+
+    if (this.isInstanceTask(this.instance)) {
+      this.instance.on('xAPI', (event) => {
+        this.trackXAPI(event);
+      });
+    }
   }
 
   /**
@@ -92,6 +102,94 @@ export default class ContentInstance {
     }
 
     this.isAttached = true;
+  }
+
+  /**
+   * Determine whether an H5P instance is a task.
+   *
+   * @param {H5P.ContentType} instance Instance.
+   * @returns {boolean} True, if instance is a task.
+   */
+  isInstanceTask(instance = {}) {
+    if (!instance) {
+      return false;
+    }
+
+    if (instance.isTask) {
+      return instance.isTask; // Content will determine if it's task on its own
+    }
+
+    // Check for maxScore > 0 as indicator for being a task
+    const hasGetMaxScore = (typeof instance.getMaxScore === 'function');
+    if (hasGetMaxScore && instance.getMaxScore() > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Track scoring of contents.
+   *
+   * @param {Event} event Event.
+   */
+  trackXAPI(event) {
+    if (!event || event.getScore() === null) {
+      return; // Not relevant
+    }
+
+    if (event.getScore() < this.instance.getMaxScore()) {
+      this.setState(Globals.get('states')['completed']);
+    }
+    else {
+      this.setState(Globals.get('states')['cleared']);
+    }
+  }
+
+  /**
+   * Set exercise state.
+   *
+   * @param {number|string} state State constant.
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.force] If true, will set state unconditionally.
+   */
+  setState(state, params = {}) {
+    const states = Globals.get('states');
+
+    if (typeof state === 'string') {
+      state = Object.entries(states)
+        .find((entry) => entry[0] === state)[1];
+    }
+
+    if (typeof state !== 'number') {
+      return;
+    }
+
+    let newState;
+
+    if (params.force) {
+      newState = states[state];
+    }
+    else if (state === states['unstarted']) {
+      newState = states['unstarted'];
+    }
+    else if (state === states['viewed']) {
+      newState = (this.isInstanceTask(this.instance)) ?
+        states['viewed'] :
+        states['cleared'];
+    }
+    else if (state === states['completed']) {
+      newState = states['completed'];
+    }
+    else if (state === states['cleared']) {
+      newState = states['cleared'];
+    }
+
+    if (!this.state || this.state !== newState) {
+      this.state = newState;
+
+      this.callbacks.onStateChanged(this.state);
+    }
   }
 
   /**

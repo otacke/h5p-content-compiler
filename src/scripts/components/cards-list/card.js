@@ -36,9 +36,7 @@ export default class Card {
 
     this.dom = document.createElement('li');
     this.dom.classList.add('h5p-grid-view-card');
-    this.dom.addEventListener('click', () => {
-      this.callbacks.onClicked();
-    });
+
     this.dom.addEventListener('mousedown', (event) => {
       this.callbacks.onMouseDown(event);
     });
@@ -55,15 +53,22 @@ export default class Card {
       this.handleDragEnd(event);
     });
 
-    const content = document.createElement('div');
-    content.classList.add('h5p-grid-view-card-content');
-    this.dom.append(content);
+    this.button = document.createElement('button');
+    this.button.classList.add('h5p-grid-view-card-content');
+    this.button.addEventListener('click', () => {
+      this.callbacks.onClicked();
+    });
+    this.dom.append(this.button);
+
+    // const content = document.createElement('div');
+    // content.classList.add('h5p-grid-view-card-content');
+    // this.button.append(content);
 
     if (this.params.label) {
       const label = document.createElement('div');
       label.classList.add('h5p-grid-view-card-label');
       label.innerHTML = this.params.label;
-      content.append(label);
+      this.button.append(label);
     }
 
     if (this.params.image?.path) {
@@ -72,6 +77,7 @@ export default class Card {
       if (this.params.label) {
         image.classList.add('has-label');
       }
+      image.setAttribute('draggable', 'false');
 
       image.addEventListener('load', () => {
         Globals.get('resize')();
@@ -83,21 +89,21 @@ export default class Card {
 
       H5P.setSource(image, this.params.image, Globals.get('contentId'));
 
-      content.append(image);
+      this.button.append(image);
     }
 
     // An empty introduction will serve as a growing element in flexbox
     const introduction = document.createElement('p');
     introduction.classList.add('h5p-grid-view-card-introduction');
     introduction.innerHTML = this.params.introduction;
-    content.append(introduction);
+    this.button.append(introduction);
 
     this.status = document.createElement('div');
     this.status.classList.add('h5p-grid-view-card-status');
-    content.append(this.status);
+    this.button.append(this.status);
 
     // TODO: previous state
-    this.statusCode = 'None';
+    this.setStatusCode(Globals.get('states')['unstarted']);
     this.isSelected = false;
   }
 
@@ -125,17 +131,19 @@ export default class Card {
   }
 
   /**
+   * Focus.
+   */
+  focus() {
+    this.button.focus();
+  }
+
+  /**
    * Set draggable state.
    *
    * @param {boolean} state If true, is draggable. Else not.
    */
   setDraggable(state) {
-    if (state) {
-      this.dom.setAttribute('draggable', true);
-    }
-    else {
-      this.dom.removeAttribute('draggable', true);
-    }
+    this.dom.setAttribute('draggable', state);
   }
 
   /**
@@ -161,6 +169,19 @@ export default class Card {
     }
 
     return state;
+  }
+
+  /**
+   * Set status code.
+   *
+   * @param {number} state State id.
+   */
+  setStatusCode(state) {
+    const statusCode = Object.entries(Globals.get('states'))
+      .find((entry) => entry[1] === state)[0];
+
+    this.statusCode = `${statusCode.charAt(0).toLocaleUpperCase()}${statusCode.slice(1)}`;
+    this.status.innerHTML = Dictionary.get(`l10n.status${this.statusCode}`);
   }
 
   /**

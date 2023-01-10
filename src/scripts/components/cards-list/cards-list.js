@@ -119,7 +119,20 @@ export default class CardsList {
       return; // No id given
     }
 
-    delete this.card[id];
+    delete this.cards[id];
+  }
+
+  /**
+   * Focus card.
+   *
+   * @param {string} id Id of card to remove focus.
+   */
+  focusCard(id) {
+    if (typeof id !== 'string') {
+      return; // No id given
+    }
+
+    this.cards[id]?.focus();
   }
 
   /**
@@ -185,6 +198,20 @@ export default class CardsList {
   }
 
   /**
+   * State exercise state.
+   *
+   * @param {string} id Subcontent id of exercise.
+   * @param {number} state State id.
+   */
+  setStatus(id, state) {
+    if (typeof id !== 'string' || typeof state !== 'number') {
+      return;
+    }
+
+    this.cards[id].setStatusCode(state);
+  }
+
+  /**
    * Handle card clicked.
    *
    * @param {string} id Id of card that was clicked.
@@ -197,7 +224,7 @@ export default class CardsList {
       });
     }
     else if (this.mode === CardsList.MODE['view']) {
-      // TODO: Open content
+      this.callbacks.onCardClicked({ id: id });
     }
   }
 

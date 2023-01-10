@@ -4,10 +4,14 @@ import ContentInstance from '@models/content-instance';
 
 export default class Contents {
 
-  constructor(params = {}) {
+  constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       contents: []
     }, params);
+
+    this.callbacks = Util.extend({
+      onStateChanged: () => {}
+    }, callbacks);
 
     this.contents = {};
 
@@ -47,7 +51,18 @@ export default class Contents {
       ) :
       params.label;
     const introduction = params.introduction || '';
-    const contentInstance = new ContentInstance(params.contentType);
+    const contentInstance = new ContentInstance(
+      params.contentType,
+      {
+        onStateChanged: (state) => {
+          this.callbacks.onStateChanged({
+            id: params.contentType.subContentId,
+            state: state
+          });
+        }
+      }
+    );
+
     const keywords = params.keywords
       ?.split?.(',')
       .map((keyword) => keyword.trim())
@@ -79,6 +94,20 @@ export default class Contents {
     }
 
     return this.contents[id];
+  }
+
+  /**
+   * Get content instance DOM by id.
+   *
+   * @param {string} id Id for selection.
+   * @returns {HTMLElement|null} Content instance DOM.
+   */
+  getContentDOM(id) {
+    if (typeof id !== 'string') {
+      return null;
+    }
+
+    return this.contents[id].contentInstance.instanceDOM;
   }
 
   /**
@@ -115,6 +144,20 @@ export default class Contents {
     }
 
     this.contents[id].isSelected = state;
+  }
+
+  /**
+   * State exercise state.
+   *
+   * @param {string} id Subcontent id of exercise.
+   * @param {number} state State id.
+   */
+  setStatus(id, state) {
+    if (typeof id !== 'string' || typeof state !== 'number') {
+      return;
+    }
+
+    this.contents[id].statusCode = state;
   }
 
   /**

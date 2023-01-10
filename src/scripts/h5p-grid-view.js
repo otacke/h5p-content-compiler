@@ -31,13 +31,16 @@ export default class GridView extends H5P.EventDispatcher {
       l10n: {
         start: 'Start',
         selected: 'selected',
-        statusNone: '',
+        statusUnstarted: '',
+        statusViewed: 'viewed',
         statusCompleted: 'completed',
+        statusCleared: 'cleared',
         noCardsFilter: 'You need to select keywords in order to see contents to select from.',
         noCardsSelected: 'You have not selected any content.',
         untitledContent: 'Untitled Content'
       },
       a11y: {
+        exerciseLabel: '. Exercise: @label',
         sample: 'Sample a11y'
       }
     }, params);
@@ -47,6 +50,7 @@ export default class GridView extends H5P.EventDispatcher {
 
     Globals.set('contentId', this.contentId);
     Globals.set('mainInstance', this);
+    Globals.set('states', GridView.STATES);
     Globals.set('resize', () => {
       this.trigger('resize');
     });
@@ -157,3 +161,12 @@ GridView.DEFAULT_DESCRIPTION = 'Grid View';
 
 /** @constant {string} DEFAULT_CARD_IMAGE_RATIO Default ratio. */
 GridView.DEFAULT_CARD_IMAGE_RATIO = '16/9';
+
+/** @constant {object} STATES States lookup */
+GridView.STATES = {
+  unstarted: 0,
+  viewed: 1,
+  completed: 2,
+  cleared: 3
+};
+
