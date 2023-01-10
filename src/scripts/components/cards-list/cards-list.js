@@ -50,6 +50,7 @@ export default class CardsList {
           id: id,
           card: {
             label: contentParams.label,
+            image: contentParams.image,
             introduction: contentParams.introduction,
             keywords: contentParams.keywords
           }

@@ -27,7 +27,8 @@ export default class GridView extends H5P.EventDispatcher {
         statusNone: '',
         statusCompleted: 'completed',
         noCardsFilter: 'You need to select keywords in order to see contents to select from.',
-        noCardsSelected: 'You have not selected any content.'
+        noCardsSelected: 'You have not selected any content.',
+        untitledContent: 'Untitled Content'
       },
       a11y: {
         sample: 'Sample a11y'
@@ -77,7 +78,6 @@ export default class GridView extends H5P.EventDispatcher {
       {
         allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
         contents: this.params.contents,
-        contentId: this.contentId,
         introductionTexts: this.params.introductionTexts,
         ...(
           this.params.showTitleScreen &&

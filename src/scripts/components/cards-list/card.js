@@ -1,4 +1,5 @@
 import Dictionary from '@services/dictionary';
+import Globals from '@services/globals';
 import Util from '@services/util';
 import CardsList from './cards-list';
 import './card.scss';
@@ -58,11 +59,29 @@ export default class Card {
     content.classList.add('h5p-grid-view-card-content');
     this.dom.append(content);
 
-    const label = document.createElement('div');
-    label.classList.add('h5p-grid-view-card-label');
-    label.innerHTML = this.params.label;
-    content.append(label);
+    if (this.params.label) {
+      const label = document.createElement('div');
+      label.classList.add('h5p-grid-view-card-label');
+      label.innerHTML = this.params.label;
+      content.append(label);
+    }
 
+    if (this.params.image?.path) {
+      // TODO: Replace with CSS `:has()` logic once it has enough coverage
+      // content.classList.add('contains-image');
+
+      const image = document.createElement('img');
+      image.classList.add('h5p-grid-view-card-image');
+      image.addEventListener('load', () => {
+        Globals.get('resize')();
+      });
+
+      H5P.setSource(image, this.params.image, Globals.get('contentId'));
+
+      content.append(image);
+    }
+
+    // An empty introduction will serve as a growing element in flexbox
     const introduction = document.createElement('p');
     introduction.classList.add('h5p-grid-view-card-introduction');
     introduction.innerHTML = this.params.introduction;

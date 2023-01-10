@@ -186,10 +186,17 @@
           "optional": true
         },
         {
+          "name": "image",
+          "type": "image",
+          "label": "Image",
+          "description": "Optional illustrative image.",
+          "optional": true
+        },
+        {
           "name": "introduction",
           "type": "text",
           "label": "Introduction",
-          "description": "Introduction for the content.",
+          "description": "Optional introduction for the content.",
           "optional": true
         },
         {
@@ -308,6 +315,13 @@
         "label": "No cards were selected",
         "description": "Message when no contents were selected.",
         "default": "You have not selected any contents."
+      },
+      {
+        "name": "untitledContent",
+        "type": "text",
+        "label": "Untitled Content",
+        "description": "Fallback label.",
+        "default": "Untitled Content"
       }
     ]
   },

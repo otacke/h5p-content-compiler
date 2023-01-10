@@ -6,7 +6,6 @@
   box-sizing: border-box;
   display: flex;
   list-style-type: none;
-  height: 16.5rem;
   width: 12rem;
   padding: 0.5rem;
 
@@ -73,6 +72,11 @@
       text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .h5p-grid-view-card-image {
+      border-radius: 0.25rem;
+      max-width: 100%;
     }
 
     .h5p-grid-view-card-introduction {

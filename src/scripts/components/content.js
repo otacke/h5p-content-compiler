@@ -12,14 +12,10 @@ import MessageBoxHint from './message-box/message-box-hint';
 
 export default class Content {
 
-  constructor(params = {}, callbacks = {}) {
+  constructor(params = {}) {
     this.params = Util.extend({
       contents: []
     }, params);
-
-    this.callbacks = Util.extend({
-      resize: () => {}
-    }, callbacks);
 
     // TODO: Previous state
     this.filteredTexts = this.params.contents
@@ -55,7 +51,7 @@ export default class Content {
 
       this.startScreen = new MediaScreen({
         id: 'start',
-        contentId: this.params.contentId,
+        contentId: Globals.get('contentId'),
         introduction: this.params.titleScreen.titleScreenIntroduction,
         medium: this.params.titleScreen.titleScreenMedium,
         buttons: [
@@ -360,6 +356,6 @@ export default class Content {
     this.main.classList.remove('display-none');
     this.toolbar.focusButton('filter');
 
-    this.callbacks.resize();
+    Globals.get('resize')();
   }
 }

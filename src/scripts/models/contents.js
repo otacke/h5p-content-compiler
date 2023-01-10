@@ -1,3 +1,4 @@
+import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import ContentInstance from '@models/content-instance';
 
@@ -39,7 +40,12 @@ export default class Contents {
       return;
     }
 
-    const label = params.label || params.contentType.metadata?.title;
+    const label = (!params.label && !params.image && !params.introduction) ?
+      (
+        params.contentType.metadata?.title ||
+        Dictionary.get('l10n.untitledContent')
+      ) :
+      params.label;
     const introduction = params.introduction || '';
     const contentInstance = new ContentInstance(params.contentType);
     const keywords = params.keywords
@@ -48,7 +54,8 @@ export default class Contents {
       .filter((keyword) => keyword !== '');
 
     const content = {
-      label: label,
+      ...(label && {label: label}),
+      ...(params.image && {image: params.image}),
       introduction: introduction,
       contentInstance: contentInstance,
       keywords: keywords,
