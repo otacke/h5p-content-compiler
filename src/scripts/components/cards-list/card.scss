@@ -2,6 +2,8 @@
 
 $card-width: var(--card-width, 12rem);
 $card-padding: 0.5rem;
+$content-border-radius: 0.5rem;
+$content-gap: 0.5rem;
 
 .h5p-grid-view-card {
   border: 0.1rem solid $color-shadow-dark;
@@ -61,12 +63,12 @@ $card-padding: 0.5rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 0.5rem;
+    gap: $content-gap;
     user-select: none;
 
     .h5p-grid-view-card-label {
       background-color: $color-primary;
-      border-radius: 0.25rem;
+      border-radius: $content-border-radius $content-border-radius 0 0;
       color: $color-background;
       flex-grow: 0;
       font-weight: bold;
@@ -78,8 +80,15 @@ $card-padding: 0.5rem;
     }
 
     .h5p-grid-view-card-image {
-      border-radius: 0.25rem;
       max-width: 100%;
+
+      &.has-label {
+        margin-top: -$content-gap;
+      }
+
+      &:not(.has-label) {
+        border-radius: $content-border-radius $content-border-radius 0 0;
+      }
 
       &.fixed-ratio {
         height: calc(($card-width - 2 * $card-padding) / var(--card-image-ratio-width, 16) * var(--card-image-ratio-height, 9));

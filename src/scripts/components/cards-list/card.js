@@ -69,6 +69,10 @@ export default class Card {
     if (this.params.image?.path) {
       const image = document.createElement('img');
       image.classList.add('h5p-grid-view-card-image');
+      if (this.params.label) {
+        image.classList.add('has-label');
+      }
+
       image.addEventListener('load', () => {
         Globals.get('resize')();
       });
