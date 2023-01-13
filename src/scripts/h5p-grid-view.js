@@ -51,6 +51,7 @@ export default class GridView extends H5P.EventDispatcher {
     Globals.set('contentId', this.contentId);
     Globals.set('mainInstance', this);
     Globals.set('states', GridView.STATES);
+    Globals.set('modes', GridView.MODES);
     Globals.set('resize', () => {
       this.trigger('resize');
     });
@@ -170,3 +171,9 @@ GridView.STATES = {
   cleared: 3
 };
 
+/** @constant {object} MODES Modes lookup */
+GridView.MODES = {
+  filter: 0,
+  reorder: 1,
+  view: 2
+};

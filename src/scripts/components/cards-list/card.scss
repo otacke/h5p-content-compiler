@@ -44,6 +44,11 @@ $content-gap: 0.5rem;
       display: none;
     }
 
+    &.activated {
+      border-color: $color-primary;
+      box-shadow: 0 0 0.25rem $color-primary;
+    }
+
     &:hover {
       cursor: move;
     }

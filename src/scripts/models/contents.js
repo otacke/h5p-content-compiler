@@ -10,7 +10,8 @@ export default class Contents {
     }, params);
 
     this.callbacks = Util.extend({
-      onStateChanged: () => {}
+      onStateChanged: () => {},
+      onCardStateChanged: () => {}
     }, callbacks);
 
     this.contents = {};
@@ -133,31 +134,22 @@ export default class Contents {
   }
 
   /**
-   * Set content selected.
+   * Update states.
    *
-   * @param {string} id Content id.
-   * @param {boolean} state Selected state.
+   * @param {string} id Id of content.
+   * @param {object} entries Entries as key value pair.
    */
-  setSelected(id, state) {
-    if (typeof id !== 'string' || typeof state !== 'boolean') {
+  updateState(id, entries = {}) {
+    if (typeof id !== 'string') {
       return;
     }
 
-    this.contents[id].isSelected = state;
-  }
-
-  /**
-   * State exercise state.
-   *
-   * @param {string} id Subcontent id of exercise.
-   * @param {number} state State id.
-   */
-  setStatus(id, state) {
-    if (typeof id !== 'string' || typeof state !== 'number') {
-      return;
-    }
-
-    this.contents[id].statusCode = state;
+    Object.keys(entries).forEach((key) => {
+      if (['statusCode', 'isSelected', 'isActivated'].includes(key)) {
+        this.contents[id][key] = entries[key];
+        this.callbacks.onCardStateChanged(id, key, entries[key]);
+      }
+    });
   }
 
   /**

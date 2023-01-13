@@ -1,7 +1,6 @@
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
-import CardsList from './cards-list';
 import './card.scss';
 
 export default class Card {
@@ -56,13 +55,9 @@ export default class Card {
     this.button = document.createElement('button');
     this.button.classList.add('h5p-grid-view-card-content');
     this.button.addEventListener('click', () => {
-      this.callbacks.onClicked();
+      this.handleClicked();
     });
     this.dom.append(this.button);
-
-    // const content = document.createElement('div');
-    // content.classList.add('h5p-grid-view-card-content');
-    // this.button.append(content);
 
     if (this.params.label) {
       const label = document.createElement('div');
@@ -102,9 +97,10 @@ export default class Card {
     this.status.classList.add('h5p-grid-view-card-status');
     this.button.append(this.status);
 
-    // TODO: previous state
+    // TODO: previous state - or rather via model?
     this.setStatusCode(Globals.get('states')['unstarted']);
     this.isSelected = false;
+    this.isActivated = false;
   }
 
   /**
@@ -146,11 +142,23 @@ export default class Card {
     this.dom.setAttribute('draggable', state);
   }
 
+  updateState(key, value) {
+    if (key === 'statusCode') {
+      this.setStatusCode(value);
+    }
+    else if (key === 'isSelected') {
+      this.toggleSelected(value);
+    }
+    else if (key === 'isActivated') {
+      this.toggleActivated(value);
+    }
+  }
+
   /**
    * Toggle card selection.
    *
    * @param {boolean} [state] State to be toggled to.
-   * @returns {boolean} True, if card is not selected, else false.
+   * @returns {boolean} True, if card is selected, else false.
    */
   toggleSelected(state) {
     if (typeof state !== 'boolean') {
@@ -166,6 +174,29 @@ export default class Card {
       this.dom.classList.remove('selected');
       this.isSelected = false;
       this.status.innerHTML = null;
+    }
+
+    return state;
+  }
+
+  /**
+   * Toggle card activation for reordering.
+   *
+   * @param {boolean} [state] State to be toggled to.
+   * @returns {boolean} True, if card is activated, else false.
+   */
+  toggleActivated(state) {
+    if (typeof state !== 'boolean') {
+      state = !this.isActivated; // Use previous selection to determine.
+    }
+
+    if (state) {
+      this.dom.classList.add('activated');
+      this.isActivated = true;
+    }
+    else {
+      this.dom.classList.remove('activated');
+      this.isActivated = false;
     }
 
     return state;
@@ -190,7 +221,9 @@ export default class Card {
    * @param {number} mode Mode id.
    */
   setMode(mode) {
-    if (mode === CardsList.MODE['filter']) {
+    this.mode = mode;
+
+    if (mode === Globals.get('modes')['filter']) {
       if (this.isSelected) {
         this.status.innerHTML = Dictionary.get('l10n.selected');
       }
@@ -198,15 +231,33 @@ export default class Card {
         this.status.innerHTML = null;
       }
     }
-    else if (mode === CardsList.MODE['reorder']) {
+    else if (mode === Globals.get('modes')['reorder']) {
       this.status.innerHTML = null;
     }
-    else if (mode === CardsList.MODE['view']) {
+    else if (mode === Globals.get('modes')['view']) {
       this.status.innerHTML = Dictionary.get(`l10n.status${this.statusCode}`);
     }
 
-    Object.keys(CardsList.MODE).forEach((key) => {
-      this.dom.classList.toggle(key, mode === CardsList.MODE[key]);
+    Object.keys(Globals.get('modes')).forEach((key) => {
+      this.dom.classList.toggle(key, mode === Globals.get('modes')[key]);
+    });
+  }
+
+  /**
+   * Handle clicked.
+   */
+  handleClicked() {
+    const isSelected = (this.mode === Globals.get('modes')['filter']) ?
+      !this.isSelected :
+      this.isSelected;
+
+    const isActivated = (this.mode === Globals.get('modes')['reorder']) ?
+      !this.isActivated :
+      this.isActivated;
+
+    this.callbacks.onClicked({
+      isSelected: isSelected,
+      isActivated: isActivated
     });
   }
 

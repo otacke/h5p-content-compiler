@@ -1,4 +1,5 @@
 import Util from '@services/util';
+import Globals from '@services/globals';
 import Card from '@components/cards-list/card';
 import CardPlaceholder from './card-placeholder';
 import './cards-list.scss';
@@ -12,6 +13,7 @@ export default class CardsList {
    * @param {number} [params.mode] Mode.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onCardClicked] Callback click.
+   * @param {function} [callbacks.onCardsSwapped] Callback cards swapped.
    * @param {function} [callbacks.onCardMouseDown] Callback mouse down.
    * @param {function} [callbacks.onCardDragStart] Callback drag start.
    * @param {function} [callbacks.onCardDragEnter] Callback drag enter.
@@ -21,11 +23,12 @@ export default class CardsList {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       contents: {},
-      mode: CardsList.MODE['filter']
+      mode: Globals.get('modes')['filter']
     }, params);
 
     this.callbacks = Util.extend({
       onCardClicked: () => {},
+      onCardsSwapped: () => {},
       onCardMouseDown: () => {},
       onCardDragStart: () => {},
       onCardDragEnter: () => {},
@@ -33,7 +36,7 @@ export default class CardsList {
       onCardDragEnd: () => {}
     }, callbacks);
 
-    // TODO: Implement ARIA pattern "listbox"
+    // TODO: Implement ARIA pattern "list(box)"
 
     this.dom = document.createElement('ul');
     this.dom.classList.add('h5p-grid-view-cards-list');
@@ -57,8 +60,8 @@ export default class CardsList {
           }
         },
         {
-          onClicked: () => {
-            this.handleCardClicked(id);
+          onClicked: (states) => {
+            this.handleCardClicked(id, states);
           },
           onMouseDown: (event) => {
             this.handleCardMouseDown(event);
@@ -170,24 +173,24 @@ export default class CardsList {
    */
   setMode(mode) {
     if (typeof mode === 'string') {
-      mode = CardsList.MODE[mode];
+      mode = Globals.get('modes')[mode];
     }
 
     if (
       typeof mode !== 'number' ||
-      !Object.values(CardsList.MODE).includes(mode)
+      !Object.values(Globals.get('modes')).includes(mode)
     ) {
       return;
     }
 
     // Set CSS modifier
-    for (const key in CardsList.MODE) {
-      this.dom.classList.toggle(key, mode === CardsList.MODE[key]);
+    for (const key in Globals.get('modes')) {
+      this.dom.classList.toggle(key, mode === Globals.get('modes')[key]);
     }
 
     // Allow to drag cards when in reordering mode
     Object.values(this.cards).forEach((card) => {
-      card.setDraggable(mode === CardsList.MODE['reorder']);
+      card.setDraggable(mode === Globals.get('modes')['reorder']);
     });
 
     for (const id in this.cards) {
@@ -198,32 +201,70 @@ export default class CardsList {
   }
 
   /**
-   * State exercise state.
+   * Update state of a card view.
    *
-   * @param {string} id Subcontent id of exercise.
-   * @param {number} state State id.
+   * @param {string} id Card's id.
+   * @param {string} key Key of state to be changed.
+   * @param {string|number|boolean} value Value of state to be changed.
    */
-  setStatus(id, state) {
-    if (typeof id !== 'string' || typeof state !== 'number') {
+  updateCardState(id, key, value) {
+    if (typeof id !== 'string') {
       return;
     }
 
-    this.cards[id].setStatusCode(state);
+    this.cards[id].updateState(key, value);
+  }
+
+  /**
+   * Swap cards by id.
+   *
+   * @param {string} id1 Id of card 1.
+   * @param {string} id2 Id of card 2.
+   */
+  swapCardsById(id1, id2) {
+    if (typeof id1 !== 'string' || typeof id2 !== 'string') {
+      return;
+    }
+
+    this.swapCards(this.cards[id1].getDOM(), this.cards[id2].getDOM());
+  }
+
+  /**
+   * Swap cards by HTML element.
+   *
+   * @param {HTMLElement} element1 DOM of card 1.
+   * @param {HTMLElement} element2 DOM of card 2.
+   */
+  swapCards(element1, element2) {
+    // Swap dragged draggable and draggable that's dragged to if not identical
+    if (
+      element1 && element2 &&
+      element1 !== element2
+    ) {
+      Util.swapDOMElements(element1, element2);
+    }
   }
 
   /**
    * Handle card clicked.
    *
    * @param {string} id Id of card that was clicked.
+   * @param {object} states Card states.
    */
-  handleCardClicked(id) {
-    if (this.mode === CardsList.MODE['filter']) {
+  handleCardClicked(id, states = {}) {
+    if (this.mode === Globals.get('modes')['filter']) {
       this.callbacks.onCardClicked({
         id: id,
-        selected: this.cards[id].toggleSelected()
+        isSelected: states.isSelected
       });
     }
-    else if (this.mode === CardsList.MODE['view']) {
+    else if (this.mode === Globals.get('modes')['reorder']) {
+      this.callbacks.onCardClicked({
+        id: id,
+        isActivated: states.isActivated
+      });
+    }
+    else if (this.mode === Globals.get('modes')['view']) {
       this.callbacks.onCardClicked({ id: id });
     }
   }
@@ -234,7 +275,7 @@ export default class CardsList {
    * @param {MouseEvent} event Mouse event.
    */
   handleCardMouseDown(event) {
-    if (this.mode !== CardsList.MODE['reorder']) {
+    if (this.mode !== Globals.get('modes')['reorder']) {
       return;
     }
 
@@ -248,7 +289,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragStart(id, event) {
-    if (this.mode !== CardsList.MODE['reorder']) {
+    if (this.mode !== Globals.get('modes')['reorder']) {
       return;
     }
 
@@ -285,7 +326,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragEnter(id, event) {
-    if (this.mode !== CardsList.MODE['reorder']) {
+    if (this.mode !== Globals.get('modes')['reorder']) {
       return;
     }
 
@@ -296,11 +337,17 @@ export default class CardsList {
       this.dropzoneElement && this.draggedElement &&
       this.draggedElement !== this.dropzoneElement
     ) {
-      Util.swapDOMElements(this.draggedElement, this.dropzoneElement);
+      this.swapCards(this.dropzoneElement, this.draggedElement);
 
       this.dom.insertBefore(
         this.placeholder.getDOM(), this.draggedElement.nextSibling
       );
+
+      const cardIndex1 = Object.values(this.cards)
+        .findIndex((card) => card.getDOM() === this.draggedElement);
+      const id1 = Object.keys(this.cards)[cardIndex1];
+
+      this.callbacks.onCardsSwapped({ id1: id1, id2: id });
     }
   }
 
@@ -311,7 +358,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragLeave(id, event) {
-    if (this.mode !== CardsList.MODE['reorder']) {
+    if (this.mode !== Globals.get('modes')['reorder']) {
       return;
     }
 
@@ -326,7 +373,7 @@ export default class CardsList {
    * Handle card drag end.
    */
   handleCardDragEnd() {
-    if (this.mode !== CardsList.MODE['reorder']) {
+    if (this.mode !== Globals.get('modes')['reorder']) {
       return;
     }
 
@@ -337,6 +384,3 @@ export default class CardsList {
     this.dropzoneElement = null;
   }
 }
-
-/** @constant {object} MODE Usage modes for list */
-CardsList.MODE = { filter: 0, reorder: 1, view: 2 };

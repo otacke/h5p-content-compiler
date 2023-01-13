@@ -45,6 +45,9 @@ export default class Content {
       {
         onStateChanged: (params) => {
           this.handleExerciseStateChanged(params);
+        },
+        onCardStateChanged: (id, key, value) => {
+          this.poolList.updateCardState(id, key, value);
         }
       }
     );
@@ -94,7 +97,7 @@ export default class Content {
             inactive: Dictionary.get('a11y.buttonFilter') // TODO
           },
           onClick: () => {
-            this.setMode(CardsList.MODE['filter']);
+            this.setMode(Globals.get('modes')['filter']);
           }
         },
         {
@@ -105,7 +108,7 @@ export default class Content {
             inactive: Dictionary.get('a11y.buttonReorder') // TODO
           },
           onClick: () => {
-            this.setMode(CardsList.MODE['reorder']);
+            this.setMode(Globals.get('modes')['reorder']);
           }
         },
         {
@@ -116,7 +119,7 @@ export default class Content {
             inactive: Dictionary.get('a11y.buttonView') // TODO
           },
           onClick: () => {
-            this.setMode(CardsList.MODE['view']);
+            this.setMode(Globals.get('modes')['view']);
           }
         },
         {
@@ -164,6 +167,9 @@ export default class Content {
       {
         onCardClicked: (params) => {
           this.handleCardClicked(params);
+        },
+        onCardsSwapped: (params) => {
+          this.handleCardsSwapped(params);
         }
       }
     );
@@ -185,7 +191,7 @@ export default class Content {
     this.dom.append(this.exerciseOverlay.getDOM());
 
     // TODO: Previous state
-    this.setMode(CardsList.MODE['filter']);
+    this.setMode(Globals.get('modes')['filter']);
   }
 
   /**
@@ -208,10 +214,10 @@ export default class Content {
     }
     this.mode = mode;
 
-    for (const key in CardsList.MODE) {
-      this.toolbar.forceButton(key, mode === CardsList.MODE[key]);
+    for (const key in Globals.get('modes')) {
+      this.toolbar.forceButton(key, mode === Globals.get('modes')[key]);
 
-      if (mode === CardsList.MODE[key]) {
+      if (mode === Globals.get('modes')[key]) {
         this.toolbar.blockButton(key);
       }
       else {
@@ -221,7 +227,7 @@ export default class Content {
       this.poolList.setMode(mode);
     }
 
-    if (mode === CardsList.MODE['filter']) {
+    if (mode === Globals.get('modes')['filter']) {
       this.toolbar.enableButton('tags');
     }
     else {
@@ -233,7 +239,7 @@ export default class Content {
     const visibleContents = [];
     const contents = this.pool.getContents();
     for (const id in contents) {
-      if (mode === CardsList.MODE['filter']) {
+      if (mode === Globals.get('modes')['filter']) {
         if (contents[id].isFiltered) {
           visibleContents.push(id);
         }
@@ -257,13 +263,13 @@ export default class Content {
   updateMessageBox() {
     let html;
 
-    if (this.mode === CardsList.MODE['filter']) {
+    if (this.mode === Globals.get('modes')['filter']) {
       html = this.params.introductionTexts.introFilter;
     }
-    else if (this.mode === CardsList.MODE['reorder']) {
+    else if (this.mode === Globals.get('modes')['reorder']) {
       html = this.params.introductionTexts.introReorder;
     }
-    else if (this.mode === CardsList.MODE['view']) {
+    else if (this.mode === Globals.get('modes')['view']) {
       html = this.params.introductionTexts.introView;
     }
 
@@ -279,10 +285,31 @@ export default class Content {
   }
 
   /**
+   * Handle cards were swapped.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {string} params.id1 Id of card 1 that was swapped.
+   * @param {string} params.id2 Id of card 2 that was swapped.
+   */
+  handleCardsSwapped(params = {}) {
+    // Deactivate 'activated' state of cards
+    const activeContents = Object
+      .entries(this.pool.getContents())
+      .filter((entry) => entry[1].isActivated);
+
+    activeContents.forEach((content) => {
+      this.pool.updateState(content[0], { isActivated: false });
+    });
+
+    // Focus card that swapping was initialized with
+    this.poolList.focusCard(params.id1);
+  }
+
+  /**
    * Update message.
    */
   updateMessageBoxHint() {
-    if (this.mode === CardsList.MODE['filter']) {
+    if (this.mode === Globals.get('modes')['filter']) {
       const numberCardsFiltered = Object.values(this.pool.getContents())
         .filter((content) => content.isFiltered).length;
 
@@ -320,27 +347,44 @@ export default class Content {
       return;
     }
 
-    if (typeof params.selected === 'boolean') {
-      this.pool.setSelected(params.id, params.selected);
-      return;
+    if (this.mode === Globals.get('modes')['filter']) {
+      if (typeof params.isSelected === 'boolean') {
+        this.pool.updateState(params.id, { isSelected: params.selected});
+      }
     }
+    else if (this.mode === Globals.get('modes')['reorder']) {
+      if (typeof params.isActivated === 'boolean') {
+        const activeContents = Object
+          .entries(this.pool.getContents())
+          .filter((entry) => entry[1].isActivated);
 
-    const content = this.pool.getContent(params.id);
+        if (activeContents.length) {
+          this.poolList.swapCardsById(params.id, activeContents[0][0]);
+          this.handleCardsSwapped({ focusId: activeContents[0][0] });
+        }
+        else {
+          this.pool.updateState(params.id, { isActivated: params.isActivated });
+        }
+      }
+    }
+    else if (this.mode === Globals.get('modes')['view']) {
+      const content = this.pool.getContent(params.id);
 
-    this.exerciseOverlay.setH5PContent(content.contentInstance.getDOM());
-    this.exerciseOverlay.setTitle(
-      content?.label || content?.contentInstance?.params?.metadata?.title || ''
-    );
-    this.exerciseOverlay.show();
+      this.exerciseOverlay.setH5PContent(content.contentInstance.getDOM());
+      this.exerciseOverlay.setTitle(
+        content?.label || content?.contentInstance?.params?.metadata?.title || ''
+      );
+      this.exerciseOverlay.show();
 
-    content.contentInstance.setState(Globals.get('states')['viewed']);
+      content.contentInstance.setState(Globals.get('states')['viewed']);
 
-    // Keep track to give back focus later
-    this.currentCardId = params.id;
+      // Keep track to give back focus later
+      this.currentCardId = params.id;
 
-    window.requestAnimationFrame(() => {
-      Globals.get('resize')();
-    });
+      window.requestAnimationFrame(() => {
+        Globals.get('resize')();
+      });
+    }
   }
 
   /**
@@ -352,6 +396,7 @@ export default class Content {
     this.filteredTexts = filteredTexts;
     this.pool.setFiltered(this.filteredTexts);
 
+    // TODO: pool should trigger changing poolList
     const visibleContents = [];
     const contents = this.pool.getContents();
     for (const id in contents) {
@@ -404,8 +449,7 @@ export default class Content {
       return;
     }
 
-    this.pool.setStatus(params.id, params.state);
-    this.poolList.setStatus(params.id, params.state);
+    this.pool.updateState(params.id, { 'statusCode': params.state });
   }
 
   /**
