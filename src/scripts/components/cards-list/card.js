@@ -212,6 +212,14 @@ export default class Card {
       .find((entry) => entry[1] === state)[0];
 
     this.statusCode = `${statusCode.charAt(0).toLocaleUpperCase()}${statusCode.slice(1)}`;
+
+    if (
+      this.mode !== Globals.get('modes')['view'] &&
+      Object.keys(Globals.get('states')).includes(statusCode)
+    ) {
+      return;
+    }
+
     this.status.innerHTML = Dictionary.get(`l10n.status${this.statusCode}`);
   }
 

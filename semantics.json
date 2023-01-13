@@ -414,6 +414,32 @@
         "label": "Untitled Content",
         "description": "Fallback label.",
         "default": "Untitled Content"
+      },
+      {
+        "name": "confirmResetHeader",
+        "type": "text",
+        "label": "Reset confirmation dialog: header",
+        "description": "Header for dialog to confirm resetting all contents.",
+        "default": "Reset all contents?"
+      },
+      {
+        "name": "confirmResetDialog",
+        "type": "text",
+        "label": "Reset confirmation dialog: text",
+        "description": "Text for dialog to confirm resetting all contents.",
+        "default": "All your contents and their status will be reset, but your selection will remain as is. Do you want to proceed?"
+      },
+      {
+        "name": "yes",
+        "type": "text",
+        "label": "Yes",
+        "default": "Yes"
+      },
+      {
+        "name": "no",
+        "type": "text",
+        "label": "No",
+        "default": "No"
       }
     ]
   },

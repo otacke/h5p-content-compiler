@@ -1,4 +1,5 @@
 import Dictionary from '@services/dictionary';
+import Globals from '@services/globals';
 import Util from '@services/util';
 import ContentInstance from '@models/content-instance';
 
@@ -161,6 +162,16 @@ export default class Contents {
     Object.values(this.contents).forEach((content) => {
       content.isFiltered = content.keywords
         .some((keyword) => filteredTexts.includes(keyword));
+    });
+  }
+
+  /**
+   * Reset contents.
+   */
+  reset() {
+    Object.values(this.contents).forEach((content) => {
+      content.contentInstance.setState(Globals.get('states')['unstarted']);
+      content.contentInstance.reset();
     });
   }
 }

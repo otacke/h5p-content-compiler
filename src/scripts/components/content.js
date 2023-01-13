@@ -4,6 +4,7 @@ import Globals from '@services/globals';
 import Util from '@services/util';
 import MediaScreen from './media-screen/media-screen';
 import CardsList from '@components/cards-list/cards-list';
+import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
 import ExerciseOverlay from '@components/exercise-overlay/exercise-overlay';
 import Toolbar from '@components/toolbar/toolbar';
 import TagSelector from '@components/tag-selector/tag-selector';
@@ -134,6 +135,17 @@ export default class Content {
           onClick: (event, params) => {
             this.handleTagSelectorClicked(params);
           }
+        },
+        {
+          id: 'reset',
+          type: 'pulse',
+          a11y: {
+            active: Dictionary.get('a11y.buttonReset'), // TODO
+            disabled: Dictionary.get('a11y.buttonResetDisabled') // TODO
+          },
+          onClick: () => {
+            this.handleResetConfirmation();
+          }
         }
       ]
     });
@@ -192,6 +204,10 @@ export default class Content {
 
     // TODO: Previous state
     this.setMode(Globals.get('modes')['filter']);
+
+    // Confirmation Dialog
+    this.confirmationDialog = new ConfirmationDialog();
+    document.body.append(this.confirmationDialog.getDOM());
   }
 
   /**
@@ -349,7 +365,7 @@ export default class Content {
 
     if (this.mode === Globals.get('modes')['filter']) {
       if (typeof params.isSelected === 'boolean') {
-        this.pool.updateState(params.id, { isSelected: params.selected});
+        this.pool.updateState(params.id, { isSelected: params.isSelected});
       }
     }
     else if (this.mode === Globals.get('modes')['reorder']) {
@@ -460,5 +476,32 @@ export default class Content {
 
     // Give focus back to previously focussed card
     this.poolList.focusCard(this.currentCardId);
+  }
+
+  /**
+   * Handle reset confirmation.
+   */
+  handleResetConfirmation() {
+    this.confirmationDialog.update(
+      {
+        headerText: Dictionary.get('l10n.confirmResetHeader'),
+        dialogText: Dictionary.get('l10n.confirmResetDialog'),
+        cancelText: Dictionary.get('l10n.no'),
+        confirmText: Dictionary.get('l10n.yes')
+      }, {
+        onConfirmed: () => {
+          this.handleReset();
+        }
+      }
+    );
+
+    this.confirmationDialog.show();
+  }
+
+  /**
+   * Handle reset.
+   */
+  handleReset() {
+    this.pool.reset();
   }
 }

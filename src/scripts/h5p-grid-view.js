@@ -37,7 +37,11 @@ export default class GridView extends H5P.EventDispatcher {
         statusCleared: 'cleared',
         noCardsFilter: 'You need to select keywords in order to see contents to select from.',
         noCardsSelected: 'You have not selected any content.',
-        untitledContent: 'Untitled Content'
+        untitledContent: 'Untitled Content',
+        confirmResetHeader: 'Reset all contents?',
+        confirmResetDialog: 'All your contents and their status will be reset, but your selection will remain as is. Do you want to proceed?',
+        no: 'No',
+        yes: 'Yes'
       },
       a11y: {
         exerciseLabel: '. Exercise: @label',
