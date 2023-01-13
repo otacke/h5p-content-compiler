@@ -160,7 +160,7 @@ export default class Contents {
    */
   setFiltered(filteredTexts) {
     Object.values(this.contents).forEach((content) => {
-      content.isFiltered = content.keywords
+      content.isFiltered = (content.keywords || [])
         .some((keyword) => filteredTexts.includes(keyword));
     });
   }
