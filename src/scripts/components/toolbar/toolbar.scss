@@ -1,5 +1,8 @@
 @import '@styles/main';
 
+$button-pseudo-size: 1.15rem;
+$button-pseudo-offset: 0.575rem;
+
 .h5p-game-map-toolbar-tool-bar {
   align-items: center;
   background-color: $color-background;
@@ -31,14 +34,14 @@
         &::before {
           content: "\f0b0";
           font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15rem;
-          height: 1.15rem;
+          font-size: $button-pseudo-size;
+          height: $button-pseudo-size;
           left: 50%;
-          margin-left: -0.575rem;
-          margin-top: -0.575rem;
+          margin-left: -$button-pseudo-offset;
+          margin-top: -$button-pseudo-offset;
           position: absolute;
           top: 50%;
-          width: 1.15rem;
+          width: $button-pseudo-size;
         }
       }
 
@@ -46,14 +49,14 @@
         &::before {
           content: "\f0b2";
           font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15rem;
-          height: 1.15rem;
+          font-size: $button-pseudo-size;
+          height: $button-pseudo-size;
           left: 50%;
-          margin-left: -0.575rem;
-          margin-top: -0.575rem;
+          margin-left: -$button-pseudo-offset;
+          margin-top: -$button-pseudo-offset;
           position: absolute;
           top: 50%;
-          width: 1.15rem;
+          width: $button-pseudo-size;
         }
       }
 
@@ -61,14 +64,14 @@
         &::before {
           content: "\f00c";
           font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15rem;
-          height: 1.15rem;
+          font-size: $button-pseudo-size;
+          height: $button-pseudo-size;
           left: 50%;
-          margin-left: -0.575rem;
-          margin-top: -0.575rem;
+          margin-left: -$button-pseudo-offset;
+          margin-top: -$button-pseudo-offset;
           position: absolute;
           top: 50%;
-          width: 1.15rem;
+          width: $button-pseudo-size;
         }
       }
 
@@ -83,14 +86,14 @@
         &::before {
           content: "\f02c";
           font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15rem;
-          height: 1.15rem;
+          font-size: $button-pseudo-size;
+          height: $button-pseudo-size;
           left: 50%;
-          margin-left: -0.575rem;
-          margin-top: -0.575rem;
+          margin-left: -$button-pseudo-offset;
+          margin-top: -$button-pseudo-offset;
           position: absolute;
           top: 50%;
-          width: 1.15rem;
+          width: $button-pseudo-size;
         }
       }
     }

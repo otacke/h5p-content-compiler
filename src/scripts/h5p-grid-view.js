@@ -19,7 +19,7 @@ export default class GridView extends H5P.EventDispatcher {
       introductionTexts: {},
       contents: [],
       visuals: {
-        cardWidth: '15rem',
+        cardWidth: '13rem',
         imageSizing: 'custom',
         customRatioWidth: 16,
         customRatioHeight: 9,
