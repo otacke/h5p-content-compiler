@@ -4,7 +4,7 @@
   box-sizing: border-box;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, var(--card-width, 13rem));
+  grid-template-columns: repeat(auto-fit, var(--card-width, 12rem));
   margin: 0;
   padding: 0;
 }
