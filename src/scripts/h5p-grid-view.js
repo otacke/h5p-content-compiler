@@ -71,8 +71,7 @@ export default class GridView extends H5P.EventDispatcher {
     // Fill dictionary
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
-    this.previousState = extras?.previousState || {};
-
+    this.previousState = extras?.previousState || null;
     const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
     this.languageTag = Util.formatLanguageCode(defaultLanguage);
 
@@ -128,7 +127,8 @@ export default class GridView extends H5P.EventDispatcher {
         ...(
           this.params.showTitleScreen &&
           { titleScreen: this.params.titleScreen }
-        )
+        ),
+        ...(this.previousState && { previousState: this.previousState.content })
       },
       {
         resize: () => {
@@ -152,12 +152,23 @@ export default class GridView extends H5P.EventDispatcher {
   }
 
   /**
-   * Get description.
+   * Get content type description.
    *
    * @returns {string} Description.
    */
   getDescription() {
     return GridView.DEFAULT_DESCRIPTION;
+  }
+
+  /**
+   * Answer H5P core's call to return the current state.
+   *
+   * @returns {object} Current state.
+   */
+  getCurrentState() {
+    return {
+      content: this.content.getCurrentState()
+    };
   }
 }
 

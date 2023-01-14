@@ -16,11 +16,12 @@ export default class Content {
 
   constructor(params = {}) {
     this.params = Util.extend({
-      contents: []
+      contents: [],
+      previousState: {}
     }, params);
 
-    // TODO: Previous state
-    this.filteredTexts = this.params.contents
+    // Retrieve all tags from contents
+    const allTags = this.params.contents
       .reduce((result, content) => {
         const keywords = (content.keywords || '')
           .split(',')
@@ -37,10 +38,19 @@ export default class Content {
       .filter((text) => text.trim() !== '')
       .sort();
 
-    // TODO: previous state
+    // Set selected tags
+    this.selectedTags = this.params.previousState.selectedTags;
+    if (!this.selectedTags) {
+      this.selectedTags = this.params.allKeywordsPreselected ? allTags : [];
+    }
+
+    // Pool of card models
     this.pool = new Contents(
       {
         contents: this.params.contents,
+        ...(this.params.previousState.contents && {
+          previousState: this.params.previousState.contents
+        }),
         allKeywordsPreselected: this.params.allKeywordsPreselected
       },
       {
@@ -152,21 +162,20 @@ export default class Content {
     this.main.append(this.toolbar.getDOM());
 
     this.messageBoxIntroduction = new MessageBox();
-    // this.messageBoxIntroduction.hide();
     this.main.appendChild(this.messageBoxIntroduction.getDOM());
 
     this.tagSelector = new TagSelector(
       {
-        tags: this.filteredTexts.map((word) => {
+        tags: allTags.map((word) => {
           return {
             text: word,
-            selected: this.params.allKeywordsPreselected // TODO: previous state
+            selected: this.selectedTags.includes(word)
           };
         })
       },
       {
-        onChanged: (filteredTexts) => {
-          this.handleFilterChanged(filteredTexts);
+        onChanged: (selectedTags) => {
+          this.handleFilterChanged(selectedTags);
         }
       }
     );
@@ -202,12 +211,22 @@ export default class Content {
     });
     this.dom.append(this.exerciseOverlay.getDOM());
 
-    // TODO: Previous state
-    this.setMode(Globals.get('modes')['filter']);
-
     // Confirmation Dialog
     this.confirmationDialog = new ConfirmationDialog();
     document.body.append(this.confirmationDialog.getDOM());
+
+    // Update contents' state from previous state
+    Object.entries(this.params.previousState?.contents || []).forEach((entry) => {
+      this.pool.updateState(entry[0], entry[1]);
+    });
+
+    // Update tag selector
+    this.handleFilterChanged(this.selectedTags);
+
+    // Set content mode
+    this.setMode(
+      this.params.previousState.mode ?? Globals.get('modes')['filter']
+    );
   }
 
   /**
@@ -245,27 +264,14 @@ export default class Content {
 
     if (mode === Globals.get('modes')['filter']) {
       this.toolbar.enableButton('tags');
+      this.pool.setVisibilityByKeywords(this.selectedTags);
     }
     else {
       this.toolbar.forceButton('tags', false);
       this.toolbar.disableButton('tags');
       this.tagSelector.hide();
+      this.pool.setVisibility(true);
     }
-
-    const visibleContents = [];
-    const contents = this.pool.getContents();
-    for (const id in contents) {
-      if (mode === Globals.get('modes')['filter']) {
-        if (contents[id].isFiltered) {
-          visibleContents.push(id);
-        }
-      }
-      else {
-        visibleContents.push(id);
-      }
-    }
-
-    this.poolList.filter(visibleContents);
 
     this.updateMessageBox();
     this.updateMessageBoxHint();
@@ -317,6 +323,9 @@ export default class Content {
       this.pool.updateState(content[0], { isActivated: false });
     });
 
+    this.pool.updateState(params.id1, { position: params.pos1 });
+    this.pool.updateState(params.id2, { position: params.pos2 });
+
     // Focus card that swapping was initialized with
     this.poolList.focusCard(params.id1);
   }
@@ -327,7 +336,7 @@ export default class Content {
   updateMessageBoxHint() {
     if (this.mode === Globals.get('modes')['filter']) {
       const numberCardsFiltered = Object.values(this.pool.getContents())
-        .filter((content) => content.isFiltered).length;
+        .filter((content) => content.isVisible).length;
 
       if (numberCardsFiltered === 0) {
         this.messageBoxHint.setText(Dictionary.get('l10n.noCardsFilter'));
@@ -349,6 +358,19 @@ export default class Content {
         this.messageBoxHint.hide();
       }
     }
+  }
+
+  /**
+   * Answer H5P core's call to return the current state.
+   *
+   * @returns {object} Current state.
+   */
+  getCurrentState() {
+    return {
+      mode: this.mode,
+      selectedTags: this.selectedTags,
+      contents: this.pool.getCurrentState()
+    };
   }
 
   /**
@@ -404,23 +426,13 @@ export default class Content {
   }
 
   /**
-   * Handle selection of keywords changed.
+   * Handle selection of tags changed.
    *
-   * @param {string[]} filteredTexts Filtered Keywords.
+   * @param {string[]} selectedTags Selected tags.
    */
-  handleFilterChanged(filteredTexts) {
-    this.filteredTexts = filteredTexts;
-    this.pool.setFiltered(this.filteredTexts);
-
-    // TODO: pool should trigger changing poolList
-    const visibleContents = [];
-    const contents = this.pool.getContents();
-    for (const id in contents) {
-      if (contents[id].isFiltered) {
-        visibleContents.push(id);
-      }
-    }
-    this.poolList.filter(visibleContents);
+  handleFilterChanged(selectedTags) {
+    this.selectedTags = selectedTags;
+    this.pool.setVisibilityByKeywords(this.selectedTags);
 
     this.updateMessageBoxHint();
 

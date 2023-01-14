@@ -97,7 +97,6 @@ export default class Card {
     this.status.classList.add('h5p-grid-view-card-status');
     this.button.append(this.status);
 
-    // TODO: previous state - or rather via model?
     this.setStatusCode(Globals.get('states')['unstarted']);
     this.isSelected = false;
     this.isActivated = false;
@@ -151,6 +150,9 @@ export default class Card {
     }
     else if (key === 'isActivated') {
       this.toggleActivated(value);
+    }
+    else if (key === 'isVisible') {
+      value ? this.show() : this.hide();
     }
   }
 

@@ -7,7 +7,8 @@ export default class Contents {
 
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      contents: []
+      contents: [],
+      previousState: {}
     }, params);
 
     this.callbacks = Util.extend({
@@ -15,9 +16,24 @@ export default class Contents {
       onCardStateChanged: () => {}
     }, callbacks);
 
+    if (Object.keys(this.params.previousState).length) {
+      this.params.contents = this.params.contents
+        .map((contentParams) => {
+          const id = contentParams.contentType.subContentId;
+          contentParams.position = this.params.previousState[id].position;
+          contentParams.previousState = this.params.previousState[id].instance;
+
+          return contentParams;
+        })
+        .sort((params1, params2) => {
+          return params1.position - params2.position;
+        });
+    }
+
     this.contents = {};
 
-    this.params.contents.forEach((contentParams) => {
+    this.params.contents.forEach((contentParams, index) => {
+      contentParams.position = contentParams.position ?? index;
       this.addContent(contentParams);
     });
   }
@@ -46,15 +62,24 @@ export default class Contents {
       return;
     }
 
+    params = Util.extend({
+      statusCode: Globals.get('states')['unstarted'],
+      keywords: ''
+    }, params);
+
     const label = (!params.label && !params.image && !params.introduction) ?
       (
         params.contentType.metadata?.title ||
         Dictionary.get('l10n.untitledContent')
       ) :
       params.label;
+
     const introduction = params.introduction || '';
     const contentInstance = new ContentInstance(
-      params.contentType,
+      {
+        contentParams: params.contentType,
+        previousState: params.previousState
+      },
       {
         onStateChanged: (state) => {
           this.callbacks.onStateChanged({
@@ -77,8 +102,10 @@ export default class Contents {
       contentInstance: contentInstance,
       keywords: keywords,
       visuals: params.visuals,
-      isSelected: false, // TODO: Previous state
-      isFiltered: this.params.allKeywordsPreselected // TODO: Previous state
+      isSelected: false,
+      isVisible: this.params.allKeywordsPreselected,
+      position: params.position,
+      statusCode: params.statusCode
     };
 
     this.contents[params.contentType.subContentId] = content;
@@ -146,7 +173,11 @@ export default class Contents {
     }
 
     Object.keys(entries).forEach((key) => {
-      if (['statusCode', 'isSelected', 'isActivated'].includes(key)) {
+      if (
+        [
+          'statusCode', 'isSelected', 'isActivated', 'position', 'isVisible'
+        ].includes(key)
+      ) {
         this.contents[id][key] = entries[key];
         this.callbacks.onCardStateChanged(id, key, entries[key]);
       }
@@ -154,14 +185,38 @@ export default class Contents {
   }
 
   /**
-   * Set filtered.
+   * Set visibility of all cards.
    *
-   * @param {string[]} filteredTexts Filtered keywords.
+   * @param {boolean} isVisible If true, set visible. Else not visible.
    */
-  setFiltered(filteredTexts) {
-    Object.values(this.contents).forEach((content) => {
-      content.isFiltered = (content.keywords || [])
-        .some((keyword) => filteredTexts.includes(keyword));
+  setVisibility(isVisible) {
+    if (typeof isVisible !== 'boolean') {
+      return;
+    }
+
+    Object.entries(this.contents).forEach((content) => {
+      this.updateState(content[0], {
+        isVisible: isVisible
+      });
+    });
+  }
+
+  /**
+   * Set visibility based on keyword match.
+   *
+   * @param {string[]} keywords Filtered keywords.
+   */
+  setVisibilityByKeywords(keywords) {
+    // Set visible if no keyword assigned or keyword was selected in filter
+    Object.entries(this.contents).forEach((content) => {
+      const isVisible = (
+        !content[1].keywords.length ||
+        content[1].keywords.some((keyword) => keywords.includes(keyword))
+      );
+
+      this.updateState(content[0], {
+        isVisible: isVisible
+      });
     });
   }
 
@@ -173,5 +228,26 @@ export default class Contents {
       content.contentInstance.setState(Globals.get('states')['unstarted']);
       content.contentInstance.reset();
     });
+  }
+
+  /**
+   * Answer H5P core's call to return the current state.
+   *
+   * @returns {object} Current state.
+   */
+  getCurrentState() {
+    const state = {};
+    for (const id in this.contents) {
+      const content = this.contents[id];
+
+      state[id] = {
+        isSelected: content.isSelected,
+        position: content.position,
+        statusCode: content.statusCode,
+        instance: content.contentInstance?.instance?.getCurrentState?.() ?? {}
+      };
+    }
+
+    return state;
   }
 }

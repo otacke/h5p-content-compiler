@@ -38,30 +38,32 @@ export default class ContentInstance {
       return; // Only once, please
     }
 
-    const machineName = this.params.contentType?.library?.split?.(' ')[0];
+    const contentParams = this.params.contentParams;
+
+    const machineName = contentParams.contentType?.library?.split?.(' ')[0];
 
     if (machineName === 'H5P.Video') {
-      this.params.params.visuals.fit = (
-        this.params.params.sources.length && (
-          this.params.params.sources[0].mime === 'video/mp4' ||
-          this.params.params.sources[0].mime === 'video/webm' ||
-          this.params.params.sources[0].mime === 'video/ogg'
+      contentParams.params.visuals.fit = (
+        contentParams.params.sources.length && (
+          contentParams.params.sources[0].mime === 'video/mp4' ||
+          contentParams.params.sources[0].mime === 'video/webm' ||
+          contentParams.params.sources[0].mime === 'video/ogg'
         )
       );
     }
 
     if (machineName === 'H5P.Audio') {
-      if (this.params.params.playerMode === 'full') {
-        this.params.params.fitToWrapper = true;
+      if (contentParams.params.playerMode === 'full') {
+        contentParams.params.fitToWrapper = true;
       }
     }
 
     this.instance = H5P.newRunnable(
-      this.params,
+      contentParams,
       Globals.get('contentId'),
       undefined,
       true,
-      {} // TODO: Previous state
+      { previousState: this.params.previousState }
     );
 
     if (!this.instance) {

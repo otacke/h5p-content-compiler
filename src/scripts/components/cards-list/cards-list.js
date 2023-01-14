@@ -138,21 +138,21 @@ export default class CardsList {
     this.cards[id]?.focus();
   }
 
-  /**
-   * Show cards based on keywords.
-   *
-   * @param {string[]} visibleCardIds Selectec keywords.
-   */
-  filter(visibleCardIds = []) {
-    for (const id in this.cards) {
-      if (visibleCardIds.includes(id)) {
-        this.cards[id].show();
-      }
-      else {
-        this.cards[id].hide();
-      }
-    }
-  }
+  // /**
+  //  * Show cards based on keywords.
+  //  *
+  //  * @param {string[]} visibleCardIds Selectec keywords.
+  //  */
+  // filter(visibleCardIds = []) {
+  //   for (const id in this.cards) {
+  //     if (visibleCardIds.includes(id)) {
+  //       this.cards[id].show();
+  //     }
+  //     else {
+  //       this.cards[id].hide();
+  //     }
+  //   }
+  // }
 
   /**
    * Get element index inside list.
@@ -243,6 +243,22 @@ export default class CardsList {
     ) {
       Util.swapDOMElements(element1, element2);
     }
+  }
+
+  /**
+   * Get order of cards on screen.
+   *
+   * @returns {string[]} Cards order.
+   */
+  getCardsOrder() {
+    // Determine card ids based on position of DOM in list
+    return [... this.getDOM().childNodes]
+      .map((cardDOM) => {
+        const position = Object.values(this.cards)
+          .findIndex((card) => card.getDOM() === cardDOM);
+
+        return Object.keys(this.cards)[position];
+      });
   }
 
   /**
@@ -347,7 +363,14 @@ export default class CardsList {
         .findIndex((card) => card.getDOM() === this.draggedElement);
       const id1 = Object.keys(this.cards)[cardIndex1];
 
-      this.callbacks.onCardsSwapped({ id1: id1, id2: id });
+      const cardsOrder = this.getCardsOrder();
+
+      this.callbacks.onCardsSwapped({
+        id1: id1,
+        id2: id,
+        pos1: cardsOrder.findIndex((id) => id === id1),
+        pos2: cardsOrder.findIndex((id) => id === id)
+      });
     }
   }
 
