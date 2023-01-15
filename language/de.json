@@ -179,6 +179,10 @@
         {
           "label": "Nein",
           "default": "Nein"
+        },
+        {
+          "label": "Keine Inhalte",
+          "default": "Es wurden keine gültigen Inhalte definiert."
         }
       ]
     },

@@ -41,7 +41,8 @@ export default class GridView extends H5P.EventDispatcher {
         confirmResetHeader: 'Reset all contents?',
         confirmResetDialog: 'All your contents and their status will be reset, but your selection will remain as is. Do you want to proceed?',
         no: 'No',
-        yes: 'Yes'
+        yes: 'Yes',
+        noContents: 'No valid contents were set.'
       },
       a11y: {
         exerciseLabel: 'Exercise: @label',
@@ -80,13 +81,17 @@ export default class GridView extends H5P.EventDispatcher {
       this.trigger('resize');
     });
 
-    // TODO: Sanitize contents
-    this.params.contents = this.params.contents.map((content) => {
-      const amendedContent = content;
-      amendedContent.visuals = this.params.visuals;
+    // Sanitize
+    this.params.contents = this.params.contents
+      .filter((content) => {
+        return content.contentType?.subContentId;
+      })
+      .map((content) => {
+        const amendedContent = content;
+        amendedContent.visuals = this.params.visuals;
 
-      return amendedContent;
-    });
+        return amendedContent;
+      });
 
     // Fill dictionary
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });

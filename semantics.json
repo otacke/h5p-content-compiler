@@ -182,7 +182,7 @@
           "name": "label",
           "type": "text",
           "label": "Label",
-          "description": "Label for the content. The label will be set to the metadata title if nothing is set here.",
+          "description": "Label for the content. The label will be set to the metadata title if no label, image or teaser is set.",
           "optional": true
         },
         {
@@ -195,8 +195,8 @@
         {
           "name": "introduction",
           "type": "text",
-          "label": "Introduction",
-          "description": "Optional introduction for the content.",
+          "label": "Teaser",
+          "description": "Optional teaser for the content.",
           "optional": true
         },
         {
@@ -318,8 +318,8 @@
       {
         "name": "introClamp",
         "type": "number",
-        "label": "Maximum introduction lines",
-        "description": "Set the maximum number of lines to display for the content introduction.",
+        "label": "Maximum teaser lines",
+        "description": "Set the maximum number of lines to display for the content teaser.",
         "min": 1,
         "default": 4
       }
@@ -440,6 +440,12 @@
         "type": "text",
         "label": "No",
         "default": "No"
+      },
+      {
+        "name": "noContents",
+        "type": "text",
+        "label": "No contents",
+        "default": "No valid contents were set."
       }
     ]
   },
@@ -501,13 +507,13 @@
       {
         "name": "tagSelectorOpened",
         "type": "text",
-        "label": "Tag selector",
+        "label": "Tag selector opened",
         "default": "Tag selector was opened."
       },
       {
         "name": "tagSelectorClosed",
         "type": "text",
-        "label": "Tag selector",
+        "label": "Tag selector closed",
         "default": "Tag selector was closed."
       },
       {

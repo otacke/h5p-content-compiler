@@ -21,6 +21,24 @@ export default class Content {
       previousState: {}
     }, params);
 
+    this.buildDOM();
+  }
+
+  /**
+   * Build DOM.
+   */
+  buildDOM() {
+    this.dom = document.createElement('div');
+    this.dom.classList.add('h5p-grid-view-content');
+
+    if (!this.params.contents.length) {
+      this.messageBoxHint = new MessageBoxHint();
+      this.messageBoxHint.setText(Dictionary.get('l10n.noContents'));
+      this.dom.append(this.messageBoxHint.getDOM());
+
+      return;
+    }
+
     // Retrieve all tags from contents
     const allTags = this.params.contents
       .reduce((result, content) => {
@@ -64,9 +82,6 @@ export default class Content {
       }
     );
 
-    this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-grid-view-content');
-
     // Title screen if set
     if (this.params.titleScreen) {
       this.intro = document.createElement('div');
@@ -98,87 +113,93 @@ export default class Content {
     this.main.classList.add('h5p-grid-view-content-main');
     this.dom.append(this.main);
 
-    // Toolbar
-    this.toolbar = new Toolbar({
-      buttons: [
-        {
-          id: 'filter',
-          type: 'toggle',
-          a11y: {
-            active: Dictionary.get('a11y.buttonFilter'), // TODO
-          },
-          onClick: () => {
-            this.setMode(Globals.get('modes')['filter']);
-            this.announceModeChanged();
-          }
+    const buttons = [
+      {
+        id: 'filter',
+        type: 'toggle',
+        a11y: {
+          active: Dictionary.get('a11y.buttonFilter'), // TODO
         },
-        {
-          id: 'reorder',
-          type: 'toggle',
-          a11y: {
-            active: Dictionary.get('a11y.buttonReorder'), // TODO
-          },
-          onClick: () => {
-            this.setMode(Globals.get('modes')['reorder']);
-            this.announceModeChanged();
-          }
-        },
-        {
-          id: 'view',
-          type: 'toggle',
-          a11y: {
-            active: Dictionary.get('a11y.buttonView'), // TODO
-          },
-          onClick: () => {
-            this.setMode(Globals.get('modes')['view']);
-            this.announceModeChanged();
-          }
-        },
-        {
-          id: 'tags',
-          type: 'toggle',
-          active: true,
-          a11y: {
-            active: Dictionary.get('a11y.buttonTags'), // TODO
-          },
-          onClick: (event, params) => {
-            this.handleTagSelectorClicked(params);
-          }
-        },
-        {
-          id: 'reset',
-          type: 'pulse',
-          a11y: {
-            active: Dictionary.get('a11y.buttonReset'), // TODO
-          },
-          onClick: () => {
-            this.handleResetConfirmation();
-          }
+        onClick: () => {
+          this.setMode(Globals.get('modes')['filter']);
+          this.announceModeChanged();
         }
-      ]
+      },
+      {
+        id: 'reorder',
+        type: 'toggle',
+        a11y: {
+          active: Dictionary.get('a11y.buttonReorder'), // TODO
+        },
+        onClick: () => {
+          this.setMode(Globals.get('modes')['reorder']);
+          this.announceModeChanged();
+        }
+      },
+      {
+        id: 'view',
+        type: 'toggle',
+        a11y: {
+          active: Dictionary.get('a11y.buttonView'), // TODO
+        },
+        onClick: () => {
+          this.setMode(Globals.get('modes')['view']);
+          this.announceModeChanged();
+        }
+      }
+    ];
+
+    if (allTags.length > 1) {
+      buttons.push({
+        id: 'tags',
+        type: 'toggle',
+        active: true,
+        a11y: {
+          active: Dictionary.get('a11y.buttonTags'), // TODO
+        },
+        onClick: (event, params) => {
+          this.handleTagSelectorClicked(params);
+        }
+      });
+    }
+
+    buttons.push({
+      id: 'reset',
+      type: 'pulse',
+      a11y: {
+        active: Dictionary.get('a11y.buttonReset'), // TODO
+      },
+      onClick: () => {
+        this.handleResetConfirmation();
+      }
     });
+
+    // Toolbar
+    this.toolbar = new Toolbar({ buttons: buttons });
     this.main.append(this.toolbar.getDOM());
 
     this.messageBoxIntroduction = new MessageBox();
     this.main.appendChild(this.messageBoxIntroduction.getDOM());
 
-    this.tagSelector = new TagSelector(
-      {
-        tags: allTags.map((word) => {
-          return {
-            text: word,
-            selected: this.selectedTags.includes(word)
-          };
-        })
-      },
-      {
-        onChanged: (selectedTags) => {
-          this.handleFilterChanged(selectedTags);
+    if (allTags.length > 1) {
+      this.tagSelector = new TagSelector(
+        {
+          tags: allTags.map((word) => {
+            return {
+              text: word,
+              selected: this.selectedTags.includes(word)
+            };
+          })
+        },
+        {
+          onChanged: (selectedTags) => {
+            this.handleFilterChanged(selectedTags);
+          }
         }
-      }
-    );
-    this.handleTagSelectorClicked({ active: true, quiet: true });
-    this.main.append(this.tagSelector.getDOM());
+      );
+      this.handleTagSelectorClicked({ active: true, quiet: true });
+      this.main.append(this.tagSelector.getDOM());
+    }
 
     // Pool of contents
     this.poolList = new CardsList(
@@ -275,7 +296,7 @@ export default class Content {
       this.toolbar.forceButton('tags', false);
       this.toolbar.disableButton('tags');
 
-      if (this.tagSelector.isVisible()) {
+      if (this.tagSelector?.isVisible()) {
         this.tagSelector.hide();
         this.announceTagSelector(false);
       }
@@ -420,9 +441,13 @@ export default class Content {
   /**
    * Answer H5P core's call to return the current state.
    *
-   * @returns {object} Current state.
+   * @returns {object|undefined} Current state.
    */
   getCurrentState() {
+    if (!this.pool) {
+      return;
+    }
+
     return {
       mode: this.mode,
       selectedTags: this.selectedTags,

@@ -47,7 +47,7 @@
         "fields": [
           {
             "label": "Label",
-            "description": "Label for the content."
+            "description": "Label for the content. The label will be set to the metadata title if no label, image or teaser is set."
           },
           {
             "label": "Image",
@@ -97,8 +97,8 @@
           "description": "Set the vertical ratio component for content images."
         },
         {
-          "label": "Maximum introduction lines",
-          "description": "Set the maximum number of lines to display for the content introduction."
+          "label": "Maximum teaser lines",
+          "description": "Set the maximum number of lines to display for the content teaser."
         }
       ]
     },
@@ -179,6 +179,10 @@
         {
           "label": "No",
           "default": "No"
+        },
+        {
+          "label": "No contents",
+          "default": "No valid contents were set."
         }
       ]
     },
