@@ -107,7 +107,7 @@ export default class ExerciseOverlay {
    */
   setH5PContent(h5pDOM) {
     this.h5pInstance.innerHTML = '';
-    this.h5pInstance.appendChild(h5pDOM);
+    this.h5pInstance.append(h5pDOM);
   }
 
   /**

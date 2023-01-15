@@ -67,6 +67,7 @@ export default class FocusTrap {
 
     this.params.trapElement.removeEventListener('keydown', this.handleKeydownEvent, true);
     this.isActivated = false;
+    delete this.currentFocusElement;
   }
 
   /**
