@@ -1,6 +1,5 @@
 import Util from '@services/util';
 import Globals from '@services/globals';
-import './confirmation-dialog.scss';
 
 export default class ConfirmationDialog {
 

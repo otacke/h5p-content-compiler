@@ -1,6 +1,6 @@
 @import "@styles/main";
 
-$card-width: var(--card-width, 12rem);
+$card-width: var(--card-width, 11rem);
 $card-padding: 0.5rem;
 $content-border-radius: 0.5rem;
 $content-gap: 0.5rem;
@@ -13,56 +13,6 @@ $content-gap: 0.5rem;
   list-style-type: none;
   width: $card-width;
   padding: $card-padding;
-
-  &.display-none {
-    display: none;
-  }
-
-  &.dragging {
-    background: #e9edfe;
-    border-color: #0825ff;
-    color: #6774ff;
-
-    .h5p-grid-view-card-content .h5p-grid-view-card-label {
-      background-color: #6774ff;
-    }
-  }
-
-  &.filter {
-    &.selected {
-      border-color: $color-primary;
-      box-shadow: 0 0 0.25rem $color-primary;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  &.reorder {
-    &:not(.selected) {
-      display: none;
-    }
-
-    &.activated {
-      border-color: $color-primary;
-      box-shadow: 0 0 0.25rem $color-primary;
-    }
-
-    &:hover {
-      cursor: move;
-    }
-  }
-
-  &.view {
-    &:not(.selected) {
-      display: none;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
 
   .h5p-grid-view-card-content {
     align-items: inherit;
@@ -128,6 +78,56 @@ $content-gap: 0.5rem;
       text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+  }
+
+  &.display-none {
+    display: none;
+  }
+
+  &.dragging {
+    background: #e9edfe;
+    border-color: #0825ff;
+    color: #6774ff;
+
+    .h5p-grid-view-card-content .h5p-grid-view-card-label {
+      background-color: #6774ff;
+    }
+  }
+
+  &.filter {
+    &.selected {
+      border-color: $color-primary;
+      box-shadow: 0 0 0.25rem $color-primary;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.reorder {
+    &:not(.selected) {
+      display: none;
+    }
+
+    &.activated {
+      border-color: $color-primary;
+      box-shadow: 0 0 0.25rem $color-primary;
+    }
+
+    &:hover {
+      cursor: move;
+    }
+  }
+
+  &.view {
+    &:not(.selected) {
+      display: none;
+    }
+
+    &:hover {
+      cursor: pointer;
     }
   }
 }
