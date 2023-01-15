@@ -7,33 +7,22 @@ export default class TagSelector {
    *
    * @class
    * @param {object} params Parameter from editor.
-   * @param {object} [callbacks] Callbacks.
    */
-  constructor(params, callbacks) {
+  constructor(params = {}) {
     // Set missing params
     this.params = Util.extend({
     }, params || {});
-
-    this.callbacks = Util.extend({
-      onClicked: () => {},
-      onSelectedAll: () => {}
-    }, callbacks || {});
 
     this.selected = this.params.selected;
 
     this.dom = document.createElement('li');
     this.dom.classList.add('tag');
+    this.dom.setAttribute('id', this.params.uuid);
     this.dom.setAttribute('role', 'option');
     this.dom.setAttribute(
       'aria-selected', this.params.selected ? 'true' : 'false'
     );
     this.dom.innerText = this.params.text;
-    this.dom.addEventListener('click', () => {
-      this.handleClicked();
-    });
-    this.dom.addEventListener('keydown', (event) => {
-      this.handleKeydown(event);
-    });
 
     this.toggleSelected(this.selected);
   }
@@ -48,10 +37,17 @@ export default class TagSelector {
   }
 
   /**
-   * Focus.
+   * Set focus on tag.
+   *
+   * @param {boolean} state If true, set focus. Else remove.
    */
-  focus() {
-    this.dom.focus();
+  toggleFocus(state) {
+    if (state) {
+      this.dom.classList.add('focused');
+    }
+    else {
+      this.dom.classList.remove('focused');
+    }
   }
 
   /**
@@ -72,15 +68,15 @@ export default class TagSelector {
     return this.params.text;
   }
 
-  /**
-   * Set attribute.
-   *
-   * @param {string} attribute Attribute key.
-   * @param {string} value Attribute value.
-   */
-  setAttribute(attribute, value) {
-    this.dom.setAttribute(attribute, value);
-  }
+  // /**
+  //  * Set attribute.
+  //  *
+  //  * @param {string} attribute Attribute key.
+  //  * @param {string} value Attribute value.
+  //  */
+  // setAttribute(attribute, value) {
+  //   this.dom.setAttribute(attribute, value);
+  // }
 
   /**
    * Toggle state.
@@ -96,28 +92,5 @@ export default class TagSelector {
     this.dom.setAttribute(
       'aria-selected', this.selected ? 'true' : 'false'
     );
-  }
-
-  /**
-   * Handle clicked.
-   */
-  handleClicked() {
-    this.toggleSelected();
-
-    this.callbacks.onClicked();
-  }
-
-  handleKeydown(event) {
-    if (event.code === 'Enter' || event.code === 'Space') {
-      this.handleClicked();
-    }
-    else if (event.code === 'KeyA' && event.ctrlKey) {
-      this.callbacks.onSelectedAll();
-    }
-    else {
-      return;
-    }
-
-    event.preventDefault();
   }
 }

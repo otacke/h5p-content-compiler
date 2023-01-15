@@ -36,8 +36,6 @@ export default class CardsList {
       onCardDragEnd: () => {}
     }, callbacks);
 
-    // TODO: Implement ARIA pattern "list(box)"
-
     this.dom = document.createElement('ul');
     this.dom.classList.add('h5p-grid-view-cards-list');
 
@@ -137,22 +135,6 @@ export default class CardsList {
 
     this.cards[id]?.focus();
   }
-
-  // /**
-  //  * Show cards based on keywords.
-  //  *
-  //  * @param {string[]} visibleCardIds Selectec keywords.
-  //  */
-  // filter(visibleCardIds = []) {
-  //   for (const id in this.cards) {
-  //     if (visibleCardIds.includes(id)) {
-  //       this.cards[id].show();
-  //     }
-  //     else {
-  //       this.cards[id].hide();
-  //     }
-  //   }
-  // }
 
   /**
    * Get element index inside list.

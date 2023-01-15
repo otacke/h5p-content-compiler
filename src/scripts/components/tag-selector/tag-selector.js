@@ -25,39 +25,44 @@ export default class TagSelector {
     this.dom = document.createElement('div');
     this.dom.classList.add('tag-selector');
 
-    const list = document.createElement('ul');
-    list.classList.add('tag-list');
-    list.setAttribute('role', 'listbox');
-    list.setAttribute('aria-label', Dictionary.get('a11y.tagSelector'));
-    list.addEventListener('keydown', (event) => {
+    this.list = document.createElement('ul');
+    this.list.classList.add('tag-list');
+    this.list.setAttribute('role', 'listbox');
+    this.list.setAttribute('tabindex', '0');
+    this.list.setAttribute('aria-label', Dictionary.get('a11y.tagSelector'));
+    this.list.setAttribute('aria-multiselectable', 'true');
+    this.list.addEventListener('keydown', (event) => {
       this.handleKeydown(event);
     });
-    this.dom.append(list);
+    this.list.addEventListener('click', (event) => {
+      this.handleClicked(event);
+    });
+    this.list.addEventListener('focus', () => {
+      this.handleFocusChanged();
+    });
+    this.list.addEventListener('blur', () => {
+      this.handleFocusChanged();
+    });
+    this.dom.append(this.list);
 
-    this.params.tags.forEach((tagParam, index) => {
+    this.params.tags.forEach((tagParam) => {
+      const uuid = H5P.createUUID();
       const tag = new Tag(
         {
           text: tagParam.text,
-          selected: tagParam.selected
-        },
-        {
-          onClicked: (params) => {
-            this.handleTagClicked(params);
-          },
-          onSelectedAll: () => {
-            this.handleTagSelectedAll();
-          }
+          selected: tagParam.selected,
+          uuid: uuid
         }
       );
 
-      list.append(tag.getDOM());
+      this.list.append(tag.getDOM());
 
-      this.tags[tagParam.text] = tag;
-
-      tag.setAttribute('tabindex', index === 0 ? '0' : '-1');
+      this.tags[uuid] = tag;
     });
 
     this.currentTagIndex = 0;
+    this.moveButtonFocus(0);
+
     this.hide();
   }
 
@@ -84,11 +89,21 @@ export default class TagSelector {
     this.dom.classList.add('display-none');
   }
 
+  getTagIndex(dom) {
+    if (!dom) {
+      return;
+    }
+
+    return Object.values(this.tags).findIndex((tag) => {
+      return dom === tag.getDOM();
+    });
+  }
+
   /**
    * Handle tag clicked.
    */
-  handleTagClicked() {
-    const selectedTexts = Object.values(this.tags)
+  updateSelectedTags() {
+    const selectedTags = Object.values(this.tags)
       .filter((tag) => {
         return tag.isSelected();
       })
@@ -96,7 +111,7 @@ export default class TagSelector {
         return tag.getText();
       });
 
-    this.callbacks.onChanged(selectedTexts);
+    this.callbacks.onChanged(selectedTags);
   }
 
   /**
@@ -105,22 +120,42 @@ export default class TagSelector {
   handleTagSelectedAll() {
     // If all tags are selected, select none. Else select all.
     const numberSelected = Object.values(this.tags).reduce((sum, tag) => {
-      return sum + tag.isSelected() ? 1 : 0;
+      return sum + (tag.isSelected() ? 1 : 0);
     }, 0);
 
     Object.values(this.tags).forEach((tag) => {
       tag.toggleSelected(numberSelected !== Object.keys(this.tags).length);
     });
 
-    this.handleTagClicked();
+    this.updateSelectedTags();
+  }
+
+  /**
+   * Handle focus changed.
+   */
+  handleFocusChanged() {
+    if (document.activeElement === this.list) {
+      this.moveButtonFocus(0); // Just focus
+    }
+    else {
+      this.moveButtonFocus(null); // Remove focus
+    }
   }
 
   /**
    * Move button focus
    *
-   * @param {number} offset Offset to move position by.
+   * @param {number|null} offset Offset to move position by. Null removes all focus
    */
   moveButtonFocus(offset) {
+    if (offset === null) {
+      Object.values(this.tags).forEach((tag) => {
+        tag.toggleFocus(false);
+      });
+
+      return;
+    }
+
     if (typeof offset !== 'number') {
       return;
     }
@@ -132,15 +167,31 @@ export default class TagSelector {
       return; // Don't cycle
     }
 
-    Object.values(this.tags)[this.currentTagIndex]
-      .setAttribute('tabindex', '-1');
-
     this.currentTagIndex = this.currentTagIndex + offset;
 
-    const focusButton = Object.values(this.tags)[this.currentTagIndex];
+    Object.values(this.tags).forEach((tag, index) => {
+      tag.toggleFocus(index === this.currentTagIndex);
+    });
 
-    focusButton.setAttribute('tabindex', '0');
-    focusButton.focus();
+    this.list.setAttribute(
+      'aria-activedescendant', Object.keys(this.tags)[this.currentTagIndex]
+    );
+  }
+
+  /**
+   * Handle click.
+   *
+   * @param {Event} event Event.
+   */
+  handleClicked(event) {
+    if (event.target.getAttribute('role') !== 'option') {
+      return;
+    }
+
+    const index = this.getTagIndex(event.target);
+    Object.values(this.tags)[index].toggleSelected();
+
+    this.updateSelectedTags();
   }
 
   /**
@@ -162,6 +213,14 @@ export default class TagSelector {
       this.moveButtonFocus(
         Object.keys(this.buttons).length - 1 - this.currentTagIndex
       );
+    }
+    else if (event.code === 'Enter' || event.code === 'Space') {
+      this.handleClicked(
+        { target: Object.values(this.tags)[this.currentTagIndex].getDOM() }
+      );
+    }
+    else if (event.code === 'KeyA' && event.ctrlKey) {
+      this.handleTagSelectedAll();
     }
     else {
       return;
