@@ -1,6 +1,7 @@
 import Contents from '@models/contents';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
+import Screenreader from '@services/screenreader';
 import Util from '@services/util';
 import MediaScreen from './media-screen/media-screen';
 import CardsList from '@components/cards-list/cards-list';
@@ -108,6 +109,7 @@ export default class Content {
           },
           onClick: () => {
             this.setMode(Globals.get('modes')['filter']);
+            this.announceModeChanged();
           }
         },
         {
@@ -118,6 +120,7 @@ export default class Content {
           },
           onClick: () => {
             this.setMode(Globals.get('modes')['reorder']);
+            this.announceModeChanged();
           }
         },
         {
@@ -128,6 +131,7 @@ export default class Content {
           },
           onClick: () => {
             this.setMode(Globals.get('modes')['view']);
+            this.announceModeChanged();
           }
         },
         {
@@ -173,7 +177,7 @@ export default class Content {
         }
       }
     );
-    this.handleTagSelectorClicked({ active: true });
+    this.handleTagSelectorClicked({ active: true, quiet: true });
     this.main.append(this.tagSelector.getDOM());
 
     // Pool of contents
@@ -212,6 +216,9 @@ export default class Content {
     this.confirmationDialog = new ConfirmationDialog();
     document.body.append(this.confirmationDialog.getDOM());
 
+    // Screenreader for polite screen reading
+    document.body.append(Screenreader.getDOM());
+
     // Update contents' state from previous state
     Object.entries(this.params.previousState?.contents || []).forEach((entry) => {
       this.pool.updateState(entry[0], entry[1]);
@@ -244,6 +251,7 @@ export default class Content {
     if (this.mode === mode) {
       return;
     }
+
     this.mode = mode;
 
     for (const key in Globals.get('modes')) {
@@ -266,7 +274,12 @@ export default class Content {
     else {
       this.toolbar.forceButton('tags', false);
       this.toolbar.disableButton('tags');
-      this.tagSelector.hide();
+
+      if (this.tagSelector.isVisible()) {
+        this.tagSelector.hide();
+        this.announceTagSelector(false);
+      }
+
       this.pool.setVisibility(true);
     }
 
@@ -274,6 +287,34 @@ export default class Content {
     this.updateMessageBoxHint();
 
     Globals.get('resize')();
+  }
+  /**
+   * Announce tag selector state.
+   *
+   * @param {boolean} open If true, announce selector was opened. Else closed.
+   */
+  announceTagSelector(open) {
+    if (open) {
+      Screenreader.read(Dictionary.get('a11y.tagSelectorOpened'));
+    }
+    else {
+      Screenreader.read(Dictionary.get('a11y.tagSelectorClosed'));
+    }
+  }
+
+  /**
+   * Announce mode change.
+   */
+  announceModeChanged() {
+    if (this.mode === Globals.get('modes')['filter']) {
+      Screenreader.read(Dictionary.get('a11y.switchedToModeFilter'));
+    }
+    else if (this.mode === Globals.get('modes')['reorder']) {
+      Screenreader.read(Dictionary.get('a11y.switchedToModeReorder'));
+    }
+    else if (this.mode === Globals.get('modes')['view']) {
+      Screenreader.read(Dictionary.get('a11y.switchedToModeView'));
+    }
   }
 
   /**
@@ -320,8 +361,19 @@ export default class Content {
       this.pool.updateState(content[0], { isActivated: false });
     });
 
-    this.pool.updateState(params.id1, { position: params.pos1 });
-    this.pool.updateState(params.id2, { position: params.pos2 });
+    const cardsOrder = this.poolList.getCardsOrder();
+    const pos1 = cardsOrder.findIndex((id) => id === params.id1);
+    const pos2 = cardsOrder.findIndex((id) => id === params.id2);
+
+    this.pool.updateState(params.id1, { position: pos1 });
+    this.pool.updateState(params.id2, { position: pos2 });
+
+    if (Util.isUsingMouse() === false) {
+      Screenreader.read(Dictionary.get('a11y.swappedContents')
+        .replace(/@position1/, pos2 + 1)
+        .replace(/@position2/, pos1 + 1)
+      );
+    }
 
     // Focus card that swapping was initialized with
     this.poolList.focusCard(params.id1);
@@ -331,6 +383,10 @@ export default class Content {
    * Update message.
    */
   updateMessageBoxHint() {
+    if (typeof this.mode !== 'number') {
+      return;
+    }
+
     if (this.mode === Globals.get('modes')['filter']) {
       const numberCardsFiltered = Object.values(this.pool.getContents())
         .filter((content) => content.isVisible).length;
@@ -338,6 +394,7 @@ export default class Content {
       if (numberCardsFiltered === 0) {
         this.messageBoxHint.setText(Dictionary.get('l10n.noCardsFilter'));
         this.messageBoxHint.show();
+        Screenreader.read(Dictionary.get('l10n.noCardsFilter'));
       }
       else {
         this.messageBoxHint.hide();
@@ -350,6 +407,9 @@ export default class Content {
       if (numberCardsSelected === 0) {
         this.messageBoxHint.setText(Dictionary.get('l10n.noCardsSelected'));
         this.messageBoxHint.show();
+        setTimeout(() => {
+          Screenreader.read(Dictionary.get('l10n.noCardsSelected'));
+        }, 50); // Let "switched" message get read first
       }
       else {
         this.messageBoxHint.hide();
@@ -394,8 +454,11 @@ export default class Content {
           .filter((entry) => entry[1].isActivated);
 
         if (activeContents.length) {
-          this.poolList.swapCardsById(params.id, activeContents[0][0]);
-          this.handleCardsSwapped({ id1: activeContents[0][0] });
+          const id1 = activeContents[0][0];
+
+          this.poolList.swapCardsById(id1, params.id);
+
+          this.handleCardsSwapped({ id1: id1, id2: params.id });
         }
         else {
           this.pool.updateState(params.id, { isActivated: params.isActivated });
@@ -444,9 +507,17 @@ export default class Content {
   handleTagSelectorClicked(params = {}) {
     if (params.active === true) {
       this.tagSelector.show();
+
+      if (!params.quiet) {
+        this.announceTagSelector(true);
+      }
     }
     else if (params.active === false) {
       this.tagSelector.hide();
+
+      if (!params.quiet) {
+        this.announceTagSelector(false);
+      }
     }
 
     Globals.get('resize')();

@@ -47,6 +47,8 @@ export default class GridView extends H5P.EventDispatcher {
         exerciseLabel: 'Exercise: @label',
         toolbar: 'Toolbar. Use the key combination Alt plus T to focus the toolbar later on.',
         tagSelector: 'Tag selector. Use to filter exercises.',
+        tagSelectorOpened: 'Tag selector was opened.',
+        tagSelectorClosed: 'Tag selector was closed.',
         selected: 'Selected',
         notSelected: 'Not selected',
         selectedForReordering: 'Selected for reordering. Select second content to swap positions.',
@@ -59,7 +61,11 @@ export default class GridView extends H5P.EventDispatcher {
         buttonView: 'Switch to view mode',
         buttonTags: 'Toggle displaying tag selector',
         buttonReset: 'Reset exercises',
-        close: 'Close'
+        close: 'Close',
+        switchedToModeFilter: 'Switched to select mode.',
+        switchedToModeReorder: 'Switched to reorder mode.',
+        switchedToModeView: 'Switched to view mode.',
+        swappedContents: 'Swapped content at position @position1 with content at position @position2.'
       }
     }, params);
 

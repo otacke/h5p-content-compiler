@@ -80,6 +80,7 @@ export default class TagSelector {
    */
   show() {
     this.dom.classList.remove('display-none');
+    this.visible = true;
   }
 
   /**
@@ -87,6 +88,16 @@ export default class TagSelector {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.visible = false;
+  }
+
+  /**
+   * Determine whether tag selector is visible.
+   *
+   * @returns {boolean} True, if visible else false.
+   */
+  isVisible() {
+    return this.visible;
   }
 
   getTagIndex(dom) {

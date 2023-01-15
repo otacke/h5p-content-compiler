@@ -275,6 +275,7 @@ export default class CardsList {
   getCardsOrder() {
     // Determine card ids based on position of DOM in list
     return [... this.getDOM().childNodes]
+      .filter((cardDOM) => cardDOM !== this.placeholder.getDOM())
       .map((cardDOM) => {
         const position = Object.values(this.cards)
           .findIndex((card) => card.getDOM() === cardDOM);
@@ -385,13 +386,9 @@ export default class CardsList {
         .findIndex((card) => card.getDOM() === this.draggedElement);
       const id1 = Object.keys(this.cards)[cardIndex1];
 
-      const cardsOrder = this.getCardsOrder();
-
       this.callbacks.onCardsSwapped({
         id1: id1,
-        id2: id,
-        pos1: cardsOrder.findIndex((id) => id === id1),
-        pos2: cardsOrder.findIndex((id) => id === id)
+        id2: id
       });
     }
   }

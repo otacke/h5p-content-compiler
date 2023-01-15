@@ -499,6 +499,18 @@
         "default": "Tag selector. Use to filter exercises."
       },
       {
+        "name": "tagSelectorOpened",
+        "type": "text",
+        "label": "Tag selector",
+        "default": "Tag selector was opened."
+      },
+      {
+        "name": "tagSelectorClosed",
+        "type": "text",
+        "label": "Tag selector",
+        "default": "Tag selector was closed."
+      },
+      {
         "name": "selected",
         "type": "text",
         "label": "Selected",
@@ -539,6 +551,31 @@
         "type": "text",
         "label": "Close",
         "default": "Close"
+      },
+      {
+        "name": "switchedToModeFilter",
+        "type": "text",
+        "label": "Switched to select mode",
+        "default": "Switched to select mode."
+      },
+      {
+        "name": "switchedToModeReorder",
+        "type": "text",
+        "label": "Switched to reorder mode",
+        "default": "Switched to reorder mode."
+      },
+      {
+        "name": "switchedToModeView",
+        "type": "text",
+        "label": "Switched to view mode",
+        "default": "Switched to view mode."
+      },
+      {
+        "name": "swappedContents",
+        "type": "text",
+        "label": "Swapped contents",
+        "description": "@position1 and ¹position2 are placeholders and will be replaced with the respective values.",
+        "default": "Swapped content at position @position1 with content at position @position2."
       }
     ]
   }

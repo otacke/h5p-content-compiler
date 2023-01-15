@@ -111,4 +111,24 @@ export default class Util {
     parent1.replaceChild(element2, replacement1);
     parent2.replaceChild(element1, replacement2);
   }
+
+  /**
+   * Determine whether H5P user is using mouse.
+   *
+   * @param {HTMLElement} [element] Element to start looking backwards from.
+   * @returns {boolean|null} True/false as expected, null if not determinable.
+   */
+  static isUsingMouse(element) {
+    let h5pContent = element?.closest('.h5p-content');
+
+    if (!h5pContent) {
+      h5pContent = document.querySelector('.h5p-content');
+    }
+
+    if (!h5pContent) {
+      return null;
+    }
+
+    return h5pContent.classList.contains('using-mouse');
+  }
 }
