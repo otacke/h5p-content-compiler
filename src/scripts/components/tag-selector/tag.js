@@ -15,23 +15,27 @@ export default class TagSelector {
     }, params || {});
 
     this.callbacks = Util.extend({
-      onClicked: () => {}
+      onClicked: () => {},
+      onSelectedAll: () => {}
     }, callbacks || {});
 
     this.selected = this.params.selected;
 
     this.dom = document.createElement('li');
     this.dom.classList.add('tag');
-
-    this.button = document.createElement('button');
-    this.button.classList.add('tag-button');
-    this.button.innerText = this.params.text;
-    this.button.addEventListener('click', () => {
+    this.dom.setAttribute('role', 'option');
+    this.dom.setAttribute(
+      'aria-selected', this.params.selected ? 'true' : 'false'
+    );
+    this.dom.innerText = this.params.text;
+    this.dom.addEventListener('click', () => {
       this.handleClicked();
     });
-    this.dom.append(this.button);
+    this.dom.addEventListener('keydown', (event) => {
+      this.handleKeydown(event);
+    });
 
-    this.toggleState(this.selected);
+    this.toggleSelected(this.selected);
   }
 
   /**
@@ -44,27 +48,76 @@ export default class TagSelector {
   }
 
   /**
+   * Focus.
+   */
+  focus() {
+    this.dom.focus();
+  }
+
+  /**
+   * Determine whether tag is selected.
+   *
+   * @returns {boolean} True, if tag is selected. Else false.
+   */
+  isSelected() {
+    return this.selected;
+  }
+
+  /**
+   * Get tag text.
+   *
+   * @returns {string} Tag text.
+   */
+  getText() {
+    return this.params.text;
+  }
+
+  /**
+   * Set attribute.
+   *
+   * @param {string} attribute Attribute key.
+   * @param {string} value Attribute value.
+   */
+  setAttribute(attribute, value) {
+    this.dom.setAttribute(attribute, value);
+  }
+
+  /**
    * Toggle state.
    *
    * @param {boolean} state Target state.
    */
-  toggleState(state) {
+  toggleSelected(state) {
     this.selected = (typeof state === 'boolean') ?
       state :
       !(this.selected ?? true);
 
-    this.button.classList.toggle('selected', this.selected);
+    this.dom.classList.toggle('selected', this.selected);
+    this.dom.setAttribute(
+      'aria-selected', this.selected ? 'true' : 'false'
+    );
   }
 
   /**
    * Handle clicked.
    */
   handleClicked() {
-    this.toggleState();
+    this.toggleSelected();
 
-    this.callbacks.onClicked({
-      text: this.params.text,
-      selected: this.selected
-    });
+    this.callbacks.onClicked();
+  }
+
+  handleKeydown(event) {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      this.handleClicked();
+    }
+    else if (event.code === 'KeyA' && event.ctrlKey) {
+      this.callbacks.onSelectedAll();
+    }
+    else {
+      return;
+    }
+
+    event.preventDefault();
   }
 }
