@@ -71,16 +71,59 @@ export default class ContentInstance {
     }
 
     // Resize parent when children resize
-    Util.bubbleUp(this.instance, 'resize', Globals.get('mainInstance'));
+    this.bubbleUp(this.instance, 'resize', Globals.get('mainInstance'));
 
     // Resize children to fit inside parent
-    Util.bubbleDown(Globals.get('mainInstance'), 'resize', [this.instance]);
+    this.bubbleDown(Globals.get('mainInstance'), 'resize', [this.instance]);
 
     if (this.isInstanceTask(this.instance)) {
       this.instance.on('xAPI', (event) => {
         this.trackXAPI(event);
       });
     }
+  }
+
+
+  /**
+   * Make it easy to bubble events from child to parent.
+   *
+   * @param {object} origin Origin of event.
+   * @param {string} eventName Name of event.
+   * @param {object} target Target to trigger event on.
+   */
+  bubbleUp(origin, eventName, target) {
+    origin.on(eventName, (event) => {
+      // Prevent target from sending event back down
+      target.bubblingUpwards = true;
+
+      // Trigger event
+      target.trigger(eventName, event);
+
+      // Reset
+      target.bubblingUpwards = false;
+    });
+  }
+
+  /**
+   * Make it easy to bubble events from parent to children.
+   *
+   * @param {object} origin Origin of event.
+   * @param {string} eventName Name of event.
+   * @param {object[]} targets Targets to trigger event on.
+   */
+  bubbleDown(origin, eventName, targets) {
+    origin.on(eventName, (event) => {
+      if (origin.bubblingUpwards) {
+        return; // Prevent send event back down.
+      }
+
+      targets.forEach((target) => {
+        // If not attached yet, some contents can fail (e. g. CP).
+        if (this.isAttached) {
+          target.trigger(eventName, event);
+        }
+      });
+    });
   }
 
   /**

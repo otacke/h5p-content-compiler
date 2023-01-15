@@ -48,48 +48,6 @@ export default class Util {
   }
 
   /**
-   * Make it easy to bubble events from child to parent.
-   *
-   * @param {object} origin Origin of event.
-   * @param {string} eventName Name of event.
-   * @param {object} target Target to trigger event on.
-   */
-  static bubbleUp(origin, eventName, target) {
-    origin.on(eventName, (event) => {
-      // Prevent target from sending event back down
-      target.bubblingUpwards = true;
-
-      // Trigger event
-      target.trigger(eventName, event);
-
-      // Reset
-      target.bubblingUpwards = false;
-    });
-  }
-
-  /**
-   * Make it easy to bubble events from parent to children.
-   *
-   * @param {object} origin Origin of event.
-   * @param {string} eventName Name of event.
-   * @param {object[]} targets Targets to trigger event on.
-   */
-  static bubbleDown(origin, eventName, targets) {
-    origin.on(eventName, (event) => {
-      if (origin.bubblingUpwards) {
-        return; // Prevent send event back down.
-      }
-
-      targets.forEach((target) => {
-        // If not attached yet, some contents can fail (e. g. CP).
-        if (this.isAttached) {
-          target.trigger(eventName, event);
-        }
-      });
-    });
-  }
-
-  /**
    * Swap two DOM elements.
    *
    * @param {HTMLElement} element1 Element 1.
