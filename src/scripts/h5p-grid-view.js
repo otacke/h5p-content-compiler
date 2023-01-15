@@ -71,7 +71,7 @@ export default class GridView extends H5P.EventDispatcher {
     // Fill dictionary
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
-    this.previousState = extras?.previousState || null;
+    this.previousState = extras?.previousState || {};
     const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
     this.languageTag = Util.formatLanguageCode(defaultLanguage);
 
@@ -112,6 +112,7 @@ export default class GridView extends H5P.EventDispatcher {
     );
   }
 
+
   /**
    * Build main DOM.
    */
@@ -128,7 +129,10 @@ export default class GridView extends H5P.EventDispatcher {
           this.params.showTitleScreen &&
           { titleScreen: this.params.titleScreen }
         ),
-        ...(this.previousState && { previousState: this.previousState.content })
+        ...(
+          Object.keys(this.previousState).length &&
+          { previousState: this.previousState.content }
+        )
       },
       {
         resize: () => {
