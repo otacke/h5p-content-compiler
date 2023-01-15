@@ -100,6 +100,8 @@ export default class Card {
     this.setStatusCode(Globals.get('states')['unstarted']);
     this.isSelected = false;
     this.isActivated = false;
+
+    this.updateAriaLabel();
   }
 
   /**
@@ -141,6 +143,55 @@ export default class Card {
     this.dom.setAttribute('draggable', state);
   }
 
+  /**
+   * Toggle card's dropzone state.
+   *
+   * @param {boolean} state If true, card is a dropzone. Else not a dropzone.
+   */
+  toggleDropzone(state) {
+    this.isDropzone = state;
+
+    this.updateAriaLabel();
+  }
+
+  /**
+   * Update aria label.
+   */
+  updateAriaLabel() {
+    let ariaLabelSegments = [`${Dictionary.get('a11y.exerciseLabel').replace(/@label/g, this.params.label)}`];
+
+    if (this.mode === Globals.get('modes')['filter']) {
+      const selected = this.isSelected ?
+        Dictionary.get('a11y.selected') :
+        Dictionary.get('a11y.notSelected');
+
+      ariaLabelSegments.push(selected);
+
+    }
+    else if (this.mode === Globals.get('modes')['reorder']) {
+      if (this.isActivated) {
+        ariaLabelSegments.push(Dictionary.get('a11y.selectedForReordering'));
+      }
+      else if (this.isDropzone) {
+        ariaLabelSegments.push(Dictionary.get('a11y.selectedForDropzone'));
+      }
+    }
+    else if (this.mode === Globals.get('modes')['view']) {
+      ariaLabelSegments.push(Dictionary.get(`l10n.status${this.statusCode}`));
+    }
+    else {
+      return;
+    }
+
+    this.button.setAttribute('aria-label', ariaLabelSegments.join('. '));
+  }
+
+  /**
+   * Update card's state.
+   *
+   * @param {string} key Key of state.
+   * @param {number|string} value Value io state.
+   */
   updateState(key, value) {
     if (key === 'statusCode') {
       this.setStatusCode(value);
@@ -154,6 +205,8 @@ export default class Card {
     else if (key === 'isVisible') {
       value ? this.show() : this.hide();
     }
+
+    this.updateAriaLabel();
   }
 
   /**
@@ -178,6 +231,8 @@ export default class Card {
       this.status.innerHTML = null;
     }
 
+    this.updateAriaLabel();
+
     return state;
   }
 
@@ -201,6 +256,8 @@ export default class Card {
       this.isActivated = false;
     }
 
+    this.updateAriaLabel();
+
     return state;
   }
 
@@ -221,6 +278,8 @@ export default class Card {
     ) {
       return;
     }
+
+    this.updateAriaLabel();
 
     this.status.innerHTML = Dictionary.get(`l10n.status${this.statusCode}`);
   }
@@ -251,6 +310,8 @@ export default class Card {
     Object.keys(Globals.get('modes')).forEach((key) => {
       this.dom.classList.toggle(key, mode === Globals.get('modes')[key]);
     });
+
+    this.updateAriaLabel();
   }
 
   /**

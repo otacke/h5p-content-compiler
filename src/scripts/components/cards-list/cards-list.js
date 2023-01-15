@@ -1,3 +1,4 @@
+import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import Globals from '@services/globals';
 import Card from '@components/cards-list/card';
@@ -18,7 +19,8 @@ export default class CardsList {
    * @param {function} [callbacks.onCardDragStart] Callback drag start.
    * @param {function} [callbacks.onCardDragEnter] Callback drag enter.
    * @param {function} [callbacks.onCardDragLeave] Callback drag leave.
-   * @param {function} [callbacks.onCatdDragEnd] Callback drag end.
+   * @param {function} [callbacks.onCardDragEnd] Callback drag end.
+   * @param {function} [callbacks.onGotoToolbar] Callback to go to toolbar.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -33,11 +35,16 @@ export default class CardsList {
       onCardDragStart: () => {},
       onCardDragEnter: () => {},
       onCardDragLeave: () => {},
-      onCardDragEnd: () => {}
+      onCardDragEnd: () => {},
+      onGotoToolbar: () => {}
     }, callbacks);
 
     this.dom = document.createElement('ul');
     this.dom.classList.add('h5p-grid-view-cards-list');
+    this.dom.setAttribute('role', 'list'); // Explicit list role required for some screen readers
+    this.dom.addEventListener('keydown', (event) => {
+      this.handleKeydown(event);
+    });
 
     this.cards = {};
 
@@ -180,6 +187,30 @@ export default class CardsList {
     }
 
     this.mode = mode;
+
+    this.updateAriaLabel();
+  }
+
+  /**
+   * Update aria label.
+   */
+  updateAriaLabel() {
+    let ariaLabelSegments = [];
+
+    if (this.mode === Globals.get('modes')['filter']) {
+      ariaLabelSegments.push(Dictionary.get('a11y.cardListFilter'));
+    }
+    else if (this.mode === Globals.get('modes')['reorder']) {
+      ariaLabelSegments.push(Dictionary.get('a11y.cardListReorder'));
+    }
+    else if (this.mode === Globals.get('modes')['view']) {
+      ariaLabelSegments.push(Dictionary.get('a11y.cardListView'));
+    }
+    else {
+      return;
+    }
+
+    this.dom.setAttribute('aria-label', `${ariaLabelSegments.join('. ')}.`);
   }
 
   /**
@@ -195,6 +226,15 @@ export default class CardsList {
     }
 
     this.cards[id].updateState(key, value);
+
+    // Activating/deactivating one card will make all other/no cards dropzones.
+    if (key === 'isActivated') {
+      Object.values(this.cards)
+        .filter((card) => !card.isActivated)
+        .forEach((card) => {
+          card.toggleDropzone(value);
+        });
+    }
   }
 
   /**
@@ -387,5 +427,22 @@ export default class CardsList {
 
     this.draggedElement = null;
     this.dropzoneElement = null;
+  }
+
+  /**
+   * Handle keydown.
+   *
+   * @param {KeyboardEvent} event Keyboard event.
+   */
+  handleKeydown(event) {
+    // Jump to toolbar on Alt+T
+    if (event.code === 'KeyT' && event.altKey) {
+      this.callbacks.onGotoToolbar();
+    }
+    else {
+      return;
+    }
+
+    event.preventDefault();
   }
 }

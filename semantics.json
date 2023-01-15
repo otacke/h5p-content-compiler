@@ -450,18 +450,95 @@
     "common": true,
     "fields": [
       {
-        "name": "sample",
+        "name": "exerciseLabel",
         "type": "text",
-        "label": "Sample entry for accessibility strings",
-        "description": "This is just a sample entry for accessibility strings.",
-        "default": "Sample a11y"
+        "label": "Exercise description",
+        "description": "@label is a placeholder that will be replaced with the corresponding value.",
+        "default": "Exercise: @label"
       },
       {
-        "name": "dummy",
+        "name": "toolbar",
         "type": "text",
-        "label": "Dummy",
-        "default": "Dummy",
-        "widget": "none"
+        "label": "Toolbar description",
+        "default": "Toolbar. Use the key combination Alt plus T to focus the toolbar later on."
+      },
+      {
+        "name": "buttonFilter",
+        "type": "text",
+        "label": "Button: Select mode",
+        "default": "Switch to select mode"
+      },
+      {
+        "name": "buttonReorder",
+        "type": "text",
+        "label": "Button: Reorder mode",
+        "default": "Switch to reorder mode"
+      },
+      {
+        "name": "buttonView",
+        "type": "text",
+        "label": "Button: View mode",
+        "default": "Switch to view mode"
+      },
+      {
+        "name": "buttonTags",
+        "type": "text",
+        "label": "Button: Toggle tag selector",
+        "default": "Toggle displaying tag selector"
+      },
+      {
+        "name": "buttonReset",
+        "type": "text",
+        "label": "Button: Reset",
+        "default": "Reset exercises"
+      },
+      {
+        "name": "tagSelector",
+        "type": "text",
+        "label": "Tag selector",
+        "default": "Tag selector. Use to filter exercises."
+      },
+      {
+        "name": "selected",
+        "type": "text",
+        "label": "Selected",
+        "default": "Selected"
+      },
+      {
+        "name": "notSelected",
+        "type": "text",
+        "label": "Not selected",
+        "default": "Not selected"
+      },
+      {
+        "name": "selectedForReordering",
+        "type": "text",
+        "label": "Selected for reordering",
+        "default": "Selected for reordering"
+      },
+      {
+        "name": "cardListFilter",
+        "type": "text",
+        "label": "Description for content list: Select mode",
+        "default": "Select all exercises that you want to work on"
+      },
+      {
+        "name": "cardListReorder",
+        "type": "text",
+        "label": "Description for content list: Reorder mode",
+        "default": "Change the order of exercises"
+      },
+      {
+        "name": "cardListView",
+        "type": "text",
+        "label": "Description for content list: View mode",
+        "default": "Do selected exercises"
+      },
+      {
+        "name": "close",
+        "type": "text",
+        "label": "Close",
+        "default": "Close"
       }
     ]
   }

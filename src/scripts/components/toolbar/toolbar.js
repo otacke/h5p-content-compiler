@@ -28,7 +28,7 @@ export default class Toolbar {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-toolbar-tool-bar');
     this.dom.setAttribute('role', 'toolbar');
-    this.dom.setAttribute('aria-label', Dictionary.get('a11y.controls'));
+    this.dom.setAttribute('aria-label', Dictionary.get('a11y.toolbar'));
     this.dom.addEventListener('keydown', (event) => {
       this.handleKeydown(event);
     });
@@ -65,7 +65,7 @@ export default class Toolbar {
    * Focus whatever should get focus.
    */
   focus() {
-    Object.values(this.buttons)[0]?.focus();
+    Object.values(this.buttons)[this.currentButtonIndex]?.focus();
   }
 
   /**

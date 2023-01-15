@@ -105,7 +105,6 @@ export default class Content {
           type: 'toggle',
           a11y: {
             active: Dictionary.get('a11y.buttonFilter'), // TODO
-            inactive: Dictionary.get('a11y.buttonFilter') // TODO
           },
           onClick: () => {
             this.setMode(Globals.get('modes')['filter']);
@@ -116,7 +115,6 @@ export default class Content {
           type: 'toggle',
           a11y: {
             active: Dictionary.get('a11y.buttonReorder'), // TODO
-            inactive: Dictionary.get('a11y.buttonReorder') // TODO
           },
           onClick: () => {
             this.setMode(Globals.get('modes')['reorder']);
@@ -127,7 +125,6 @@ export default class Content {
           type: 'toggle',
           a11y: {
             active: Dictionary.get('a11y.buttonView'), // TODO
-            inactive: Dictionary.get('a11y.buttonView') // TODO
           },
           onClick: () => {
             this.setMode(Globals.get('modes')['view']);
@@ -139,8 +136,6 @@ export default class Content {
           active: true,
           a11y: {
             active: Dictionary.get('a11y.buttonTags'), // TODO
-            inactive: Dictionary.get('a11y.buttonTags'), // TODO
-            disabled: Dictionary.get('a11y.buttonTagsDisabled') // TODO
           },
           onClick: (event, params) => {
             this.handleTagSelectorClicked(params);
@@ -151,7 +146,6 @@ export default class Content {
           type: 'pulse',
           a11y: {
             active: Dictionary.get('a11y.buttonReset'), // TODO
-            disabled: Dictionary.get('a11y.buttonResetDisabled') // TODO
           },
           onClick: () => {
             this.handleResetConfirmation();
@@ -191,6 +185,9 @@ export default class Content {
         },
         onCardsSwapped: (params) => {
           this.handleCardsSwapped(params);
+        },
+        onGotoToolbar: () => {
+          this.toolbar.focus();
         }
       }
     );
@@ -398,7 +395,7 @@ export default class Content {
 
         if (activeContents.length) {
           this.poolList.swapCardsById(params.id, activeContents[0][0]);
-          this.handleCardsSwapped({ focusId: activeContents[0][0] });
+          this.handleCardsSwapped({ id1: activeContents[0][0] });
         }
         else {
           this.pool.updateState(params.id, { isActivated: params.isActivated });

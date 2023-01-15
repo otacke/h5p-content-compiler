@@ -29,14 +29,14 @@ export default class ToolbarButton {
       this.params.classes = [this.params.classes];
     }
 
-    if (this.params.type === 'pulse') {
-      if (!this.params.a11y.inactive) {
-        this.params.a11y.inactive = this.params.a11y.active || '';
-      }
-      if (!this.params.a11y.active) {
-        this.params.a11y.active = this.params.a11y.inactive || '';
-      }
+    if (!this.params.a11y.inactive) {
+      this.params.a11y.inactive = this.params.a11y.active || '';
+    }
+    if (!this.params.a11y.active) {
+      this.params.a11y.active = this.params.a11y.inactive || '';
+    }
 
+    if (this.params.type === 'pulse') {
       this.pulseIndex = this.params.pulseIndex || 0;
     }
 
@@ -171,7 +171,9 @@ export default class ToolbarButton {
    */
   disable() {
     this.button.classList.add('toolbar-button-disabled');
-    this.button.setAttribute('aria-label', this.params.a11y.disabled);
+    if (this.params.a11y.disabled) {
+      this.button.setAttribute('aria-label', this.params.a11y.disabled);
+    }
     this.button.setAttribute('aria-disabled', 'true');
 
     this.disabled = true;

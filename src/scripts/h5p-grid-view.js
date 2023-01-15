@@ -44,8 +44,22 @@ export default class GridView extends H5P.EventDispatcher {
         yes: 'Yes'
       },
       a11y: {
-        exerciseLabel: '. Exercise: @label',
-        sample: 'Sample a11y'
+        exerciseLabel: 'Exercise: @label',
+        toolbar: 'Toolbar. Use the key combination Alt plus T to focus the toolbar later on.',
+        tagSelector: 'Tag selector. Use to filter exercises.',
+        selected: 'Selected',
+        notSelected: 'Not selected',
+        selectedForReordering: 'Selected for reordering. Select second content to swap positions.',
+        selectedForDropzone: 'Select to swap positions with previously selected card.',
+        cardListFilter: 'Select all exercises that you want to work on',
+        cardListReorder: 'Change the order of exercises',
+        cardList: 'Do selected exercises',
+        buttonFilter: 'Switch to select mode',
+        buttonReorder: 'Switch to reorder mode',
+        buttonView: 'Switch to view mode',
+        buttonTags: 'Toggle displaying tag selector',
+        buttonReset: 'Reset exercises',
+        close: 'Close'
       }
     }, params);
 
