@@ -453,7 +453,7 @@
         "name": "exerciseLabel",
         "type": "text",
         "label": "Exercise description",
-        "description": "@label is a placeholder that will be replaced with the corresponding value.",
+        "description": "@label is a placeholder that will be replaced with the respective value.",
         "default": "Exercise: @label"
       },
       {
