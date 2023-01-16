@@ -89,9 +89,9 @@
         height: calc(100% - 1rem);
         width: calc(100% - 0.25rem);
 
-        .h5p-grid-view-exercise-instance {
+        .h5p-grid-view-content-instance {
           box-sizing: border-box;
-          width: 100%;
+          margin-top: 0.75rem;
 
           &.h5p-video {
             overflow: inherit;
