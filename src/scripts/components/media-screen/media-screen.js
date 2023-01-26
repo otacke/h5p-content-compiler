@@ -211,7 +211,13 @@ export default class MediaScreen {
       * Get started once visible and ready. YouTube requires the video to be
       * attached to the DOM.
       */
-      window.requestIdleCallback(() => {
+
+      // iOS doesn't feature window.requestIdleCallback
+      const callback =
+        window.requestIdleCallback ??
+        window.requestAnimationFrame;
+
+      callback(() => {
         this.observer = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting) {
             this.observer.unobserve(this.dom);
