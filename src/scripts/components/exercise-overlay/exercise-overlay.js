@@ -27,7 +27,7 @@ export default class ExerciseOverlay {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-grid-view-exercise');
     this.dom.setAttribute('role', 'dialog');
-    this.dom.setAttribute('modal', 'true');
+    this.dom.setAttribute('aria-modal', 'true');
 
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
