@@ -107,10 +107,11 @@
       "fields": [
         {
           "label": "Wähle alle Schlagwörter",
-          "description": "Wähle ob beim Starten alle oder keine Schlagwörter vorausgewählt sein sollen."
+          "description": "Wähle, ob beim Starten alle oder keine Schlagwörter vorausgewählt sein sollen."
         },
         {
-          "label": "Dummy"
+          "label": "Schlagwortauswahl immer sichtbar",
+          "description": "Wähle, ob die Schlagwortauswahl in der Filteransicht immer sichtbar sein soll. Beachte, dass die Navigation auf kleinen Bildschirmen darunter leiden kann, wenn du viele Schlagwörter vergeben hast."
         }
       ]
     },

@@ -26,7 +26,8 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         introClamp: 'unset'
       },
       behaviour: {
-        allKeywordsPreselected: true
+        allKeywordsPreselected: true,
+        tagSelectorAlwaysVisible: false
       },
       l10n: {
         start: 'Start',
@@ -151,6 +152,8 @@ export default class ContentCompiler extends H5P.EventDispatcher {
     this.content = new Content(
       {
         allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
+        tagSelectorAlwaysVisible:
+          this.params.behaviour.tagSelectorAlwaysVisible,
         contents: this.params.contents,
         introductionTexts: this.params.introductionTexts,
         ...(

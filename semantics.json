@@ -339,10 +339,11 @@
         "default": true
       },
       {
-        "name": "dummy",
+        "name": "tagSelectorAlwaysVisible",
         "type": "boolean",
-        "label": "Dummy",
-        "widget": "none"
+        "label": "Tag selector always visible",
+        "description": "Choose whether the tag selector should always be visible when filtering. Please note that navigation on small screens may suffer if you have many tags.",
+        "default": false
       }
     ]
   },

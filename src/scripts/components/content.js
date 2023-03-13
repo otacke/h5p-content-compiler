@@ -149,7 +149,7 @@ export default class Content {
       }
     ];
 
-    if (allTags.length > 1) {
+    if (allTags.length > 1 && !this.params.tagSelectorAlwaysVisible) {
       buttons.push({
         id: 'tags',
         type: 'toggle',
@@ -302,6 +302,14 @@ export default class Content {
     if (mode === Globals.get('modes')['filter']) {
       this.toolbar.enableButton('tags');
       this.pool.setVisibilityByKeywords(this.selectedTags);
+
+      if (
+        this.params.tagSelectorAlwaysVisible &&
+        this.tagSelector?.isVisible() === false
+      ) {
+        this.tagSelector.show();
+        this.announceTagSelector(true);
+      }
     }
     else {
       this.toolbar.forceButton('tags', false);
