@@ -174,6 +174,17 @@ export default class Content {
       }
     });
 
+    buttons.push({
+      id: 'reset-all',
+      type: 'pulse',
+      a11y: {
+        active: Dictionary.get('a11y.buttonResetAll'), // TODO
+      },
+      onClick: () => {
+        this.handleResetAllConfirmation();
+      }
+    });
+
     // Toolbar
     this.toolbar = new Toolbar({ buttons: buttons });
     this.main.append(this.toolbar.getDOM());
@@ -604,9 +615,43 @@ export default class Content {
   }
 
   /**
+   * Handle reset all confirmation.
+   */
+  handleResetAllConfirmation() {
+    this.confirmationDialog.update(
+      {
+        headerText: Dictionary.get('l10n.confirmResetAllHeader'),
+        dialogText: Dictionary.get('l10n.confirmResetAllDialog'),
+        cancelText: Dictionary.get('l10n.no'),
+        confirmText: Dictionary.get('l10n.yes')
+      }, {
+        onConfirmed: () => {
+          this.handleResetAll();
+        }
+      }
+    );
+
+    this.confirmationDialog.show();
+  }
+
+  /**
    * Handle reset.
    */
   handleReset() {
     this.pool.reset();
+  }
+
+  /**
+   * Handle reset all.
+   */
+  handleResetAll() {
+    this.pool.resetAll();
+
+    // Reset all tags selections to start value
+    this.tagSelector.selectAll(this.params.allKeywordsPreselected === true);
+
+    // Move to filter
+    this.setMode(Globals.get('modes')['filter']);
+    this.announceModeChanged();
   }
 }

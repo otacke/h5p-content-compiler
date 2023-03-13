@@ -165,12 +165,22 @@
         {
           "label": "Bestätigungsdialog zum Zurücksetzen: Überschrift",
           "description": "Überschrift für den Dialog zum Zurücksetzen aller Inhalte.",
-          "default": "Reset all contents?"
+          "default": "Alle Inhalte zurücksetzen?"
         },
         {
           "label": "Bestätigungsdialog zum Zurücksetzen: Text",
           "description": "Text für den Dialog zum Zurücksetzen aller Inhalte.",
           "default": "Alle deine Inhalte und ihr Status werden zurückgesetzt, aber deine Auswahl der Karten bleibt erhalten. Möchtest du fortfahren?"
+        },
+        {
+          "label": "Bestätigungsdialog zum kompletten Zurücksetzen: Überschrift",
+          "description": "Überschrift für den Dialog zum Zurücksetzen aller Inhalte und der Auswahl.",
+          "default": "Alle Inhalte und deine Auswahl zurücksetzen?"
+        },
+        {
+          "label": "Bestätigungsdialog zum kompletten Zurücksetzen: Text",
+          "description": "Text für den Dialog zum Zurücksetzen aller Inhalte und der Auswahl.",
+          "default": "Alle deine Inhalte, ihr Status und deine Auswahl werden zurückgesetzt. Möchtest du fortfahren?"
         },
         {
           "label": "Ja",
@@ -216,7 +226,11 @@
         },
         {
           "label": "Button: Zurücksetzen",
-          "default": "Setze aufgaben zurück"
+          "default": "Setze Aufgaben zurück"
+        },
+        {
+          "label": "Button: Alles zurücksetzen",
+          "default": "Setze Aufgaben und Auswahl zurück"
         },
         {
           "label": "Schlagwortauswahl",

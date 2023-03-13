@@ -231,6 +231,23 @@ export default class Contents {
   }
 
   /**
+   * Reset selection.
+   */
+  resetSelection() {
+    Object.keys(this.contents).forEach((key) => {
+      this.updateState(key, { isSelected: false });
+    });
+  }
+
+  /**
+   * Reset contents and selections.
+   */
+  resetAll() {
+    this.reset();
+    this.resetSelection();
+  }
+
+  /**
    * Answer H5P core's call to return the current state.
    *
    * @returns {object} Current state.

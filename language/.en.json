@@ -173,6 +173,16 @@
           "default": "All your contents and their status will be reset, but your selection will remain as is. Do you want to proceed?"
         },
         {
+          "label": "Reset confirmation dialog: header",
+          "description": "Header for dialog to confirm resetting all contents and selections.",
+          "default": "Reset all contents and selections?"
+        },
+        {
+          "label": "Reset confirmation dialog: text",
+          "description": "Text for dialog to confirm resetting all contents and selections.",
+          "default": "All your contents and their status and your selections will be reset. Do you want to proceed?"
+        },
+        {
           "label": "Yes",
           "default": "Yes"
         },
@@ -217,6 +227,10 @@
         {
           "label": "Button: Reset",
           "default": "Reset exercises"
+        },
+        {
+          "label": "Button: Reset everything",
+          "default": "Reset exercises and selections"
         },
         {
           "label": "Tag selector",

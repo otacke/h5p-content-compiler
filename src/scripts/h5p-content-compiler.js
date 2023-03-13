@@ -40,6 +40,8 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         untitledContent: 'Untitled Content',
         confirmResetHeader: 'Reset all contents?',
         confirmResetDialog: 'All your contents and their status will be reset, but your selection will remain as is. Do you want to proceed?',
+        confirmResetAllHeader: 'Reset all contents and selections?',
+        confirmResetAllDialog: 'All your contents and their status and your selections will be reset. Do you want to proceed?',
         no: 'No',
         yes: 'Yes',
         noContents: 'No valid contents were set.'
@@ -62,6 +64,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         buttonView: 'Switch to view mode',
         buttonTags: 'Toggle displaying tag selector',
         buttonReset: 'Reset exercises',
+        buttonResetAll: 'Reset exercises and selections',
         close: 'Close',
         switchedToModeFilter: 'Switched to select mode.',
         switchedToModeReorder: 'Switched to reorder mode.',

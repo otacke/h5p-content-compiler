@@ -104,6 +104,26 @@ $button-pseudo-offset: 0.575rem;
         }
 
         &::before {
+          content: "\f021";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: $button-pseudo-size;
+          height: $button-pseudo-size;
+          left: 50%;
+          margin-left: -$button-pseudo-offset;
+          margin-top: -$button-pseudo-offset;
+          position: absolute;
+          top: 50%;
+          width: $button-pseudo-size;
+        }
+      }
+
+      &.toolbar-button-reset-all {
+        &.toolbar-button-disabled {
+          background-color: $color-background;
+          color: $color-disabled;
+        }
+
+        &::before {
           content: "\f01e";
           font-family: "H5PFontAwesome4", sans-serif;
           font-size: $button-pseudo-size;

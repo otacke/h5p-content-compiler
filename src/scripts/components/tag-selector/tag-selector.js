@@ -100,6 +100,12 @@ export default class TagSelector {
     return this.visible;
   }
 
+  /**
+   * Get tag index.
+   *
+   * @param {HTMLElement} dom DOM of Tag.
+   * @returns {number|undefined} Index of tag dom.
+   */
   getTagIndex(dom) {
     if (!dom) {
       return;
@@ -126,6 +132,23 @@ export default class TagSelector {
   }
 
   /**
+   * Select all or no tags.
+   *
+   * @param {boolean} all True to select all, false to select none.
+   */
+  selectAll(all) {
+    if (typeof all !== 'boolean') {
+      return;
+    }
+
+    Object.values(this.tags).forEach((tag) => {
+      tag.toggleSelected(all === true);
+    });
+
+    this.updateSelectedTags();
+  }
+
+  /**
    * Handle all tags selected.
    */
   handleTagSelectedAll() {
@@ -134,11 +157,7 @@ export default class TagSelector {
       return sum + (tag.isSelected() ? 1 : 0);
     }, 0);
 
-    Object.values(this.tags).forEach((tag) => {
-      tag.toggleSelected(numberSelected !== Object.keys(this.tags).length);
-    });
-
-    this.updateSelectedTags();
+    this.selectAll(numberSelected !== Object.keys(this.tags).length);
   }
 
   /**
