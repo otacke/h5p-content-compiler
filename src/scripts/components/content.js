@@ -666,13 +666,30 @@ export default class Content {
    * Handle reset all.
    */
   handleResetAll() {
-    this.pool.resetAll();
+    this.pool.reset();
 
     // Reset all tags selections to start value
     this.tagSelector.selectAll(this.params.allKeywordsPreselected === true);
 
-    // Move to filter
-    this.setMode(Globals.get('modes')['filter']);
-    this.announceModeChanged();
+    if (this.params.startWithEverything) {
+      this.pool.selectAll(true);
+
+      // Move to view
+      if (this.mode !== Globals.get('modes')['view']) {
+        this.setMode(Globals.get('modes')['view']);
+        this.announceModeChanged();
+      }
+    }
+    else {
+      this.pool.selectAll(false);
+
+      // Move to filter
+      if (this.mode !== Globals.get('modes')['filter']) {
+        this.setMode(Globals.get('modes')['filter']);
+        this.announceModeChanged();
+      }
+    }
+
+    this.updateMessageBoxHint();
   }
 }

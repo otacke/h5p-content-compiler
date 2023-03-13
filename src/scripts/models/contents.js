@@ -231,20 +231,18 @@ export default class Contents {
   }
 
   /**
-   * Reset selection.
+   * Select all or no cards.
+   *
+   * @param {boolean} all True to select all, false to select none.
    */
-  resetSelection() {
-    Object.keys(this.contents).forEach((key) => {
-      this.updateState(key, { isSelected: false });
-    });
-  }
+  selectAll(all) {
+    if (typeof all !== 'boolean') {
+      return;
+    }
 
-  /**
-   * Reset contents and selections.
-   */
-  resetAll() {
-    this.reset();
-    this.resetSelection();
+    Object.keys(this.contents).forEach((key) => {
+      this.updateState(key, { isSelected: all === true });
+    });
   }
 
   /**
