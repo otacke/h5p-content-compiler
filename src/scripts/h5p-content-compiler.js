@@ -26,6 +26,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         introClamp: 'unset'
       },
       behaviour: {
+        startWithEverything: false,
         allKeywordsPreselected: true,
         tagSelectorAlwaysVisible: false
       },
@@ -151,6 +152,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
 
     this.content = new Content(
       {
+        startWithEverything: this.params.behaviour.startWithEverything,
         allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
         tagSelectorAlwaysVisible:
           this.params.behaviour.tagSelectorAlwaysVisible,

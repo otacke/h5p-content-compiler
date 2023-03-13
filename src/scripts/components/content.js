@@ -259,10 +259,23 @@ export default class Content {
     // Update tag selector
     this.handleFilterChanged(this.selectedTags);
 
+    // Select everything if author wants to
+    if (!this.params.previousState.contents && this.params.startWithEverything) {
+      Object.keys(this.pool.getContents()).forEach((id) => {
+        this.pool.updateState(id, { isSelected: true });
+      });
+    }
+
     // Set content mode
-    this.setMode(
-      this.params.previousState.mode ?? Globals.get('modes')['filter']
-    );
+    if (this.params.previousState.mode) {
+      this.setMode(this.params.previousState.mode);
+    }
+    else if (this.params.startWithEverything) {
+      this.setMode(Globals.get('modes')['view']);
+    }
+    else {
+      this.setMode(Globals.get('modes')['filter']);
+    }
   }
 
   /**

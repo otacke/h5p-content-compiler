@@ -106,6 +106,10 @@
       "label": "Verhaltenseinstellungen",
       "fields": [
         {
+          "label": "Starten mit Vorauswahl",
+          "description": "Wähle, ob beim Starten alle Inhalte bereits ausgewählt und bereit zum Bearbeiten sind."
+        },
+        {
           "label": "Wähle alle Schlagwörter",
           "description": "Wähle, ob beim Starten alle oder keine Schlagwörter vorausgewählt sein sollen."
         },
