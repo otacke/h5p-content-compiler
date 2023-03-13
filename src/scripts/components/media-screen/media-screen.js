@@ -270,7 +270,7 @@ export default class MediaScreen {
 
     // Preparation
     if ((this.medium.library || '').split(' ')[0] === 'H5P.Video') {
-      this.medium.params.visuals.fit = false; // TODO: for all types?
+      this.medium.params.visuals.fit = false;
     }
 
     H5P.newRunnable(

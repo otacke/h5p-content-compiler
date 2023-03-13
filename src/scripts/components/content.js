@@ -118,7 +118,7 @@ export default class Content {
         id: 'filter',
         type: 'toggle',
         a11y: {
-          active: Dictionary.get('a11y.buttonFilter'), // TODO
+          active: Dictionary.get('a11y.buttonFilter'),
         },
         onClick: () => {
           this.setMode(Globals.get('modes')['filter']);
@@ -129,7 +129,7 @@ export default class Content {
         id: 'reorder',
         type: 'toggle',
         a11y: {
-          active: Dictionary.get('a11y.buttonReorder'), // TODO
+          active: Dictionary.get('a11y.buttonReorder'),
         },
         onClick: () => {
           this.setMode(Globals.get('modes')['reorder']);
@@ -140,7 +140,7 @@ export default class Content {
         id: 'view',
         type: 'toggle',
         a11y: {
-          active: Dictionary.get('a11y.buttonView'), // TODO
+          active: Dictionary.get('a11y.buttonView'),
         },
         onClick: () => {
           this.setMode(Globals.get('modes')['view']);
@@ -155,7 +155,7 @@ export default class Content {
         type: 'toggle',
         active: true,
         a11y: {
-          active: Dictionary.get('a11y.buttonTags'), // TODO
+          active: Dictionary.get('a11y.buttonTags'),
         },
         onClick: (event, params) => {
           this.handleTagSelectorClicked(params);
@@ -167,7 +167,7 @@ export default class Content {
       id: 'reset',
       type: 'pulse',
       a11y: {
-        active: Dictionary.get('a11y.buttonReset'), // TODO
+        active: Dictionary.get('a11y.buttonReset'),
       },
       onClick: () => {
         this.handleResetConfirmation();
@@ -178,7 +178,7 @@ export default class Content {
       id: 'reset-all',
       type: 'pulse',
       a11y: {
-        active: Dictionary.get('a11y.buttonResetAll'), // TODO
+        active: Dictionary.get('a11y.buttonResetAll'),
       },
       onClick: () => {
         this.handleResetAllConfirmation();
