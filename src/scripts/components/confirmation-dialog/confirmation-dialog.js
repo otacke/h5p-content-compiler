@@ -15,7 +15,7 @@ export default class ConfirmationDialog {
    */
   constructor(params = {}, callbacks = {}) {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-confirmation-dialog');
+    this.dom.classList.add('h5p-content-compiler-confirmation-dialog');
 
     this.update(params, callbacks);
   }
