@@ -40,7 +40,7 @@ export default class CardsList {
     }, callbacks);
 
     this.dom = document.createElement('ul');
-    this.dom.classList.add('h5p-grid-view-cards-list');
+    this.dom.classList.add('h5p-content-compiler-cards-list');
     this.dom.setAttribute('role', 'list'); // Explicit list role required for some screen readers
     this.dom.addEventListener('keydown', (event) => {
       this.handleKeydown(event);

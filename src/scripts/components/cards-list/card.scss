@@ -5,7 +5,7 @@ $card-padding: 0.5rem;
 $content-border-radius: 0.5rem;
 $content-gap: 0.5rem;
 
-.h5p-grid-view-card {
+.h5p-content-compiler-card {
   border: 0.1rem solid $color-shadow-dark;
   border-radius: 0.5rem;
   box-sizing: border-box;
@@ -14,7 +14,7 @@ $content-gap: 0.5rem;
   width: $card-width;
   padding: $card-padding;
 
-  .h5p-grid-view-card-content {
+  .h5p-content-compiler-card-content {
     align-items: inherit;
     background: none;
     border: none;
@@ -29,7 +29,7 @@ $content-gap: 0.5rem;
     user-select: none;
     width: 100%;
 
-    .h5p-grid-view-card-label {
+    .h5p-content-compiler-card-label {
       background-color: $color-primary;
       border-radius: $content-border-radius $content-border-radius 0 0;
       color: $color-background;
@@ -43,7 +43,7 @@ $content-gap: 0.5rem;
       white-space: nowrap;
     }
 
-    .h5p-grid-view-card-image {
+    .h5p-content-compiler-card-image {
       max-width: 100%;
 
       &.has-label {
@@ -60,7 +60,7 @@ $content-gap: 0.5rem;
       }
     }
 
-    .h5p-grid-view-card-introduction {
+    .h5p-content-compiler-card-introduction {
       display: -webkit-box;
       flex-grow: 1;
       margin: 0.5rem 0;
@@ -70,7 +70,7 @@ $content-gap: 0.5rem;
       -webkit-box-orient: vertical;
     }
 
-    .h5p-grid-view-card-status {
+    .h5p-content-compiler-card-status {
       border-top: 1px solid $color-shadow-dark;
       min-height: 1.5rem;
       overflow: hidden;
@@ -90,7 +90,7 @@ $content-gap: 0.5rem;
     border-color: #0825ff;
     color: #6774ff;
 
-    .h5p-grid-view-card-content .h5p-grid-view-card-label {
+    .h5p-content-compiler-card-content .h5p-content-compiler-card-label {
       background-color: #6774ff;
     }
   }

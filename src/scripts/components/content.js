@@ -29,7 +29,7 @@ export default class Content {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-grid-view-content');
+    this.dom.classList.add('h5p-content-compiler-content');
 
     if (!this.params.contents.length) {
       this.messageBoxHint = new MessageBoxHint();
@@ -85,7 +85,7 @@ export default class Content {
     // Title screen if set
     if (this.params.titleScreen) {
       this.intro = document.createElement('div');
-      this.intro.classList.add('h5p-grid-view-content-intro');
+      this.intro.classList.add('h5p-content-compiler-content-intro');
 
       this.startScreen = new MediaScreen({
         id: 'start',
@@ -110,7 +110,7 @@ export default class Content {
     }
 
     this.main = document.createElement('div');
-    this.main.classList.add('h5p-grid-view-content-main');
+    this.main.classList.add('h5p-content-compiler-content-main');
     this.dom.append(this.main);
 
     const buttons = [

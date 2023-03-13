@@ -1,4 +1,4 @@
-import GridView from '../scripts/h5p-grid-view';
+import ContentCompiler from '../scripts/h5p-content-compiler';
 
 // Load library
-H5P.GridView = GridView;
+H5P.ContentCompiler = ContentCompiler;

@@ -1,6 +1,6 @@
 @import "@styles/main";
 
-.h5p-grid-view-exercise {
+.h5p-content-compiler-exercise {
   align-items: center;
   background: rgba(44,44,44,.8);
   box-sizing: border-box;
@@ -16,7 +16,7 @@
     display: none;
   }
 
-  .h5p-grid-view-exercise-content-container {
+  .h5p-content-compiler-exercise-content-container {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -25,7 +25,7 @@
     max-width: 1080px;
     width: 100%;
 
-    .h5p-grid-view-exercise-button-close {
+    .h5p-content-compiler-exercise-button-close {
       grid-area: 1 / 1 / 1 / 1;
       background: #fff;
       border: none;
@@ -59,7 +59,7 @@
       }
     }
 
-    .h5p-grid-view-exercise-content {
+    .h5p-content-compiler-exercise-content {
       grid-area: 1 / 1 / 1 / 1;
       background-color: #fff;
       border: 0.75rem solid #fff;
@@ -70,7 +70,7 @@
       margin-top: 2rem;
       max-width: calc(100% - 4rem);
 
-      .h5p-grid-view-exercise-headline {
+      .h5p-content-compiler-exercise-headline {
         align-items: center;
         border-bottom: 1px solid $color-shadow-dark;
         box-sizing: border-box;
@@ -79,17 +79,17 @@
         height: 2rem;
         padding: 0 0.25rem;
 
-        .h5p-grid-view-exercise-headline-text {
+        .h5p-content-compiler-exercise-headline-text {
           font-size: 1.25rem;
           font-weight: bold;
         }
       }
 
-      .h5p-grid-view-exercise-instance-container {
+      .h5p-content-compiler-exercise-instance-container {
         height: calc(100% - 1rem);
         width: calc(100% - 0.25rem);
 
-        .h5p-grid-view-content-instance {
+        .h5p-content-compiler-content-instance {
           box-sizing: border-box;
           margin-top: 0.75rem;
 

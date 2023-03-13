@@ -7,7 +7,7 @@ export default class CardPlaceholder {
    */
   constructor() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-grid-view-card-placeholder');
+    this.dom.classList.add('h5p-content-compiler-card-placeholder');
 
     // These listeners prevent Firefox from showing draggable animation
     this.dom.addEventListener('dragover', (event) => {

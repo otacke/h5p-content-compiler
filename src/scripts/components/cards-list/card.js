@@ -34,7 +34,7 @@ export default class Card {
     }, callbacks);
 
     this.dom = document.createElement('li');
-    this.dom.classList.add('h5p-grid-view-card');
+    this.dom.classList.add('h5p-content-compiler-card');
 
     this.dom.addEventListener('mousedown', (event) => {
       this.callbacks.onMouseDown(event);
@@ -53,7 +53,7 @@ export default class Card {
     });
 
     this.button = document.createElement('button');
-    this.button.classList.add('h5p-grid-view-card-content');
+    this.button.classList.add('h5p-content-compiler-card-content');
     this.button.addEventListener('click', () => {
       this.handleClicked();
     });
@@ -61,14 +61,14 @@ export default class Card {
 
     if (this.params.label) {
       const label = document.createElement('div');
-      label.classList.add('h5p-grid-view-card-label');
+      label.classList.add('h5p-content-compiler-card-label');
       label.innerHTML = this.params.label;
       this.button.append(label);
     }
 
     if (this.params.image?.path) {
       const image = document.createElement('img');
-      image.classList.add('h5p-grid-view-card-image');
+      image.classList.add('h5p-content-compiler-card-image');
       if (this.params.label) {
         image.classList.add('has-label');
       }
@@ -89,12 +89,12 @@ export default class Card {
 
     // An empty introduction will serve as a growing element in flexbox
     const introduction = document.createElement('p');
-    introduction.classList.add('h5p-grid-view-card-introduction');
+    introduction.classList.add('h5p-content-compiler-card-introduction');
     introduction.innerHTML = this.params.introduction;
     this.button.append(introduction);
 
     this.status = document.createElement('div');
-    this.status.classList.add('h5p-grid-view-card-status');
+    this.status.classList.add('h5p-content-compiler-card-status');
     this.button.append(this.status);
 
     this.setStatusCode(Globals.get('states')['unstarted']);

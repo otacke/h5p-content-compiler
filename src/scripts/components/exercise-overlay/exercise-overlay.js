@@ -25,22 +25,22 @@ export default class ExerciseOverlay {
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-grid-view-exercise');
+    this.dom.classList.add('h5p-content-compiler-exercise');
     this.dom.setAttribute('role', 'dialog');
     this.dom.setAttribute('aria-modal', 'true');
 
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
-    this.contentContainer.classList.add('h5p-grid-view-exercise-content-container');
+    this.contentContainer.classList.add('h5p-content-compiler-exercise-content-container');
     this.dom.append(this.contentContainer);
 
     this.content = document.createElement('div');
-    this.content.classList.add('h5p-grid-view-exercise-content');
+    this.content.classList.add('h5p-content-compiler-exercise-content');
     this.contentContainer.append(this.content);
 
     // Close button
     this.buttonClose = document.createElement('button');
-    this.buttonClose.classList.add('h5p-grid-view-exercise-button-close');
+    this.buttonClose.classList.add('h5p-content-compiler-exercise-button-close');
     this.buttonClose.setAttribute('aria-label', Dictionary.get('a11y.close'));
     this.buttonClose.addEventListener('click', () => {
       this.callbacks.onClosed();
@@ -49,16 +49,16 @@ export default class ExerciseOverlay {
 
     // Headline
     const headline = document.createElement('div');
-    headline.classList.add('h5p-grid-view-exercise-headline');
+    headline.classList.add('h5p-content-compiler-exercise-headline');
     this.content.append(headline);
 
     this.headlineText = document.createElement('div');
-    this.headlineText.classList.add('h5p-grid-view-exercise-headline-text');
+    this.headlineText.classList.add('h5p-content-compiler-exercise-headline-text');
     headline.append(this.headlineText);
 
     // H5P instance
     this.h5pInstance = document.createElement('div');
-    this.h5pInstance.classList.add('h5p-grid-view-exercise-instance-container');
+    this.h5pInstance.classList.add('h5p-content-compiler-exercise-instance-container');
     this.content.append(this.h5pInstance);
 
     this.focusTrap = new FocusTrap({ trapElement: this.dom });

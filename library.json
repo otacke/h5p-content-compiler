@@ -1,24 +1,24 @@
 {
-  "title": "Grid view",
-  "description": "Present H5P exercises to choose from a grid view.",
+  "title": "Content Compiler",
+  "description": "Present H5P exercises to choose from a content-compiler view.",
   "majorVersion": 1,
   "minorVersion": 0,
   "patchVersion": 0,
   "runnable": 1,
   "author": "Oliver Tacke",
   "license": "MIT",
-  "machineName": "H5P.GridView",
+  "machineName": "H5P.ContentCompiler",
   "embedTypes": [
     "iframe"
   ],
   "preloadedJs": [
     {
-      "path": "dist/h5p-grid-view.js"
+      "path": "dist/h5p-content-compiler.js"
     }
   ],
   "preloadedCss": [
     {
-      "path": "dist/h5p-grid-view.css"
+      "path": "dist/h5p-content-compiler.css"
     }
   ],
   "preloadedDependencies": [

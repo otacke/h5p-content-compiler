@@ -14,7 +14,7 @@ export default class ContentInstance {
     this.isAttached = false;
 
     this.instanceDOM = document.createElement('div');
-    this.instanceDOM.classList.add('h5p-grid-view-content-instance');
+    this.instanceDOM.classList.add('h5p-content-compiler-content-instance');
 
     this.initialize();
 

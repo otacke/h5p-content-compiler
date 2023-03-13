@@ -2,9 +2,9 @@ import Util from '@services/util';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Content from '@components/content';
-import '@styles/h5p-grid-view.scss';
+import '@styles/h5p-content-compiler.scss';
 
-export default class GridView extends H5P.EventDispatcher {
+export default class ContentCompiler extends H5P.EventDispatcher {
   /**
    * @class
    * @param {object} params Parameters passed by the editor.
@@ -75,8 +75,8 @@ export default class GridView extends H5P.EventDispatcher {
 
     Globals.set('contentId', this.contentId);
     Globals.set('mainInstance', this);
-    Globals.set('states', GridView.STATES);
-    Globals.set('modes', GridView.MODES);
+    Globals.set('states', ContentCompiler.STATES);
+    Globals.set('modes', ContentCompiler.MODES);
     Globals.set('resize', () => {
       this.trigger('resize');
     });
@@ -111,7 +111,7 @@ export default class GridView extends H5P.EventDispatcher {
    * @param {H5P.jQuery} $wrapper Content's container.
    */
   attach($wrapper) {
-    $wrapper.get(0).classList.add('h5p-grid-view');
+    $wrapper.get(0).classList.add('h5p-content-compiler');
     $wrapper.get(0).appendChild(this.dom);
   }
 
@@ -143,7 +143,7 @@ export default class GridView extends H5P.EventDispatcher {
    */
   buildDOM() {
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-grid-view-main');
+    this.dom.classList.add('h5p-content-compiler-main');
 
     this.content = new Content(
       {
@@ -176,7 +176,7 @@ export default class GridView extends H5P.EventDispatcher {
   getTitle() {
     // H5P Core function: createTitle
     return H5P.createTitle(
-      this.extras?.metadata?.title || GridView.DEFAULT_DESCRIPTION
+      this.extras?.metadata?.title || ContentCompiler.DEFAULT_DESCRIPTION
     );
   }
 
@@ -186,7 +186,7 @@ export default class GridView extends H5P.EventDispatcher {
    * @returns {string} Description.
    */
   getDescription() {
-    return GridView.DEFAULT_DESCRIPTION;
+    return ContentCompiler.DEFAULT_DESCRIPTION;
   }
 
   /**
@@ -202,13 +202,13 @@ export default class GridView extends H5P.EventDispatcher {
 }
 
 /** @constant {string} DEFAULT_DESCRIPTION Default description. */
-GridView.DEFAULT_DESCRIPTION = 'Grid View';
+ContentCompiler.DEFAULT_DESCRIPTION = 'Content Compiler';
 
 /** @constant {string} DEFAULT_CARD_IMAGE_RATIO Default ratio. */
-GridView.DEFAULT_CARD_IMAGE_RATIO = '16/9';
+ContentCompiler.DEFAULT_CARD_IMAGE_RATIO = '16/9';
 
 /** @constant {object} STATES States lookup */
-GridView.STATES = {
+ContentCompiler.STATES = {
   unstarted: 0,
   viewed: 1,
   completed: 2,
@@ -216,7 +216,7 @@ GridView.STATES = {
 };
 
 /** @constant {object} MODES Modes lookup */
-GridView.MODES = {
+ContentCompiler.MODES = {
   filter: 0,
   reorder: 1,
   view: 2
