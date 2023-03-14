@@ -149,20 +149,6 @@ export default class Content {
       }
     ];
 
-    if (this.allTags.length && !this.params.tagSelectorAlwaysVisible) {
-      buttons.push({
-        id: 'tags',
-        type: 'toggle',
-        active: true,
-        a11y: {
-          active: Dictionary.get('a11y.buttonTags'),
-        },
-        onClick: (event, params) => {
-          this.handleTagSelectorClicked(params);
-        }
-      });
-    }
-
     buttons.push({
       id: 'reset',
       type: 'pulse',
@@ -319,7 +305,7 @@ export default class Content {
       );
 
       if (
-        this.params.tagSelectorAlwaysVisible &&
+        this.selectedTags.length === 0 &&
         this.tagSelector?.isVisible() === false
       ) {
         this.tagSelector?.show();
@@ -327,7 +313,10 @@ export default class Content {
       }
     }
     else {
-      this.toolbar.forceButton('tags', false);
+      if (this.selectedTags.length !== 0) {
+        this.toolbar.forceButton('tags', false);
+      }
+
       this.toolbar.disableButton('tags');
 
       if (this.tagSelector?.isVisible()) {

@@ -114,10 +114,6 @@
           "description": "Wähle, ob beim Starten alle oder keine Schlagwörter vorausgewählt sein sollen."
         },
         {
-          "label": "Schlagwortauswahl immer sichtbar",
-          "description": "Wähle, ob die Schlagwortauswahl in der Filteransicht immer sichtbar sein soll. Beachte, dass die Navigation auf kleinen Bildschirmen darunter leiden kann, wenn du viele Schlagwörter vergeben hast."
-        },
-        {
           "label": "Kopple Auswahl an Schlagworte",
           "description": "Wähle, ob die Karten automatisch ausgewählt/abgewählt werden, wenn ein Schlagwort ausgewählt/abgewählt wird."
         }
@@ -228,10 +224,6 @@
         {
           "label": "Button: Bearbeitungsmodus",
           "default": "Wechsle zum Bearbeiten"
-        },
-        {
-          "label": "Button: Schlagwortauswahl ein/ausblenden",
-          "default": "Blende die Schlagwortauswahl ein/aus"
         },
         {
           "label": "Button: Zurücksetzen",

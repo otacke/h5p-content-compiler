@@ -28,7 +28,6 @@ export default class ContentCompiler extends H5P.EventDispatcher {
       behaviour: {
         startWithEverything: false,
         allKeywordsPreselected: true,
-        tagSelectorAlwaysVisible: false,
         bindSelectionToTags: true
       },
       l10n: {
@@ -159,8 +158,6 @@ export default class ContentCompiler extends H5P.EventDispatcher {
       {
         startWithEverything: this.params.behaviour.startWithEverything,
         allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
-        tagSelectorAlwaysVisible:
-          this.params.behaviour.tagSelectorAlwaysVisible,
         bindSelectionToTags: this.params.behaviour.bindSelectionToTags,
         contents: this.params.contents,
         introductionTexts: this.params.introductionTexts,

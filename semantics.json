@@ -355,13 +355,6 @@
         }
       },
       {
-        "name": "tagSelectorAlwaysVisible",
-        "type": "boolean",
-        "label": "Tag selector always visible",
-        "description": "Choose whether the tag selector should always be visible when filtering. Please note that navigation on small screens may suffer if you have many tags.",
-        "default": false
-      },
-      {
         "name": "bindSelectionToTags",
         "type": "boolean",
         "label": "Bind selection to tags",
@@ -523,12 +516,6 @@
         "type": "text",
         "label": "Button: View mode",
         "default": "Switch to view mode"
-      },
-      {
-        "name": "buttonTags",
-        "type": "text",
-        "label": "Button: Toggle tag selector",
-        "default": "Toggle displaying tag selector"
       },
       {
         "name": "buttonReset",
