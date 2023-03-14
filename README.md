@@ -1,5 +1,5 @@
 # H5P Content Compiler
-Present H5P exercises to choose from a content-compiler view.
+Present H5P exercises to choose from a grid view.
 
 ## Getting started
 Clone this repository with git and check out the branch that you are interested
