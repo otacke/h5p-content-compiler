@@ -116,6 +116,10 @@
         {
           "label": "Tag selector always visible",
           "description": "Choose whether the tag selector should always be visible when filtering. Please note that navigation on small screens may suffer if you have many tags."
+        },
+        {
+          "label": "Bind selection to tags",
+          "description": "Choose whether the cards should be automatically selected/deselected when a tag is selected/deselected."
         }
       ]
     },

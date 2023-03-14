@@ -28,7 +28,8 @@ export default class ContentCompiler extends H5P.EventDispatcher {
       behaviour: {
         startWithEverything: false,
         allKeywordsPreselected: true,
-        tagSelectorAlwaysVisible: false
+        tagSelectorAlwaysVisible: false,
+        bindSelectionToTags: true
       },
       l10n: {
         start: 'Start',
@@ -74,6 +75,10 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         swappedContents: 'Swapped content at position @position1 with content at position @position2.'
       }
     }, params);
+
+    if (this.params.behaviour.startWithEverything) {
+      this.params.behaviour.allKeywordsPreselected = true;
+    }
 
     this.contentId = contentId;
     this.extras = extras;
@@ -156,6 +161,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
         tagSelectorAlwaysVisible:
           this.params.behaviour.tagSelectorAlwaysVisible,
+        bindSelectionToTags: this.params.behaviour.bindSelectionToTags,
         contents: this.params.contents,
         introductionTexts: this.params.introductionTexts,
         ...(

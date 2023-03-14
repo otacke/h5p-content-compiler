@@ -246,6 +246,28 @@ export default class Contents {
   }
 
   /**
+   * Select based on keyword match.
+   *
+   * @param {string[]} keywords Filtered keywords.
+   */
+  selectByKeywords(keywords) {
+    // Select if has keyword and keyword was selected in filter
+    Object.entries(this.contents).forEach((content) => {
+      if (!content[1].keywords.length) {
+        return; // Does not have keywords
+      }
+
+      const influencedByTags = (
+        content[1].keywords.some((keyword) => keywords.includes(keyword))
+      );
+
+      this.updateState(content[0], {
+        isSelected: influencedByTags
+      });
+    });
+  }
+
+  /**
    * Answer H5P core's call to return the current state.
    *
    * @returns {object} Current state.

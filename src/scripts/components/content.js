@@ -320,7 +320,7 @@ export default class Content {
         this.params.tagSelectorAlwaysVisible &&
         this.tagSelector?.isVisible() === false
       ) {
-        this.tagSelector.show();
+        this.tagSelector?.show();
         this.announceTagSelector(true);
       }
     }
@@ -329,7 +329,7 @@ export default class Content {
       this.toolbar.disableButton('tags');
 
       if (this.tagSelector?.isVisible()) {
-        this.tagSelector.hide();
+        this.tagSelector?.hide();
         this.announceTagSelector(false);
       }
 
@@ -551,6 +551,10 @@ export default class Content {
     this.selectedTags = selectedTags;
     this.pool.setVisibilityByKeywords(this.selectedTags);
 
+    if (this.params.bindSelectionToTags) {
+      this.pool.selectByKeywords(this.selectedTags);
+    }
+
     this.updateMessageBoxHint();
 
     Globals.get('resize')();
@@ -563,14 +567,14 @@ export default class Content {
    */
   handleTagSelectorClicked(params = {}) {
     if (params.active === true) {
-      this.tagSelector.show();
+      this.tagSelector?.show();
 
       if (!params.quiet) {
         this.announceTagSelector(true);
       }
     }
     else if (params.active === false) {
-      this.tagSelector.hide();
+      this.tagSelector?.hide();
 
       if (!params.quiet) {
         this.announceTagSelector(false);
@@ -669,7 +673,7 @@ export default class Content {
     this.pool.reset();
 
     // Reset all tags selections to start value
-    this.tagSelector.selectAll(this.params.allKeywordsPreselected === true);
+    this.tagSelector?.selectAll(this.params.allKeywordsPreselected === true);
 
     if (this.params.startWithEverything) {
       this.pool.selectAll(true);

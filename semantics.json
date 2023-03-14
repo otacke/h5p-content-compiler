@@ -343,7 +343,16 @@
         "type": "boolean",
         "label": "Preselect all keywords",
         "description": "Choose whether all or no keywords should be selected when starting the content.",
-        "default": true
+        "default": true,
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "startWithEverything",
+              "equals": false
+            }
+          ]
+        }
       },
       {
         "name": "tagSelectorAlwaysVisible",
@@ -351,6 +360,13 @@
         "label": "Tag selector always visible",
         "description": "Choose whether the tag selector should always be visible when filtering. Please note that navigation on small screens may suffer if you have many tags.",
         "default": false
+      },
+      {
+        "name": "bindSelectionToTags",
+        "type": "boolean",
+        "label": "Bind selection to tags",
+        "description": "Choose whether the cards should be automatically selected/deselected when a tag is selected/deselected.",
+        "default": true
       }
     ]
   },
