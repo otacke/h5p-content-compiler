@@ -63,11 +63,18 @@ $content-gap: 0.5rem;
     .h5p-content-compiler-card-introduction {
       display: -webkit-box;
       flex-grow: 1;
-      margin: 0.5rem 0;
       overflow: hidden;
       padding: 0;
       -webkit-line-clamp: var(--card-introduction-clamp);
       -webkit-box-orient: vertical;
+
+      &:not(.empty) {
+        margin: 0.5rem 0;
+      }
+
+      &.empty {
+        margin: 0;
+      }
     }
 
     .h5p-content-compiler-card-status {

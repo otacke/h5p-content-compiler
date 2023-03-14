@@ -91,6 +91,10 @@ export default class Card {
     const introduction = document.createElement('p');
     introduction.classList.add('h5p-content-compiler-card-introduction');
     introduction.innerHTML = this.params.introduction;
+    if (!this.params.introduction) {
+      introduction.classList.add('empty');
+    }
+
     this.button.append(introduction);
 
     this.status = document.createElement('div');
