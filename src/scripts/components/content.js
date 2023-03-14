@@ -314,7 +314,9 @@ export default class Content {
 
     if (mode === Globals.get('modes')['filter']) {
       this.toolbar.enableButton('tags');
-      this.pool.setVisibilityByKeywords(this.selectedTags);
+      this.pool.setVisibilityByKeywords(
+        this.allTags.length === 1 ? this.allTags : this.selectedTags
+      );
 
       if (
         this.params.tagSelectorAlwaysVisible &&
