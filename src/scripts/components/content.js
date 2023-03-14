@@ -149,7 +149,7 @@ export default class Content {
       }
     ];
 
-    if (this.allTags.length > 1 && !this.params.tagSelectorAlwaysVisible) {
+    if (this.allTags.length && !this.params.tagSelectorAlwaysVisible) {
       buttons.push({
         id: 'tags',
         type: 'toggle',
@@ -192,7 +192,7 @@ export default class Content {
     this.messageBoxIntroduction = new MessageBox();
     this.main.appendChild(this.messageBoxIntroduction.getDOM());
 
-    if (this.allTags.length > 1) {
+    if (this.allTags.length) {
       this.tagSelector = new TagSelector(
         {
           tags: this.allTags.map((word) => {
