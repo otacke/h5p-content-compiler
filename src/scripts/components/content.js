@@ -40,7 +40,7 @@ export default class Content {
     }
 
     // Retrieve all tags from contents
-    const allTags = this.params.contents
+    this.allTags = this.params.contents
       .reduce((result, content) => {
         const keywords = (content.keywords || '')
           .split(',')
@@ -60,7 +60,7 @@ export default class Content {
     // Set selected tags
     this.selectedTags = this.params.previousState.selectedTags;
     if (!this.selectedTags) {
-      this.selectedTags = this.params.allKeywordsPreselected ? allTags : [];
+      this.selectedTags = this.params.allKeywordsPreselected ? this.allTags : [];
     }
 
     // Pool of card models
@@ -149,7 +149,7 @@ export default class Content {
       }
     ];
 
-    if (allTags.length > 1 && !this.params.tagSelectorAlwaysVisible) {
+    if (this.allTags.length > 1 && !this.params.tagSelectorAlwaysVisible) {
       buttons.push({
         id: 'tags',
         type: 'toggle',
@@ -192,10 +192,10 @@ export default class Content {
     this.messageBoxIntroduction = new MessageBox();
     this.main.appendChild(this.messageBoxIntroduction.getDOM());
 
-    if (allTags.length > 1) {
+    if (this.allTags.length > 1) {
       this.tagSelector = new TagSelector(
         {
-          tags: allTags.map((word) => {
+          tags: this.allTags.map((word) => {
             return {
               text: word,
               selected: this.selectedTags.includes(word)
@@ -548,12 +548,40 @@ export default class Content {
    * @param {string[]} selectedTags Selected tags.
    */
   handleFilterChanged(selectedTags) {
+    if (this.params.bindSelectionToTags) {
+      // Determine what tag was selected/unselected
+      const wasUnselected = this.selectedTags
+        .filter((tag) => !selectedTags.includes(tag));
+
+      let wasSelected = selectedTags
+        .filter((tag) => !this.selectedTags.includes(tag));
+
+      // Edge case when instantiating depending on settings
+      if (
+        !this.params.previousState.selectedTags &&
+        this.params.allKeywordsPreselected &&
+        wasUnselected.length === 0 &&
+        wasSelected.length === 0
+      ) {
+        wasSelected = this.allTags;
+      }
+
+      // Update selection according to tag
+      const contents = this.pool.getContents();
+      for (const id in contents) {
+        const keywords = contents[id].keywords ?? [];
+
+        if (wasUnselected.filter((tag) => keywords.includes(tag)).length) {
+          this.pool.updateState(id, { isSelected: false });
+        }
+        else if (wasSelected.filter((tag) => keywords.includes(tag)).length) {
+          this.pool.updateState(id, { isSelected: true });
+        }
+      }
+    }
+
     this.selectedTags = selectedTags;
     this.pool.setVisibilityByKeywords(this.selectedTags);
-
-    if (this.params.bindSelectionToTags) {
-      this.pool.selectByKeywords(this.selectedTags);
-    }
 
     this.updateMessageBoxHint();
 
