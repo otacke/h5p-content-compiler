@@ -132,9 +132,9 @@
           "default": "Start"
         },
         {
-          "label": "Gewählt",
+          "label": "Ausgewählt",
           "description": "Statusbeschriftung für ausgewählten Inhalt.",
-          "default": "gewählt"
+          "default": "ausgewählt"
         },
         {
           "label": "Status: nicht gestartet",
