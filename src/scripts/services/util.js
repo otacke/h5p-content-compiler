@@ -89,4 +89,26 @@ export default class Util {
 
     return h5pContent.classList.contains('using-mouse');
   }
+
+  /**
+   * Determine whether element is touch device.
+   *
+   * @param {Event} [event] Event that may bear sourceCapabilities.
+   * @returns {boolean} True if likely to be touch device. Else false.
+   */
+  static isTouchDevice(event) {
+    if (event?.sourceCapabilities?.firesTouchEvents) {
+      return true;
+    }
+
+    if (
+      typeof window.ontouchstart === 'function' ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    ) {
+      return true;
+    }
+
+    return false;
+  }
 }

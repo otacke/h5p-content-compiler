@@ -342,6 +342,10 @@ export default class Card {
    * @param {DragEvent} event Drag event.
    */
   handleDragStart(event) {
+    if (Util.isTouchDevice(event)) {
+      return;
+    }
+
     this.dom.classList.add('dragging');
     event.dataTransfer.effectAllowed = 'move';
 
@@ -354,6 +358,10 @@ export default class Card {
    * @param {DragEvent} event Drag event.
    */
   handleDragEnter(event) {
+    if (Util.isTouchDevice(event)) {
+      return;
+    }
+
     this.callbacks.onDragEnter(event);
   }
 
@@ -363,6 +371,10 @@ export default class Card {
    * @param {DragEvent} event Drag event.
    */
   handleDragLeave(event) {
+    if (Util.isTouchDevice(event)) {
+      return;
+    }
+
     this.callbacks.onDragLeave(event);
   }
 
@@ -372,6 +384,10 @@ export default class Card {
    * @param {DragEvent} event Drag event.
    */
   handleDragEnd(event) {
+    if (Util.isTouchDevice(event)) {
+      return;
+    }
+
     this.show();
 
     this.dom.classList.remove('dragging');
