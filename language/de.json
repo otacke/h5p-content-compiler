@@ -144,12 +144,12 @@
         },
         {
           "label": "Status: abgeschlossen",
-          "description": "Statusbeschriftung für abgeschlossenen Inhalt",
+          "description": "Statusbeschriftung für abgeschlossenen Inhalt.",
           "default": "abgeschlossen"
         },
         {
           "label": "Status: gemeistert",
-          "description": "Statusbeschriftung für gemeisterten Inhalt",
+          "description": "Statusbeschriftung für gemeisterten Inhalt.",
           "default": "gemeistert"
         },
         {
