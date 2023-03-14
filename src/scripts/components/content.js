@@ -683,6 +683,9 @@ export default class Content {
         this.setMode(Globals.get('modes')['view']);
         this.announceModeChanged();
       }
+
+      // Required to update status
+      this.poolList.setMode(Globals.get('modes')['view']);
     }
     else {
       this.pool.selectAll(false);
