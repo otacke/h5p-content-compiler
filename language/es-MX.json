@@ -21,7 +21,7 @@
       "label": "Textos de introducción",
       "fields": [
         {
-          "label": "Introducción para filtrado y seleción",
+          "label": "Introducción para filtrado y selección",
           "description": "Explica lo que se espera que hagan los usuarios al filtrar y seleccionar contenido."
         },
         {
@@ -30,7 +30,7 @@
         },
         {
           "label": "Introducción para vista",
-          "description": "explicar lo que se espera que hagan los usuarios al ver contenido."
+          "description": "Explicar lo que se espera que hagan los usuarios al ver contenido."
         }
       ]
     },
@@ -123,7 +123,7 @@
       "fields": [
         {
           "label": "Iniciar",
-          "description": "etiqueta del botón Iniciar.",
+          "description": "Etiqueta del botón Iniciar.",
           "default": "Iniciar"
         },
         {
@@ -147,9 +147,9 @@
           "default": "completado"
         },
         {
-          "default": "borrado",
-          "label": "Estado: borrado",
-          "description": "etiqueta del estado para contenido borrado."
+          "default": "despejado",
+          "label": "Estado: despejado",
+          "description": "etiqueta del estado para contenido despejado."
         },
         {
           "label": "Sin tarjetas para mostrar",
@@ -286,7 +286,7 @@
         },
         {
           "label": "Se intercambiaron contenidos",
-          "description": "@position1 y ¹position2 sor reemplazables y serán remplazados con los valores respectivos.",
+          "description": "@position1 y ¹position2 son reemplazables y serán remplazados con los valores respectivos.",
           "default": "Se intercambió el contenido de la posición @position1 con el contenido de la posición @position2."
         }
       ],
