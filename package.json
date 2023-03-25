@@ -1,6 +1,6 @@
 {
   "name": "h5p-content-compiler",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Present H5P exercises to choose from a content-compiler view.",
   "private": true,
   "scripts": {
