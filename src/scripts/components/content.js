@@ -557,12 +557,29 @@ export default class Content {
         wasSelected = this.allTags;
       }
 
-      // Update selection according to tag
       const contents = this.pool.getContents();
+
+      // Determine all ids that need to remain selected
+      let selectedIds = [];
+      for (const id in contents) {
+        selectedTags.forEach((tag) => {
+          if (
+            contents[id].keywords.includes(tag) &&
+            !selectedIds.includes(id)
+          ) {
+            selectedIds.push(id);
+          }
+        });
+      }
+
+      // Update selection according to tag
       for (const id in contents) {
         const keywords = contents[id].keywords ?? [];
 
-        if (wasUnselected.filter((tag) => keywords.includes(tag)).length) {
+        if (
+          wasUnselected.filter((tag) => keywords.includes(tag)).length &&
+          !selectedIds.includes(id) // Still selected by other tag
+        ) {
           this.pool.updateState(id, { isSelected: false });
         }
         else if (wasSelected.filter((tag) => keywords.includes(tag)).length) {
