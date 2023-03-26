@@ -73,6 +73,7 @@ export default class Card {
         image.classList.add('has-label');
       }
       image.setAttribute('draggable', 'false');
+      image.setAttribute('alt', ''); // Only decorational
 
       image.addEventListener('load', () => {
         Globals.get('resize')();
