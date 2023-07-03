@@ -8,10 +8,9 @@ export default class ExerciseOverlay {
 
   /**
    * Exercise holding H5P content.
-   *
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onClosed] Callback when exercise closed.
    */
   constructor(params = {}, callbacks = {}) {
@@ -68,7 +67,6 @@ export default class ExerciseOverlay {
 
   /**
    * Get DOM for exercise.
-   *
    * @returns {HTMLElement} DOM for exercise.
    */
   getDOM() {
@@ -102,7 +100,6 @@ export default class ExerciseOverlay {
 
   /**
    * Set H5P DOM.
-   *
    * @param {HTMLElement} h5pDOM DOM of H5P instance.
    */
   setH5PContent(h5pDOM) {
@@ -112,7 +109,6 @@ export default class ExerciseOverlay {
 
   /**
    * Set headline text.
-   *
    * @param {string} text Headline text to set.
    */
   setTitle(text) {
@@ -122,7 +118,6 @@ export default class ExerciseOverlay {
 
   /**
    * Get computed size.
-   *
    * @returns {object} Size with width and height.
    */
   getSize() {
@@ -132,7 +127,6 @@ export default class ExerciseOverlay {
 
   /**
    * Handle global click event.
-   *
    * @param {Event} event Click event.
    */
   handleGlobalClick(event) {
@@ -146,7 +140,6 @@ export default class ExerciseOverlay {
 
   /**
    * Handle key down.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeyDown(event) {

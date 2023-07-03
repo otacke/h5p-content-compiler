@@ -6,7 +6,6 @@ import './tag-selector.scss';
 export default class TagSelector {
   /**
    * Tag selector.
-   *
    * @class
    * @param {object} params Parameter from editor.
    * @param {object} [callbacks] Callbacks.
@@ -68,7 +67,6 @@ export default class TagSelector {
 
   /**
    * Return the DOM for this class.
-   *
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
@@ -93,7 +91,6 @@ export default class TagSelector {
 
   /**
    * Determine whether tag selector is visible.
-   *
    * @returns {boolean} True, if visible else false.
    */
   isVisible() {
@@ -102,7 +99,6 @@ export default class TagSelector {
 
   /**
    * Get tag index.
-   *
    * @param {HTMLElement} dom DOM of Tag.
    * @returns {number|undefined} Index of tag dom.
    */
@@ -133,7 +129,6 @@ export default class TagSelector {
 
   /**
    * Select all or no tags.
-   *
    * @param {boolean} all True to select all, false to select none.
    */
   selectAll(all) {
@@ -174,7 +169,6 @@ export default class TagSelector {
 
   /**
    * Move button focus
-   *
    * @param {number|null} offset Offset to move position by. Null removes all focus
    */
   moveButtonFocus(offset) {
@@ -210,7 +204,6 @@ export default class TagSelector {
 
   /**
    * Handle click.
-   *
    * @param {Event} event Event.
    */
   handleClicked(event) {
@@ -226,7 +219,6 @@ export default class TagSelector {
 
   /**
    * Handle key down.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeydown(event) {

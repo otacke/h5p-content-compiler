@@ -8,10 +8,10 @@ export default class Toolbar {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {object[]} [params.buttons] Button parameters.
-   * @param {boolean} [params.hidden=false] If true, hide toolbar.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {boolean} [params.hidden] If true, hide toolbar.
+   * @param {object} [callbacks] Callbacks.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -54,7 +54,6 @@ export default class Toolbar {
 
   /**
    * Return the DOM for this class.
-   *
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
@@ -70,8 +69,7 @@ export default class Toolbar {
 
   /**
    * Add button.
-   *
-   * @param {object} [button={}] Button parameters.
+   * @param {object} [button] Button parameters.
    */
   addButton(button = {}) {
     if (typeof button.id !== 'string') {
@@ -104,7 +102,6 @@ export default class Toolbar {
 
   /**
    * Set button attributes.
-   *
    * @param {string} id Button id.
    * @param {object} attributes HTML attributes to set.
    */
@@ -120,7 +117,6 @@ export default class Toolbar {
 
   /**
    * Get button.
-   *
    * @param {string} id Button id.
    * @returns {ToolbarButton|null} Button.
    */
@@ -130,7 +126,6 @@ export default class Toolbar {
 
   /**
    * Force button state.
-   *
    * @param {string} id Button id.
    * @param {boolean|number} active If true, toggle active, else inactive.
    */
@@ -144,7 +139,6 @@ export default class Toolbar {
 
   /**
    * Block button.
-   *
    * @param {string} id Button id.
    */
   blockButton(id = '') {
@@ -157,7 +151,6 @@ export default class Toolbar {
 
   /**
    * Unblock button.
-   *
    * @param {string} id Button id.
    */
   unblockButton(id = '') {
@@ -170,7 +163,6 @@ export default class Toolbar {
 
   /**
    * Enable button.
-   *
    * @param {string} id Button id.
    */
   enableButton(id = '') {
@@ -183,7 +175,6 @@ export default class Toolbar {
 
   /**
    * Disable button.
-   *
    * @param {string} id Button id.
    */
   disableButton(id = '') {
@@ -196,7 +187,6 @@ export default class Toolbar {
 
   /**
    * Show button.
-   *
    * @param {string} id Button id.
    */
   showButton(id = '') {
@@ -209,7 +199,6 @@ export default class Toolbar {
 
   /**
    * Hide button.
-   *
    * @param {string} id Button id.
    */
   hideButton(id = '') {
@@ -222,7 +211,6 @@ export default class Toolbar {
 
   /**
    * Decloak button.
-   *
    * @param {string} id Button id.
    */
   decloakButton(id = '') {
@@ -235,7 +223,6 @@ export default class Toolbar {
 
   /**
    * Cloak button.
-   *
    * @param {string} id Button id.
    */
   cloakButton(id = '') {
@@ -248,7 +235,6 @@ export default class Toolbar {
 
   /**
    * Focus a button.
-   *
    * @param {string} id Button id.
    */
   focusButton(id = '') {
@@ -275,7 +261,6 @@ export default class Toolbar {
 
   /**
    * Move button focus
-   *
    * @param {number} offset Offset to move position by.
    */
   moveButtonFocus(offset) {
@@ -303,7 +288,6 @@ export default class Toolbar {
 
   /**
    * Handle key down.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeydown(event) {

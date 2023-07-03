@@ -116,7 +116,6 @@ export default class ContentCompiler extends H5P.EventDispatcher {
 
   /**
    * Attach library to wrapper.
-   *
    * @param {H5P.jQuery} $wrapper Content's container.
    */
   attach($wrapper) {
@@ -181,7 +180,6 @@ export default class ContentCompiler extends H5P.EventDispatcher {
 
   /**
    * Get task title.
-   *
    * @returns {string} Title.
    */
   getTitle() {
@@ -193,7 +191,6 @@ export default class ContentCompiler extends H5P.EventDispatcher {
 
   /**
    * Get content type description.
-   *
    * @returns {string} Description.
    */
   getDescription() {
@@ -202,7 +199,6 @@ export default class ContentCompiler extends H5P.EventDispatcher {
 
   /**
    * Answer H5P core's call to return the current state.
-   *
    * @returns {object} Current state.
    */
   getCurrentState() {

@@ -4,7 +4,6 @@ export default class MessageBox {
 
   /**
    * General purpose message box.
-   *
    * @class
    */
   constructor() {
@@ -18,7 +17,6 @@ export default class MessageBox {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} DOM.
    */
   getDOM() {
@@ -41,7 +39,6 @@ export default class MessageBox {
 
   /**
    * Set text.
-   *
    * @param {string} html Text.
    */
   setText(html) {

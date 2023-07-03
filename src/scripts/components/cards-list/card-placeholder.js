@@ -20,7 +20,6 @@ export default class CardPlaceholder {
 
   /**
    * Get placeholder DOM.
-   *
    * @returns {HTMLElement} Placeholder DOM.
    */
   getDOM() {
@@ -29,7 +28,6 @@ export default class CardPlaceholder {
 
   /**
    * Set placeholder size.
-   *
    * @param {number} width Width.
    * @param {number} height Height.
    */

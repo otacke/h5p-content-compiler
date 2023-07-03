@@ -40,7 +40,6 @@ export default class Contents {
 
   /**
    * Add content that has already been created.
-   *
    * @param {string} id Id of content.
    * @param {object} content Content that has already been created.
    */
@@ -50,8 +49,7 @@ export default class Contents {
 
   /**
    * Add content.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} [params.label] Content label if set in editor.
    * @param {string} [params.introduction] Introduction if set in editor.
    * @param {object} params.contentType Content type parameters.
@@ -113,7 +111,6 @@ export default class Contents {
 
   /**
    * Get content by id.
-   *
    * @param {string} id Id for selection.
    * @returns {object|null} Content object.
    */
@@ -127,7 +124,6 @@ export default class Contents {
 
   /**
    * Get content instance DOM by id.
-   *
    * @param {string} id Id for selection.
    * @returns {HTMLElement|null} Content instance DOM.
    */
@@ -141,7 +137,6 @@ export default class Contents {
 
   /**
    * Remove content by id.
-   *
    * @param {string} id Id for removal.
    */
   removeContent(id) {
@@ -154,7 +149,6 @@ export default class Contents {
 
   /**
    * Get all contents.
-   *
    * @returns {object} Content objects.
    */
   getContents() {
@@ -163,7 +157,6 @@ export default class Contents {
 
   /**
    * Update states.
-   *
    * @param {string} id Id of content.
    * @param {object} entries Entries as key value pair.
    */
@@ -186,7 +179,6 @@ export default class Contents {
 
   /**
    * Set visibility of all cards.
-   *
    * @param {boolean} isVisible If true, set visible. Else not visible.
    */
   setVisibility(isVisible) {
@@ -203,7 +195,6 @@ export default class Contents {
 
   /**
    * Set visibility based on keyword match.
-   *
    * @param {string[]} keywords Filtered keywords.
    */
   setVisibilityByKeywords(keywords) {
@@ -232,7 +223,6 @@ export default class Contents {
 
   /**
    * Select all or no cards.
-   *
    * @param {boolean} all True to select all, false to select none.
    */
   selectAll(all) {
@@ -247,7 +237,6 @@ export default class Contents {
 
   /**
    * Select based on keyword match.
-   *
    * @param {string[]} keywords Filtered keywords.
    */
   selectByKeywords(keywords) {
@@ -269,7 +258,6 @@ export default class Contents {
 
   /**
    * Answer H5P core's call to return the current state.
-   *
    * @returns {object} Current state.
    */
   getCurrentState() {

@@ -266,7 +266,6 @@ export default class Content {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Content DOM.
    */
   getDOM() {
@@ -275,7 +274,6 @@ export default class Content {
 
   /**
    * Set mode.
-   *
    * @param {number} mode Mode id.
    */
   setMode(mode) {
@@ -334,7 +332,6 @@ export default class Content {
   }
   /**
    * Announce tag selector state.
-   *
    * @param {boolean} open If true, announce selector was opened. Else closed.
    */
   announceTagSelector(open) {
@@ -390,8 +387,7 @@ export default class Content {
 
   /**
    * Handle cards were swapped.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.id1 Id of card 1 that was swapped.
    * @param {string} params.id2 Id of card 2 that was swapped.
    */
@@ -463,7 +459,6 @@ export default class Content {
 
   /**
    * Answer H5P core's call to return the current state.
-   *
    * @returns {object|undefined} Current state.
    */
   getCurrentState() {
@@ -480,8 +475,7 @@ export default class Content {
 
   /**
    * Handle card was clicked.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.id Id of card that was clicked.
    * @param {boolean} [params.selected] If true, handle selection.
    */
@@ -535,7 +529,6 @@ export default class Content {
 
   /**
    * Handle selection of tags changed.
-   *
    * @param {string[]} selectedTags Selected tags.
    */
   handleFilterChanged(selectedTags) {
@@ -598,8 +591,7 @@ export default class Content {
 
   /**
    * Handle tag selector clicked.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    */
   handleTagSelectorClicked(params = {}) {
     if (params.active === true) {
@@ -632,8 +624,7 @@ export default class Content {
 
   /**
    * Handle exercise state changed.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.id Subcontent id of exercise.
    * @param {number} params.state State id.
    */

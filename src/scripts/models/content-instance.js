@@ -23,7 +23,6 @@ export default class ContentInstance {
 
   /**
    * Get instance DOM.
-   *
    * @returns {HTMLElement} Instance DOM.
    */
   getDOM() {
@@ -86,7 +85,6 @@ export default class ContentInstance {
 
   /**
    * Make it easy to bubble events from child to parent.
-   *
    * @param {object} origin Origin of event.
    * @param {string} eventName Name of event.
    * @param {object} target Target to trigger event on.
@@ -106,7 +104,6 @@ export default class ContentInstance {
 
   /**
    * Make it easy to bubble events from parent to children.
-   *
    * @param {object} origin Origin of event.
    * @param {string} eventName Name of event.
    * @param {object[]} targets Targets to trigger event on.
@@ -151,7 +148,6 @@ export default class ContentInstance {
 
   /**
    * Determine whether an H5P instance is a task.
-   *
    * @param {H5P.ContentType} instance Instance.
    * @returns {boolean} True, if instance is a task.
    */
@@ -175,7 +171,6 @@ export default class ContentInstance {
 
   /**
    * Track scoring of contents.
-   *
    * @param {Event} event Event.
    */
   trackXAPI(event) {
@@ -193,9 +188,8 @@ export default class ContentInstance {
 
   /**
    * Set exercise state.
-   *
    * @param {number|string} state State constant.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {

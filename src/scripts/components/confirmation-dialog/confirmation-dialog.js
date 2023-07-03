@@ -6,10 +6,9 @@ export default class ConfirmationDialog {
   /**
    * General purpose confirmation dialog.
    * Currently wrapping H5P.ConfirmationDialog. May be replaced later on.
-   *
    * @class
-   * @param {object} [params={}] Parameters, same as H5P.ConfirmationDialog.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters, same as H5P.ConfirmationDialog.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onConfirmed] Called when user confirms.
    * @param {function} [callbacks.onCanceled] Called when user cancels.
    */
@@ -22,7 +21,6 @@ export default class ConfirmationDialog {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} DOM.
    */
   getDOM() {
@@ -31,9 +29,8 @@ export default class ConfirmationDialog {
 
   /**
    * Update.
-   *
-   * @param {object} [params={}] Parameters, same as H5P.ConfirmationDialog.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters, same as H5P.ConfirmationDialog.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onConfirmed] Called when user confirms.
    * @param {function} [callbacks.onCanceled] Called when user cancels.
    */

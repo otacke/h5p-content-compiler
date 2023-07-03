@@ -5,7 +5,6 @@ export default class MessageBoxHint extends MessageBox {
 
   /**
    * General purpose message box.
-   *
    * @class
    */
   constructor() {
@@ -16,7 +15,6 @@ export default class MessageBoxHint extends MessageBox {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} DOM.
    */
   getDOM() {
@@ -39,7 +37,6 @@ export default class MessageBoxHint extends MessageBox {
 
   /**
    * Set text.
-   *
    * @param {string} html Text.
    */
   setText(html) {

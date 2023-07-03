@@ -9,10 +9,10 @@ export default class CardsList {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [params.contents={}] Contents.
+   * @param {object} [params] Parameters.
+   * @param {object} [params.contents] Contents.
    * @param {number} [params.mode] Mode.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onCardClicked] Callback click.
    * @param {function} [callbacks.onCardsSwapped] Callback cards swapped.
    * @param {function} [callbacks.onCardMouseDown] Callback mouse down.
@@ -92,7 +92,6 @@ export default class CardsList {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Content DOM.
    */
   getDOM() {
@@ -101,11 +100,10 @@ export default class CardsList {
 
   /**
    * Add card.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.id Id of card to add.
    * @param {object} params.card Card parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onCardClicked] Handler for card clicked.
    */
   addCard(params = {}, callbacks = {}) {
@@ -119,7 +117,6 @@ export default class CardsList {
 
   /**
    * Remove card.
-   *
    * @param {string} id Id of card to be removed.
    */
   removeCard(id) {
@@ -132,7 +129,6 @@ export default class CardsList {
 
   /**
    * Focus card.
-   *
    * @param {string} id Id of card to remove focus.
    */
   focusCard(id) {
@@ -145,7 +141,6 @@ export default class CardsList {
 
   /**
    * Get element index inside list.
-   *
    * @param {HTMLElement} node Node to get index for.
    * @returns {number} Index of node or -1 if not found.
    */
@@ -157,7 +152,6 @@ export default class CardsList {
 
   /**
    * Set mode.
-   *
    * @param {string|number} mode Mode to set.
    */
   setMode(mode) {
@@ -215,7 +209,6 @@ export default class CardsList {
 
   /**
    * Update state of a card view.
-   *
    * @param {string} id Card's id.
    * @param {string} key Key of state to be changed.
    * @param {string|number|boolean} value Value of state to be changed.
@@ -239,7 +232,6 @@ export default class CardsList {
 
   /**
    * Swap cards by id.
-   *
    * @param {string} id1 Id of card 1.
    * @param {string} id2 Id of card 2.
    */
@@ -253,7 +245,6 @@ export default class CardsList {
 
   /**
    * Swap cards by HTML element.
-   *
    * @param {HTMLElement} element1 DOM of card 1.
    * @param {HTMLElement} element2 DOM of card 2.
    */
@@ -269,7 +260,6 @@ export default class CardsList {
 
   /**
    * Get order of cards on screen.
-   *
    * @returns {string[]} Cards order.
    */
   getCardsOrder() {
@@ -286,7 +276,6 @@ export default class CardsList {
 
   /**
    * Handle card clicked.
-   *
    * @param {string} id Id of card that was clicked.
    * @param {object} states Card states.
    */
@@ -310,7 +299,6 @@ export default class CardsList {
 
   /**
    * Handle mouse down on card.
-   *
    * @param {MouseEvent} event Mouse event.
    */
   handleCardMouseDown(event) {
@@ -323,7 +311,6 @@ export default class CardsList {
 
   /**
    * Handle card drag start.
-   *
    * @param {string} id Id of card that started being dragged.
    * @param {DragEvent} event Drag event.
    */
@@ -360,7 +347,6 @@ export default class CardsList {
 
   /**
    * Handle card drag enter.
-   *
    * @param {string} id Id of card that was entered.
    * @param {DragEvent} event Drag event.
    */
@@ -395,7 +381,6 @@ export default class CardsList {
 
   /**
    * Handle card drag leave.
-   *
    * @param {string} id Id of card that was left.
    * @param {DragEvent} event Drag event.
    */
@@ -428,7 +413,6 @@ export default class CardsList {
 
   /**
    * Handle keydown.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeydown(event) {

@@ -7,11 +7,11 @@ export default class Card {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.label Label.
    * @param {string} [params.introduction] Introduction text.
-   * @param {string[]} [params.keywords=[]] Keywords.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {string[]} [params.keywords] Keywords.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onClicked] Callback click.
    * @param {function} [callbacks.onMouseDown] Callback mouse down.
    * @param {function} [callbacks.onDragStart] Callback drag start.
@@ -111,7 +111,6 @@ export default class Card {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Content DOM.
    */
   getDOM() {
@@ -141,7 +140,6 @@ export default class Card {
 
   /**
    * Set draggable state.
-   *
    * @param {boolean} state If true, is draggable. Else not.
    */
   setDraggable(state) {
@@ -150,7 +148,6 @@ export default class Card {
 
   /**
    * Toggle card's dropzone state.
-   *
    * @param {boolean} state If true, card is a dropzone. Else not a dropzone.
    */
   toggleDropzone(state) {
@@ -193,7 +190,6 @@ export default class Card {
 
   /**
    * Update card's state.
-   *
    * @param {string} key Key of state.
    * @param {number|string} value Value io state.
    */
@@ -216,7 +212,6 @@ export default class Card {
 
   /**
    * Toggle card selection.
-   *
    * @param {boolean} [state] State to be toggled to.
    * @returns {boolean} True, if card is selected, else false.
    */
@@ -243,7 +238,6 @@ export default class Card {
 
   /**
    * Toggle card activation for reordering.
-   *
    * @param {boolean} [state] State to be toggled to.
    * @returns {boolean} True, if card is activated, else false.
    */
@@ -268,7 +262,6 @@ export default class Card {
 
   /**
    * Set status code.
-   *
    * @param {number} state State id.
    */
   setStatusCode(state) {
@@ -291,7 +284,6 @@ export default class Card {
 
   /**
    * Set mode.
-   *
    * @param {number} mode Mode id.
    */
   setMode(mode) {
@@ -339,7 +331,6 @@ export default class Card {
 
   /**
    * Handle card drag start.
-   *
    * @param {DragEvent} event Drag event.
    */
   handleDragStart(event) {
@@ -355,7 +346,6 @@ export default class Card {
 
   /**
    * Handle card drag enter.
-   *
    * @param {DragEvent} event Drag event.
    */
   handleDragEnter(event) {
@@ -368,7 +358,6 @@ export default class Card {
 
   /**
    * Handle card drag leave.
-   *
    * @param {DragEvent} event Drag event.
    */
   handleDragLeave(event) {
@@ -381,7 +370,6 @@ export default class Card {
 
   /**
    * Handle card drag end.
-   *
    * @param {DragEvent} event Drag event.
    */
   handleDragEnd(event) {

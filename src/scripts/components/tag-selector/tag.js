@@ -4,7 +4,6 @@ import './tag.scss';
 export default class TagSelector {
   /**
    * Tag selector.
-   *
    * @class
    * @param {object} params Parameter from editor.
    */
@@ -29,7 +28,6 @@ export default class TagSelector {
 
   /**
    * Return the DOM for this class.
-   *
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
@@ -38,7 +36,6 @@ export default class TagSelector {
 
   /**
    * Set focus on tag.
-   *
    * @param {boolean} state If true, set focus. Else remove.
    */
   toggleFocus(state) {
@@ -52,7 +49,6 @@ export default class TagSelector {
 
   /**
    * Determine whether tag is selected.
-   *
    * @returns {boolean} True, if tag is selected. Else false.
    */
   isSelected() {
@@ -61,7 +57,6 @@ export default class TagSelector {
 
   /**
    * Get tag text.
-   *
    * @returns {string} Tag text.
    */
   getText() {
@@ -80,7 +75,6 @@ export default class TagSelector {
 
   /**
    * Toggle state.
-   *
    * @param {boolean} state Target state.
    */
   toggleSelected(state) {
