@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import FocusTrap from '@services/focus-trap';
 import './exercise-overlay.scss';
@@ -40,7 +39,9 @@ export default class ExerciseOverlay {
     // Close button
     this.buttonClose = document.createElement('button');
     this.buttonClose.classList.add('h5p-content-compiler-exercise-button-close');
-    this.buttonClose.setAttribute('aria-label', Dictionary.get('a11y.close'));
+    this.buttonClose.setAttribute(
+      'aria-label', this.params.dictionary.get('a11y.close')
+    );
     this.buttonClose.addEventListener('click', () => {
       this.callbacks.onClosed();
     });
@@ -52,12 +53,16 @@ export default class ExerciseOverlay {
     this.content.append(headline);
 
     this.headlineText = document.createElement('div');
-    this.headlineText.classList.add('h5p-content-compiler-exercise-headline-text');
+    this.headlineText.classList.add(
+      'h5p-content-compiler-exercise-headline-text'
+    );
     headline.append(this.headlineText);
 
     // H5P instance
     this.h5pInstance = document.createElement('div');
-    this.h5pInstance.classList.add('h5p-content-compiler-exercise-instance-container');
+    this.h5pInstance.classList.add(
+      'h5p-content-compiler-exercise-instance-container'
+    );
     this.content.append(this.h5pInstance);
 
     this.focusTrap = new FocusTrap({ trapElement: this.dom });
@@ -113,7 +118,10 @@ export default class ExerciseOverlay {
    */
   setTitle(text) {
     this.headlineText.innerText = text;
-    this.dom.setAttribute('aria-label', Dictionary.get('a11y.exerciseLabel').replace(/@label/, text));
+    this.dom.setAttribute(
+      'aria-label',
+      this.params.dictionary.get('a11y.exerciseLabel').replace(/@label/, text)
+    );
   }
 
   /**

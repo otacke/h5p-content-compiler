@@ -1,5 +1,4 @@
 import Contents from '@models/contents';
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Screenreader from '@services/screenreader';
 import Util from '@services/util';
@@ -33,7 +32,9 @@ export default class Content {
 
     if (!this.params.contents.length) {
       this.messageBoxHint = new MessageBoxHint();
-      this.messageBoxHint.setText(Dictionary.get('l10n.noContents'));
+      this.messageBoxHint.setText(
+        this.params.dictionary.get('l10n.noContents')
+      );
       this.dom.append(this.messageBoxHint.getDOM());
 
       return;
@@ -93,10 +94,10 @@ export default class Content {
         introduction: this.params.titleScreen.titleScreenIntroduction,
         medium: this.params.titleScreen.titleScreenMedium,
         buttons: [
-          { id: 'start', text: Dictionary.get('l10n.start') }
+          { id: 'start', text: this.params.dictionary.get('l10n.start') }
         ],
         a11y: {
-          screenOpened: Dictionary.get('a11y.startScreenWasOpened')
+          screenOpened: this.params.dictionary.get('a11y.startScreenWasOpened')
         }
       }, {
         onButtonClicked: () => {
@@ -118,7 +119,7 @@ export default class Content {
         id: 'filter',
         type: 'toggle',
         a11y: {
-          active: Dictionary.get('a11y.buttonFilter'),
+          active: this.params.dictionary.get('a11y.buttonFilter'),
         },
         onClick: () => {
           this.setMode(Globals.get('modes')['filter']);
@@ -129,7 +130,7 @@ export default class Content {
         id: 'reorder',
         type: 'toggle',
         a11y: {
-          active: Dictionary.get('a11y.buttonReorder'),
+          active: this.params.dictionary.get('a11y.buttonReorder'),
         },
         onClick: () => {
           this.setMode(Globals.get('modes')['reorder']);
@@ -140,7 +141,7 @@ export default class Content {
         id: 'view',
         type: 'toggle',
         a11y: {
-          active: Dictionary.get('a11y.buttonView'),
+          active: this.params.dictionary.get('a11y.buttonView'),
         },
         onClick: () => {
           this.setMode(Globals.get('modes')['view']);
@@ -153,7 +154,7 @@ export default class Content {
       id: 'reset',
       type: 'pulse',
       a11y: {
-        active: Dictionary.get('a11y.buttonReset'),
+        active: this.params.dictionary.get('a11y.buttonReset'),
       },
       onClick: () => {
         this.handleResetConfirmation();
@@ -164,7 +165,7 @@ export default class Content {
       id: 'reset-all',
       type: 'pulse',
       a11y: {
-        active: Dictionary.get('a11y.buttonResetAll'),
+        active: this.params.dictionary.get('a11y.buttonResetAll'),
       },
       onClick: () => {
         this.handleResetAllConfirmation();
@@ -172,7 +173,10 @@ export default class Content {
     });
 
     // Toolbar
-    this.toolbar = new Toolbar({ buttons: buttons });
+    this.toolbar = new Toolbar({
+      dictionary: this.params.dictionary,
+      buttons: buttons
+    });
     this.main.append(this.toolbar.getDOM());
 
     this.messageBoxIntroduction = new MessageBox();
@@ -181,6 +185,7 @@ export default class Content {
     if (this.allTags.length) {
       this.tagSelector = new TagSelector(
         {
+          dictionary: this.params.dictionary,
           tags: this.allTags.map((word) => {
             return {
               text: word,
@@ -200,7 +205,10 @@ export default class Content {
 
     // Pool of contents
     this.poolList = new CardsList(
-      { contents: this.pool.getContents() },
+      {
+        dictionary: this.params.dictionary,
+        contents: this.pool.getContents()
+      },
       {
         onCardClicked: (params) => {
           this.handleCardClicked(params);
@@ -223,11 +231,16 @@ export default class Content {
       this.main.classList.add('display-none');
     }
 
-    this.exerciseOverlay = new ExerciseOverlay({}, {
-      onClosed: () => {
-        this.handleExerciseClosed();
+    this.exerciseOverlay = new ExerciseOverlay(
+      {
+        dictionary: this.params.dictionary
+      },
+      {
+        onClosed: () => {
+          this.handleExerciseClosed();
+        }
       }
-    });
+    );
     this.dom.append(this.exerciseOverlay.getDOM());
 
     // Confirmation Dialog
@@ -238,15 +251,19 @@ export default class Content {
     document.body.append(Screenreader.getDOM());
 
     // Update contents' state from previous state
-    Object.entries(this.params.previousState?.contents || []).forEach((entry) => {
-      this.pool.updateState(entry[0], entry[1]);
-    });
+    Object.entries(this.params.previousState?.contents || [])
+      .forEach((entry) => {
+        this.pool.updateState(entry[0], entry[1]);
+      });
 
     // Update tag selector
     this.handleFilterChanged(this.selectedTags);
 
     // Select everything if author wants to
-    if (!this.params.previousState.contents && this.params.startWithEverything) {
+    if (
+      !this.params.previousState.contents &&
+      this.params.startWithEverything
+    ) {
       Object.keys(this.pool.getContents()).forEach((id) => {
         this.pool.updateState(id, { isSelected: true });
       });
@@ -336,10 +353,10 @@ export default class Content {
    */
   announceTagSelector(open) {
     if (open) {
-      Screenreader.read(Dictionary.get('a11y.tagSelectorOpened'));
+      Screenreader.read(this.params.dictionary.get('a11y.tagSelectorOpened'));
     }
     else {
-      Screenreader.read(Dictionary.get('a11y.tagSelectorClosed'));
+      Screenreader.read(this.params.dictionary.get('a11y.tagSelectorClosed'));
     }
   }
 
@@ -348,13 +365,19 @@ export default class Content {
    */
   announceModeChanged() {
     if (this.mode === Globals.get('modes')['filter']) {
-      Screenreader.read(Dictionary.get('a11y.switchedToModeFilter'));
+      Screenreader.read(
+        this.params.dictionary.get('a11y.switchedToModeFilter')
+      );
     }
     else if (this.mode === Globals.get('modes')['reorder']) {
-      Screenreader.read(Dictionary.get('a11y.switchedToModeReorder'));
+      Screenreader.read(
+        this.params.dictionary.get('a11y.switchedToModeReorder')
+      );
     }
     else if (this.mode === Globals.get('modes')['view']) {
-      Screenreader.read(Dictionary.get('a11y.switchedToModeView'));
+      Screenreader.read(
+        this.params.dictionary.get('a11y.switchedToModeView')
+      );
     }
   }
 
@@ -409,7 +432,7 @@ export default class Content {
     this.pool.updateState(params.id2, { position: pos2 });
 
     if (Util.isUsingMouse() === false) {
-      Screenreader.read(Dictionary.get('a11y.swappedContents')
+      Screenreader.read(this.params.dictionary.get('a11y.swappedContents')
         .replace(/@position1/, pos2 + 1)
         .replace(/@position2/, pos1 + 1)
       );
@@ -432,9 +455,11 @@ export default class Content {
         .filter((content) => content.isVisible).length;
 
       if (numberCardsFiltered === 0) {
-        this.messageBoxHint.setText(Dictionary.get('l10n.noCardsFilter'));
+        this.messageBoxHint.setText(
+          this.params.dictionary.get('l10n.noCardsFilter')
+        );
         this.messageBoxHint.show();
-        Screenreader.read(Dictionary.get('l10n.noCardsFilter'));
+        Screenreader.read(this.params.dictionary.get('l10n.noCardsFilter'));
       }
       else {
         this.messageBoxHint.hide();
@@ -445,10 +470,12 @@ export default class Content {
         .filter((content) => content.isSelected).length;
 
       if (numberCardsSelected === 0) {
-        this.messageBoxHint.setText(Dictionary.get('l10n.noCardsSelected'));
+        this.messageBoxHint.setText(
+          this.params.dictionary.get('l10n.noCardsSelected')
+        );
         this.messageBoxHint.show();
         setTimeout(() => {
-          Screenreader.read(Dictionary.get('l10n.noCardsSelected'));
+          Screenreader.read(this.params.dictionary.get('l10n.noCardsSelected'));
         }, 50); // Let "switched" message get read first
       }
       else {
@@ -652,10 +679,10 @@ export default class Content {
   handleResetConfirmation() {
     this.confirmationDialog.update(
       {
-        headerText: Dictionary.get('l10n.confirmResetHeader'),
-        dialogText: Dictionary.get('l10n.confirmResetDialog'),
-        cancelText: Dictionary.get('l10n.no'),
-        confirmText: Dictionary.get('l10n.yes')
+        headerText: this.params.dictionary.get('l10n.confirmResetHeader'),
+        dialogText: this.params.dictionary.get('l10n.confirmResetDialog'),
+        cancelText: this.params.dictionary.get('l10n.no'),
+        confirmText: this.params.dictionary.get('l10n.yes')
       }, {
         onConfirmed: () => {
           this.handleReset();
@@ -672,10 +699,10 @@ export default class Content {
   handleResetAllConfirmation() {
     this.confirmationDialog.update(
       {
-        headerText: Dictionary.get('l10n.confirmResetAllHeader'),
-        dialogText: Dictionary.get('l10n.confirmResetAllDialog'),
-        cancelText: Dictionary.get('l10n.no'),
-        confirmText: Dictionary.get('l10n.yes')
+        headerText: this.params.dictionary.get('l10n.confirmResetAllHeader'),
+        dialogText: this.params.dictionary.get('l10n.confirmResetAllDialog'),
+        cancelText: this.params.dictionary.get('l10n.no'),
+        confirmText: this.params.dictionary.get('l10n.yes')
       }, {
         onConfirmed: () => {
           this.handleResetAll();

@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import Globals from '@services/globals';
 import Card from '@components/cards-list/card';
@@ -111,7 +110,10 @@ export default class CardsList {
       return; // No id given
     }
 
-    this.cards[params.id] = new Card(params.card, callbacks);
+    this.cards[params.id] = new Card(
+      { ...params.card, dictionary: this.params.dictionary },
+      callbacks
+    );
     this.dom.append(this.cards[params.id].getDOM());
   }
 
@@ -192,13 +194,19 @@ export default class CardsList {
     let ariaLabelSegments = [];
 
     if (this.mode === Globals.get('modes')['filter']) {
-      ariaLabelSegments.push(Dictionary.get('a11y.cardListFilter'));
+      ariaLabelSegments.push(
+        this.params.dictionary.get('a11y.cardListFilter')
+      );
     }
     else if (this.mode === Globals.get('modes')['reorder']) {
-      ariaLabelSegments.push(Dictionary.get('a11y.cardListReorder'));
+      ariaLabelSegments.push(
+        this.params.dictionary.get('a11y.cardListReorder')
+      );
     }
     else if (this.mode === Globals.get('modes')['view']) {
-      ariaLabelSegments.push(Dictionary.get('a11y.cardListView'));
+      ariaLabelSegments.push(
+        this.params.dictionary.get('a11y.cardListView')
+      );
     }
     else {
       return;

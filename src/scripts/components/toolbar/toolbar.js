@@ -1,5 +1,4 @@
 import ToolbarButton from './toolbar-button';
-import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import './toolbar.scss';
 
@@ -28,7 +27,9 @@ export default class Toolbar {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-content-compiler-toolbar-tool-bar');
     this.dom.setAttribute('role', 'toolbar');
-    this.dom.setAttribute('aria-label', Dictionary.get('a11y.toolbar'));
+    this.dom.setAttribute(
+      'aria-label', this.params.dictionary.get('a11y.toolbar')
+    );
     this.dom.addEventListener('keydown', (event) => {
       this.handleKeydown(event);
     });

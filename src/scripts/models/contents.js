@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
 import ContentInstance from '@models/content-instance';
@@ -68,7 +67,7 @@ export default class Contents {
     const label = (!params.label && !params.image && !params.introduction) ?
       (
         params.contentType.metadata?.title ||
-        Dictionary.get('l10n.untitledContent')
+        this.params.dictionary.get('l10n.untitledContent')
       ) :
       params.label;
 

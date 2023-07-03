@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import Tag from './tag';
 import './tag-selector.scss';
@@ -28,7 +27,9 @@ export default class TagSelector {
     this.list.classList.add('tag-list');
     this.list.setAttribute('role', 'listbox');
     this.list.setAttribute('tabindex', '0');
-    this.list.setAttribute('aria-label', Dictionary.get('a11y.tagSelector'));
+    this.list.setAttribute(
+      'aria-label', this.params.dictionary.get('a11y.tagSelector')
+    );
     this.list.setAttribute('aria-multiselectable', 'true');
     this.list.addEventListener('keydown', (event) => {
       this.handleKeydown(event);

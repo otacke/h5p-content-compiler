@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
 import './card.scss';
@@ -160,26 +159,32 @@ export default class Card {
    * Update aria label.
    */
   updateAriaLabel() {
-    let ariaLabelSegments = [`${Dictionary.get('a11y.exerciseLabel').replace(/@label/g, this.params.label)}`];
+    let ariaLabelSegments = [`${this.params.dictionary.get('a11y.exerciseLabel').replace(/@label/g, this.params.label)}`];
 
     if (this.mode === Globals.get('modes')['filter']) {
       const selected = this.isSelected ?
-        Dictionary.get('a11y.selected') :
-        Dictionary.get('a11y.notSelected');
+        this.params.dictionary.get('a11y.selected') :
+        this.params.dictionary.get('a11y.notSelected');
 
       ariaLabelSegments.push(selected);
 
     }
     else if (this.mode === Globals.get('modes')['reorder']) {
       if (this.isActivated) {
-        ariaLabelSegments.push(Dictionary.get('a11y.selectedForReordering'));
+        ariaLabelSegments.push(
+          this.params.dictionary.get('a11y.selectedForReordering')
+        );
       }
       else if (this.isDropzone) {
-        ariaLabelSegments.push(Dictionary.get('a11y.selectedForDropzone'));
+        ariaLabelSegments.push(
+          this.params.dictionary.get('a11y.selectedForDropzone')
+        );
       }
     }
     else if (this.mode === Globals.get('modes')['view']) {
-      ariaLabelSegments.push(Dictionary.get(`l10n.status${this.statusCode}`));
+      ariaLabelSegments.push(
+        this.params.dictionary.get(`l10n.status${this.statusCode}`)
+      );
     }
     else {
       return;
@@ -223,7 +228,7 @@ export default class Card {
     if (state) {
       this.dom.classList.add('selected');
       this.isSelected = true;
-      this.status.innerHTML = Dictionary.get('l10n.selected');
+      this.status.innerHTML = this.params.dictionary.get('l10n.selected');
     }
     else {
       this.dom.classList.remove('selected');
@@ -279,7 +284,9 @@ export default class Card {
 
     this.updateAriaLabel();
 
-    this.status.innerHTML = Dictionary.get(`l10n.status${this.statusCode}`);
+    this.status.innerHTML = this.params.dictionary.get(
+      `l10n.status${this.statusCode}`
+    );
   }
 
   /**
@@ -291,7 +298,7 @@ export default class Card {
 
     if (mode === Globals.get('modes')['filter']) {
       if (this.isSelected) {
-        this.status.innerHTML = Dictionary.get('l10n.selected');
+        this.status.innerHTML = this.params.dictionary.get('l10n.selected');
       }
       else {
         this.status.innerHTML = null;
@@ -301,7 +308,9 @@ export default class Card {
       this.status.innerHTML = null;
     }
     else if (mode === Globals.get('modes')['view']) {
-      this.status.innerHTML = Dictionary.get(`l10n.status${this.statusCode}`);
+      this.status.innerHTML = this.params.dictionary.get(
+        `l10n.status${this.statusCode}`
+      );
     }
 
     Object.keys(Globals.get('modes')).forEach((key) => {

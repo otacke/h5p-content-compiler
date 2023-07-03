@@ -103,7 +103,8 @@ export default class ContentCompiler extends H5P.EventDispatcher {
       });
 
     // Fill dictionary
-    Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
+    this.dictionary = new Dictionary();
+    this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
     this.previousState = extras?.previousState || {};
     const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
@@ -155,6 +156,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
 
     this.content = new Content(
       {
+        dictionary: this.dictionary,
         startWithEverything: this.params.behaviour.startWithEverything,
         allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
         bindSelectionToTags: this.params.behaviour.bindSelectionToTags,
