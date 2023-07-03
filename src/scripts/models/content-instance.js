@@ -1,5 +1,4 @@
 import Util from '@services/util';
-import Globals from '@services/globals';
 export default class ContentInstance {
 
   constructor(params = {}, callbacks = {}) {
@@ -59,7 +58,7 @@ export default class ContentInstance {
 
     this.instance = H5P.newRunnable(
       contentParams,
-      Globals.get('contentId'),
+      this.params.globals.get('contentId'),
       undefined,
       true,
       { previousState: this.params.previousState }
@@ -70,10 +69,14 @@ export default class ContentInstance {
     }
 
     // Resize parent when children resize
-    this.bubbleUp(this.instance, 'resize', Globals.get('mainInstance'));
+    this.bubbleUp(
+      this.instance, 'resize', this.params.globals.get('mainInstance')
+    );
 
     // Resize children to fit inside parent
-    this.bubbleDown(Globals.get('mainInstance'), 'resize', [this.instance]);
+    this.bubbleDown(
+      this.params.globals.get('mainInstance'), 'resize', [this.instance]
+    );
 
     if (this.isInstanceTask(this.instance)) {
       this.instance.on('xAPI', (event) => {
@@ -179,10 +182,10 @@ export default class ContentInstance {
     }
 
     if (event.getScore() < this.instance.getMaxScore()) {
-      this.setState(Globals.get('states')['completed']);
+      this.setState(this.params.globals.get('states')['completed']);
     }
     else {
-      this.setState(Globals.get('states')['cleared']);
+      this.setState(this.params.globals.get('states')['cleared']);
     }
   }
 
@@ -193,7 +196,7 @@ export default class ContentInstance {
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = Globals.get('states');
+    const states = this.params.globals.get('states');
 
     if (typeof state === 'string') {
       state = Object.entries(states)
@@ -271,7 +274,7 @@ export default class ContentInstance {
     this.attachInstance();
 
     window.requestAnimationFrame(() => {
-      Globals.get('resize')();
+      this.params.globals.get('resize')();
     });
   }
 }

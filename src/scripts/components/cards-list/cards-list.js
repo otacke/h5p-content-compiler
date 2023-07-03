@@ -1,5 +1,4 @@
 import Util from '@services/util';
-import Globals from '@services/globals';
 import Card from '@components/cards-list/card';
 import CardPlaceholder from './card-placeholder';
 import './cards-list.scss';
@@ -24,7 +23,7 @@ export default class CardsList {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       contents: {},
-      mode: Globals.get('modes')['filter']
+      mode: params.globals.get('modes')['filter']
     }, params);
 
     this.callbacks = Util.extend({
@@ -111,7 +110,11 @@ export default class CardsList {
     }
 
     this.cards[params.id] = new Card(
-      { ...params.card, dictionary: this.params.dictionary },
+      {
+        ...params.card,
+        dictionary: this.params.dictionary,
+        globals: this.params.globals
+      },
       callbacks
     );
     this.dom.append(this.cards[params.id].getDOM());
@@ -158,24 +161,24 @@ export default class CardsList {
    */
   setMode(mode) {
     if (typeof mode === 'string') {
-      mode = Globals.get('modes')[mode];
+      mode = this.params.globals.get('modes')[mode];
     }
 
     if (
       typeof mode !== 'number' ||
-      !Object.values(Globals.get('modes')).includes(mode)
+      !Object.values(this.params.globals.get('modes')).includes(mode)
     ) {
       return;
     }
 
     // Set CSS modifier
-    for (const key in Globals.get('modes')) {
-      this.dom.classList.toggle(key, mode === Globals.get('modes')[key]);
+    for (const key in this.params.globals.get('modes')) {
+      this.dom.classList.toggle(key, mode === this.params.globals.get('modes')[key]);
     }
 
     // Allow to drag cards when in reordering mode
     Object.values(this.cards).forEach((card) => {
-      card.setDraggable(mode === Globals.get('modes')['reorder']);
+      card.setDraggable(mode === this.params.globals.get('modes')['reorder']);
     });
 
     for (const id in this.cards) {
@@ -193,17 +196,17 @@ export default class CardsList {
   updateAriaLabel() {
     let ariaLabelSegments = [];
 
-    if (this.mode === Globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes')['filter']) {
       ariaLabelSegments.push(
         this.params.dictionary.get('a11y.cardListFilter')
       );
     }
-    else if (this.mode === Globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes')['reorder']) {
       ariaLabelSegments.push(
         this.params.dictionary.get('a11y.cardListReorder')
       );
     }
-    else if (this.mode === Globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes')['view']) {
       ariaLabelSegments.push(
         this.params.dictionary.get('a11y.cardListView')
       );
@@ -288,19 +291,19 @@ export default class CardsList {
    * @param {object} states Card states.
    */
   handleCardClicked(id, states = {}) {
-    if (this.mode === Globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes')['filter']) {
       this.callbacks.onCardClicked({
         id: id,
         isSelected: states.isSelected
       });
     }
-    else if (this.mode === Globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes')['reorder']) {
       this.callbacks.onCardClicked({
         id: id,
         isActivated: states.isActivated
       });
     }
-    else if (this.mode === Globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes')['view']) {
       this.callbacks.onCardClicked({ id: id });
     }
   }
@@ -310,7 +313,7 @@ export default class CardsList {
    * @param {MouseEvent} event Mouse event.
    */
   handleCardMouseDown(event) {
-    if (this.mode !== Globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes')['reorder']) {
       return;
     }
 
@@ -323,7 +326,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragStart(id, event) {
-    if (this.mode !== Globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes')['reorder']) {
       return;
     }
 
@@ -359,7 +362,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragEnter(id, event) {
-    if (this.mode !== Globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes')['reorder']) {
       return;
     }
 
@@ -393,7 +396,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragLeave(id, event) {
-    if (this.mode !== Globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes')['reorder']) {
       return;
     }
 
@@ -408,7 +411,7 @@ export default class CardsList {
    * Handle card drag end.
    */
   handleCardDragEnd() {
-    if (this.mode !== Globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes')['reorder']) {
       return;
     }
 

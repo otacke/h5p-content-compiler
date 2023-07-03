@@ -82,11 +82,13 @@ export default class ContentCompiler extends H5P.EventDispatcher {
     this.contentId = contentId;
     this.extras = extras;
 
-    Globals.set('contentId', this.contentId);
-    Globals.set('mainInstance', this);
-    Globals.set('states', ContentCompiler.STATES);
-    Globals.set('modes', ContentCompiler.MODES);
-    Globals.set('resize', () => {
+    // Set globals
+    this.globals = new Globals();
+    this.globals.set('contentId', this.contentId);
+    this.globals.set('mainInstance', this);
+    this.globals.set('states', ContentCompiler.STATES);
+    this.globals.set('modes', ContentCompiler.MODES);
+    this.globals.set('resize', () => {
       this.trigger('resize');
     });
 
@@ -157,6 +159,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
     this.content = new Content(
       {
         dictionary: this.dictionary,
+        globals: this.globals,
         startWithEverything: this.params.behaviour.startWithEverything,
         allKeywordsPreselected: this.params.behaviour.allKeywordsPreselected,
         bindSelectionToTags: this.params.behaviour.bindSelectionToTags,

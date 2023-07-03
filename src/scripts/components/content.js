@@ -1,5 +1,4 @@
 import Contents from '@models/contents';
-import Globals from '@services/globals';
 import Screenreader from '@services/screenreader';
 import Util from '@services/util';
 import MediaScreen from './media-screen/media-screen';
@@ -61,12 +60,15 @@ export default class Content {
     // Set selected tags
     this.selectedTags = this.params.previousState.selectedTags;
     if (!this.selectedTags) {
-      this.selectedTags = this.params.allKeywordsPreselected ? this.allTags : [];
+      this.selectedTags = this.params.allKeywordsPreselected ?
+        this.allTags :
+        [];
     }
 
     // Pool of card models
     this.pool = new Contents(
       {
+        globals: this.params.globals,
         contents: this.params.contents,
         ...(this.params.previousState.contents && {
           previousState: this.params.previousState.contents
@@ -90,7 +92,7 @@ export default class Content {
 
       this.startScreen = new MediaScreen({
         id: 'start',
-        contentId: Globals.get('contentId'),
+        contentId: this.params.globals.get('contentId'),
         introduction: this.params.titleScreen.titleScreenIntroduction,
         medium: this.params.titleScreen.titleScreenMedium,
         buttons: [
@@ -122,7 +124,7 @@ export default class Content {
           active: this.params.dictionary.get('a11y.buttonFilter'),
         },
         onClick: () => {
-          this.setMode(Globals.get('modes')['filter']);
+          this.setMode(this.params.globals.get('modes')['filter']);
           this.announceModeChanged();
         }
       },
@@ -133,7 +135,7 @@ export default class Content {
           active: this.params.dictionary.get('a11y.buttonReorder'),
         },
         onClick: () => {
-          this.setMode(Globals.get('modes')['reorder']);
+          this.setMode(this.params.globals.get('modes')['reorder']);
           this.announceModeChanged();
         }
       },
@@ -144,7 +146,7 @@ export default class Content {
           active: this.params.dictionary.get('a11y.buttonView'),
         },
         onClick: () => {
-          this.setMode(Globals.get('modes')['view']);
+          this.setMode(this.params.globals.get('modes')['view']);
           this.announceModeChanged();
         }
       }
@@ -207,6 +209,7 @@ export default class Content {
     this.poolList = new CardsList(
       {
         dictionary: this.params.dictionary,
+        globals: this.params.globals,
         contents: this.pool.getContents()
       },
       {
@@ -244,7 +247,9 @@ export default class Content {
     this.dom.append(this.exerciseOverlay.getDOM());
 
     // Confirmation Dialog
-    this.confirmationDialog = new ConfirmationDialog();
+    this.confirmationDialog = new ConfirmationDialog({
+      globals: this.params.globals
+    });
     document.body.append(this.confirmationDialog.getDOM());
 
     // Screenreader for polite screen reading
@@ -274,10 +279,10 @@ export default class Content {
       this.setMode(this.params.previousState.mode);
     }
     else if (this.params.startWithEverything) {
-      this.setMode(Globals.get('modes')['view']);
+      this.setMode(this.params.globals.get('modes')['view']);
     }
     else {
-      this.setMode(Globals.get('modes')['filter']);
+      this.setMode(this.params.globals.get('modes')['filter']);
     }
   }
 
@@ -300,10 +305,13 @@ export default class Content {
 
     this.mode = mode;
 
-    for (const key in Globals.get('modes')) {
-      this.toolbar.forceButton(key, mode === Globals.get('modes')[key]);
+    for (const key in this.params.globals.get('modes')) {
+      this.toolbar.forceButton(
+        key,
+        mode === this.params.globals.get('modes')[key]
+      );
 
-      if (mode === Globals.get('modes')[key]) {
+      if (mode === this.params.globals.get('modes')[key]) {
         this.toolbar.blockButton(key);
       }
       else {
@@ -313,7 +321,7 @@ export default class Content {
       this.poolList.setMode(mode);
     }
 
-    if (mode === Globals.get('modes')['filter']) {
+    if (mode === this.params.globals.get('modes')['filter']) {
       this.toolbar.enableButton('tags');
       this.pool.setVisibilityByKeywords(
         this.allTags.length === 1 ? this.allTags : this.selectedTags
@@ -345,7 +353,7 @@ export default class Content {
     this.updateMessageBox();
     this.updateMessageBoxHint();
 
-    Globals.get('resize')();
+    this.params.globals.get('resize')();
   }
   /**
    * Announce tag selector state.
@@ -364,17 +372,17 @@ export default class Content {
    * Announce mode change.
    */
   announceModeChanged() {
-    if (this.mode === Globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes')['filter']) {
       Screenreader.read(
         this.params.dictionary.get('a11y.switchedToModeFilter')
       );
     }
-    else if (this.mode === Globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes')['reorder']) {
       Screenreader.read(
         this.params.dictionary.get('a11y.switchedToModeReorder')
       );
     }
-    else if (this.mode === Globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes')['view']) {
       Screenreader.read(
         this.params.dictionary.get('a11y.switchedToModeView')
       );
@@ -387,13 +395,13 @@ export default class Content {
   updateMessageBox() {
     let html;
 
-    if (this.mode === Globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes')['filter']) {
       html = this.params.introductionTexts.introFilter;
     }
-    else if (this.mode === Globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes')['reorder']) {
       html = this.params.introductionTexts.introReorder;
     }
-    else if (this.mode === Globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes')['view']) {
       html = this.params.introductionTexts.introView;
     }
 
@@ -450,7 +458,7 @@ export default class Content {
       return;
     }
 
-    if (this.mode === Globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes')['filter']) {
       const numberCardsFiltered = Object.values(this.pool.getContents())
         .filter((content) => content.isVisible).length;
 
@@ -511,12 +519,12 @@ export default class Content {
       return;
     }
 
-    if (this.mode === Globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes')['filter']) {
       if (typeof params.isSelected === 'boolean') {
         this.pool.updateState(params.id, { isSelected: params.isSelected});
       }
     }
-    else if (this.mode === Globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes')['reorder']) {
       if (typeof params.isActivated === 'boolean') {
         const activeContents = Object
           .entries(this.pool.getContents())
@@ -534,22 +542,23 @@ export default class Content {
         }
       }
     }
-    else if (this.mode === Globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes')['view']) {
       const content = this.pool.getContent(params.id);
 
       this.exerciseOverlay.setH5PContent(content.contentInstance.getDOM());
       this.exerciseOverlay.setTitle(
-        content?.label || content?.contentInstance?.params?.metadata?.title || ''
+        content?.label || content?.contentInstance?.params?.metadata?.title ||
+        ''
       );
       this.exerciseOverlay.show();
 
-      content.contentInstance.setState(Globals.get('states')['viewed']);
+      content.contentInstance.setState(this.params.globals.get('states')['viewed']);
 
       // Keep track to give back focus later
       this.currentCardId = params.id;
 
       window.requestAnimationFrame(() => {
-        Globals.get('resize')();
+        this.params.globals.get('resize')();
       });
     }
   }
@@ -613,7 +622,7 @@ export default class Content {
 
     this.updateMessageBoxHint();
 
-    Globals.get('resize')();
+    this.params.globals.get('resize')();
   }
 
   /**
@@ -636,7 +645,7 @@ export default class Content {
       }
     }
 
-    Globals.get('resize')();
+    this.params.globals.get('resize')();
   }
 
   /**
@@ -646,7 +655,7 @@ export default class Content {
     this.main.classList.remove('display-none');
     this.toolbar.focusButton('filter');
 
-    Globals.get('resize')();
+    this.params.globals.get('resize')();
   }
 
   /**
@@ -733,20 +742,20 @@ export default class Content {
       this.pool.selectAll(true);
 
       // Move to view
-      if (this.mode !== Globals.get('modes')['view']) {
-        this.setMode(Globals.get('modes')['view']);
+      if (this.mode !== this.params.globals.get('modes')['view']) {
+        this.setMode(this.params.globals.get('modes')['view']);
         this.announceModeChanged();
       }
 
       // Required to update status
-      this.poolList.setMode(Globals.get('modes')['view']);
+      this.poolList.setMode(this.params.globals.get('modes')['view']);
     }
     else {
       this.pool.selectAll(false);
 
       // Move to filter
-      if (this.mode !== Globals.get('modes')['filter']) {
-        this.setMode(Globals.get('modes')['filter']);
+      if (this.mode !== this.params.globals.get('modes')['filter']) {
+        this.setMode(this.params.globals.get('modes')['filter']);
         this.announceModeChanged();
       }
     }

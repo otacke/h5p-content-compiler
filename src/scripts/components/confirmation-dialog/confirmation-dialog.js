@@ -1,5 +1,4 @@
 import Util from '@services/util';
-import Globals from '@services/globals';
 
 export default class ConfirmationDialog {
 
@@ -13,6 +12,8 @@ export default class ConfirmationDialog {
    * @param {function} [callbacks.onCanceled] Called when user cancels.
    */
   constructor(params = {}, callbacks = {}) {
+    this.params = Util.extend({}, params);
+
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-content-compiler-confirmation-dialog');
 
@@ -36,7 +37,7 @@ export default class ConfirmationDialog {
    */
   update(params = {}, callbacks = {}) {
     params = Util.extend({
-      instance: Globals.get('mainInstance'),
+      instance: this.params.globals.get('mainInstance'),
     }, params);
 
     callbacks = Util.extend({

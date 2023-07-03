@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Util from '@services/util';
 import './card.scss';
 
@@ -75,14 +74,16 @@ export default class Card {
       image.setAttribute('alt', ''); // Only decorational
 
       image.addEventListener('load', () => {
-        Globals.get('resize')();
+        this.params.globals.get('resize')();
       });
 
       if (this.params.visuals?.imageSizing === 'custom') {
         image.classList.add('fixed-ratio');
       }
 
-      H5P.setSource(image, this.params.image, Globals.get('contentId'));
+      H5P.setSource(
+        image, this.params.image, this.params.globals.get('contentId')
+      );
 
       this.button.append(image);
     }
@@ -101,7 +102,7 @@ export default class Card {
     this.status.classList.add('h5p-content-compiler-card-status');
     this.button.append(this.status);
 
-    this.setStatusCode(Globals.get('states')['unstarted']);
+    this.setStatusCode(this.params.globals.get('states')['unstarted']);
     this.isSelected = false;
     this.isActivated = false;
 
@@ -161,7 +162,7 @@ export default class Card {
   updateAriaLabel() {
     let ariaLabelSegments = [`${this.params.dictionary.get('a11y.exerciseLabel').replace(/@label/g, this.params.label)}`];
 
-    if (this.mode === Globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes')['filter']) {
       const selected = this.isSelected ?
         this.params.dictionary.get('a11y.selected') :
         this.params.dictionary.get('a11y.notSelected');
@@ -169,7 +170,7 @@ export default class Card {
       ariaLabelSegments.push(selected);
 
     }
-    else if (this.mode === Globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes')['reorder']) {
       if (this.isActivated) {
         ariaLabelSegments.push(
           this.params.dictionary.get('a11y.selectedForReordering')
@@ -181,7 +182,7 @@ export default class Card {
         );
       }
     }
-    else if (this.mode === Globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes')['view']) {
       ariaLabelSegments.push(
         this.params.dictionary.get(`l10n.status${this.statusCode}`)
       );
@@ -270,14 +271,15 @@ export default class Card {
    * @param {number} state State id.
    */
   setStatusCode(state) {
-    const statusCode = Object.entries(Globals.get('states'))
+    const statusCode = Object.entries(this.params.globals.get('states'))
       .find((entry) => entry[1] === state)[0];
 
-    this.statusCode = `${statusCode.charAt(0).toLocaleUpperCase()}${statusCode.slice(1)}`;
+    this.statusCode =
+      `${statusCode.charAt(0).toLocaleUpperCase()}${statusCode.slice(1)}`;
 
     if (
-      this.mode !== Globals.get('modes')['view'] &&
-      Object.keys(Globals.get('states')).includes(statusCode)
+      this.mode !== this.params.globals.get('modes')['view'] &&
+      Object.keys(this.params.globals.get('states')).includes(statusCode)
     ) {
       return;
     }
@@ -296,7 +298,7 @@ export default class Card {
   setMode(mode) {
     this.mode = mode;
 
-    if (mode === Globals.get('modes')['filter']) {
+    if (mode === this.params.globals.get('modes')['filter']) {
       if (this.isSelected) {
         this.status.innerHTML = this.params.dictionary.get('l10n.selected');
       }
@@ -304,17 +306,20 @@ export default class Card {
         this.status.innerHTML = null;
       }
     }
-    else if (mode === Globals.get('modes')['reorder']) {
+    else if (mode === this.params.globals.get('modes')['reorder']) {
       this.status.innerHTML = null;
     }
-    else if (mode === Globals.get('modes')['view']) {
+    else if (mode === this.params.globals.get('modes')['view']) {
       this.status.innerHTML = this.params.dictionary.get(
         `l10n.status${this.statusCode}`
       );
     }
 
-    Object.keys(Globals.get('modes')).forEach((key) => {
-      this.dom.classList.toggle(key, mode === Globals.get('modes')[key]);
+    Object.keys(this.params.globals.get('modes')).forEach((key) => {
+      this.dom.classList.toggle(
+        key,
+        mode === this.params.globals.get('modes')[key]
+      );
     });
 
     this.updateAriaLabel();
@@ -324,11 +329,15 @@ export default class Card {
    * Handle clicked.
    */
   handleClicked() {
-    const isSelected = (this.mode === Globals.get('modes')['filter']) ?
+    const isSelected = (
+      this.mode === this.params.globals.get('modes')['filter']
+    ) ?
       !this.isSelected :
       this.isSelected;
 
-    const isActivated = (this.mode === Globals.get('modes')['reorder']) ?
+    const isActivated = (
+      this.mode === this.params.globals.get('modes')['reorder']
+    ) ?
       !this.isActivated :
       this.isActivated;
 

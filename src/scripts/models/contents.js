@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Util from '@services/util';
 import ContentInstance from '@models/content-instance';
 
@@ -60,7 +59,7 @@ export default class Contents {
     }
 
     params = Util.extend({
-      statusCode: Globals.get('states')['unstarted'],
+      statusCode: this.params.globals.get('states')['unstarted'],
       keywords: ''
     }, params);
 
@@ -74,6 +73,7 @@ export default class Contents {
     const introduction = params.introduction || '';
     const contentInstance = new ContentInstance(
       {
+        globals: this.params.globals,
         contentParams: params.contentType,
         previousState: params.previousState
       },
@@ -215,7 +215,9 @@ export default class Contents {
    */
   reset() {
     Object.values(this.contents).forEach((content) => {
-      content.contentInstance.setState(Globals.get('states')['unstarted']);
+      content.contentInstance.setState(
+        this.params.globals.get('states')['unstarted']
+      );
       content.contentInstance.reset();
     });
   }
