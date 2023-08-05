@@ -1,83 +1,83 @@
 {
   "semantics": [
     {
-      "label": "Show title screen",
-      "description": "If checked, a title screen will show up when starting."
+      "label": "Erakutsi izenburua duen pantaila",
+      "description": "Hautatuta badago, izenburua duen pantaila agertuko da abiaraztean."
     },
     {
-      "label": "Title screen",
+      "label": "Izenburuko pantaila",
       "fields": [
         {
-          "label": "Introduction",
-          "placeholder": "Welcome to ...",
+          "label": "Sarrera",
+          "placeholder": "Ongi etorri ...",
           "default": "<p style=\"text-align: center;\"></p>"
         },
         {
-          "label": "Title screen medium"
+          "label": "Izenburuko pantaila ertaina"
         }
       ]
     },
     {
-      "label": "Introduction texts",
+      "label": "Sarrerako testuak",
       "fields": [
         {
-          "label": "Introduction for filtering and selection",
-          "description": "Explain what the users are expected to do when filtering and selecting content."
+          "label": "Iragazteko eta aukeratzeko sarrera",
+          "description": "Azaldu zer egin behar duten erabiltzaileek edukia iragazten eta hautatzen dutenean."
         },
         {
-          "label": "Introduction for reordering",
-          "description": "Explain what the users are expected to do reordering content."
+          "label": "Berrantolatzeko sarrera",
+          "description": "Azaldu zer espero den erabiltzaileek egitea edukia berrantolatzeko."
         },
         {
-          "label": "Introduction for viewing",
-          "description": "Explain what the users are expected to do when viewing content."
+          "label": "Ikusteko sarrera",
+          "description": "Azaldu erabiltzaileek zer egin behar duten edukia ikustean."
         }
       ]
     },
     {
-      "label": "Contents",
-      "entity": "content",
+      "label": "Edukia",
+      "entity": "edukia",
       "widgets": [
         {
-          "label": "Default"
+          "label": "Lehenetsia"
         }
       ],
       "field": {
-        "label": "Content",
+        "label": "Edukia",
         "fields": [
           {
-            "label": "Label",
-            "description": "Label for the content. The label will be set to the metadata title if no label, image or teaser is set."
+            "label": "Etiketa",
+            "description": "Edukien etiketa. Etiketa metadatuen izenburuarekin ezarriko da etiketa, irudi edo arrerapenik ezartzen ez bada."
           },
           {
-            "label": "Image",
-            "description": "Optional illustrative image."
+            "label": "Irudia",
+            "description": "Aukerako irudi ilustratzailea."
           },
           {
-            "label": "Teaser",
-            "description": "Optional teaser for the content."
+            "label": "Aurrerapena",
+            "description": "Edukiaren aukerako aurrerapena."
           },
           {
-            "label": "Keywords",
-            "description": "Enter keywords for the content each separated by a comma (,)."
+            "label": "Gako-hitzak",
+            "description": "Idatzi edukiaren gako-hitzak komaz (,) bereizita."
           },
           {
-            "label": "Content",
-            "description": "Choose the type of content you would like to add."
+            "label": "Edukia",
+            "description": "Aukeratu gehitu nahi duzun eduki mota."
           }
         ]
       }
     },
     {
-      "label": "Visual settings",
+      "label": "Ikuste-ezarpenak",
       "fields": [
         {
-          "label": "Card width",
-          "description": "Set the default card width as a CSS value (e.g. 100px or 14rem or 15em). If you leave out the unit, px will be assumed.",
+          "label": "Txartelaren zabalera",
+          "description": "Ezarri txartelaren zabalera lehenetsia CSS balio gisa (adibidez, 100px edo 14rem edo 15em). Unitaterik zehazten ez baduzu, px hartuko da.",
           "default": "14rem"
         },
         {
-          "label": "Image sizing",
+          "label": "Irudiaren tamaina",
           "description": "Choose how content images should be sized.",
           "options": [
             {
