@@ -1,84 +1,83 @@
 {
   "semantics": [
     {
-      "label": "Erakutsi izenburua duen pantaila",
-      "description": "Hautatuta badago, izenburua duen pantaila agertuko da abiaraztean."
+      "label": "Show title screen",
+      "description": "If checked, a title screen will show up when starting."
     },
     {
-      "label": "Izenburuko pantaila",
+      "label": "Title screen",
       "fields": [
         {
-          "label": "Sarrera",
-          "placeholder": "Ongi etorri ...",
+          "label": "Įvadas",
+          "placeholder": "Sveiki ...",
           "default": "<p style=\"text-align: center;\"></p>"
         },
         {
-          "label": "Izenburuko pantaila ertaina"
+          "label": "Title screen medium"
         }
       ]
     },
     {
-      "label": "Sarrerako testuak",
+      "label": "Įvadiniai tekstai",
       "fields": [
         {
-          "label": "Iragazteko eta aukeratzeko sarrera",
-          "description": "Azaldu zer egin behar duten erabiltzaileek edukia iragazten eta hautatzen dutenean."
+          "label": "Introduction for filtering and selection",
+          "description": "Explain what the users are expected to do when filtering and selecting content."
         },
         {
-          "label": "Berrantolatzeko sarrera",
-          "description": "Azaldu zer espero den erabiltzaileek egitea edukia berrantolatzeko."
+          "label": "Introduction for reordering",
+          "description": "Explain what the users are expected to do reordering content."
         },
         {
-          "label": "Ikusteko sarrera",
-          "description": "Azaldu erabiltzaileek zer egin behar duten edukia ikustean."
+          "label": "Introduction for viewing",
+          "description": "Explain what the users are expected to do when viewing content."
         }
       ]
     },
     {
-      "label": "Edukia",
-      "entity": "edukia",
+      "label": "Contents",
+      "entity": "content",
       "widgets": [
         {
-          "label": "Lehenetsia"
+          "label": "Default"
         }
       ],
       "field": {
-        "label": "Edukia",
+        "label": "Turinys",
         "fields": [
           {
-            "label": "Etiketa",
-            "description": "Edukien etiketa. Etiketa metadatuen izenburuarekin ezarriko da etiketa, irudi edo arrerapenik ezartzen ez bada."
+            "label": "Label",
+            "description": "Label for the content. The label will be set to the metadata title if no label, image or teaser is set."
           },
           {
-            "label": "Irudia",
-            "description": "Aukerako irudi ilustratzailea."
+            "label": "Paveiksliukas",
+            "description": "Optional illustrative image."
           },
           {
-            "label": "Aurrerapena",
-            "description": "Edukiaren aukerako aurrerapena."
+            "label": "Teaser",
+            "description": "Optional teaser for the content."
           },
           {
-            "label": "Gako-hitzak",
-            "description": "Idatzi edukiaren gako-hitzak komaz (,) bereizita."
+            "label": "Keywords",
+            "description": "Enter keywords for the content each separated by a comma (,)."
           },
           {
-            "label": "Edukia",
-            "description": "Aukeratu gehitu nahi duzun eduki mota."
+            "label": "Turinys",
+            "description": "Pasirinkite norimo pridėti turinio tipą."
           }
         ]
       }
     },
     {
-      "label": "Ikuste-ezarpenak",
       "fields": [
         {
-          "label": "Txartelaren zabalera",
-          "description": "Ezarri txartelaren zabalera lehenetsia CSS balio gisa (adibidez, 100px edo 14rem edo 15em). Unitaterik zehazten ez baduzu, px hartuko da.",
+          "label": "Kortelės plotis",
+          "description": "Set the default card width as a CSS value (e.g. 100px or 14rem or 15em). If you leave out the unit, px will be assumed.",
           "default": "14rem"
         },
         {
-          "label": "Irudiaren tamaina",
-          "description": "Choose how content images should be sized.",
+          "label": "Image sizing",
+          "description": "Pasirinkite, kokio dydžio turinio paveiksliukai turėtų būti.",
           "options": [
             {
               "label": "Use image size ratio"
@@ -97,10 +96,11 @@
           "description": "Set the vertical ratio component for content images."
         },
         {
-          "label": "Maximum teaser lines",
-          "description": "Set the maximum number of lines to display for the content teaser."
+          "description": "Set the maximum number of lines to display for the content teaser.",
+          "label": "Maximum teaser lines"
         }
-      ]
+      ],
+      "label": "Visual settings"
     },
     {
       "label": "Behavioural settings",
@@ -120,6 +120,7 @@
       ]
     },
     {
+      "label": "User interface",
       "fields": [
         {
           "label": "Start",
@@ -198,15 +199,14 @@
           "label": "No contents",
           "default": "No valid contents were set."
         }
-      ],
-      "label": "User interface"
+      ]
     },
     {
       "fields": [
         {
-          "default": "Exercise: @label",
           "label": "Exercise description",
-          "description": "@label is a placeholder that will be replaced with the respective value."
+          "description": "@label is a placeholder that will be replaced with the respective value.",
+          "default": "Exercise: @label"
         },
         {
           "label": "Toolbar description",
@@ -217,8 +217,8 @@
           "default": "Switch to select mode"
         },
         {
-          "label": "Button: Reorder mode",
-          "default": "Switch to reorder mode"
+          "default": "Switch to reorder mode",
+          "label": "Button: Reorder mode"
         },
         {
           "label": "Button: View mode",
@@ -229,8 +229,8 @@
           "default": "Reset exercises"
         },
         {
-          "label": "Button: Reset everything",
-          "default": "Reset exercises and selections"
+          "default": "Reset exercises and selections",
+          "label": "Button: Reset everything"
         },
         {
           "label": "Tag selector",
@@ -269,8 +269,8 @@
           "default": "Do selected exercises"
         },
         {
-          "label": "Close",
-          "default": "Close"
+          "label": "Uždaryti",
+          "default": "Uždaryti"
         },
         {
           "label": "Switched to select mode",
@@ -285,9 +285,9 @@
           "default": "Switched to view mode."
         },
         {
-          "label": "Swapped contents",
           "description": "@position1 and ¹position2 are placeholders and will be replaced with the respective values.",
-          "default": "Swapped content at position @position1 with content at position @position2."
+          "default": "Swapped content at position @position1 with content at position @position2.",
+          "label": "Swapped contents"
         }
       ],
       "label": "Accessibility texts"
