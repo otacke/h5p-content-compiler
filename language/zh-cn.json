@@ -50,7 +50,7 @@
             "description": "内容的标签。如果未设置标签、图像或引导语，标签将设置为元数据的标题。"
           },
           {
-            "label": "图片",
+            "label": "图像",
             "description": "可选的插图。"
           },
           {
@@ -111,7 +111,7 @@
         },
         {
           "label": "预选所有关键字",
-          "description": "选择开始内容时是否应选择所有或无关键字。"
+          "description": "开始内容时是否应选择所有或无关键字。"
         },
         {
           "label": "将选择绑定到标签",
@@ -288,7 +288,7 @@
         {
           "label": "交换内容",
           "description": "@position1 和 @position2 是占位符，将被替换为相应的值。",
-          "default": "已交换位于位置 @position1 和位置 @position2 的内容。"
+          "default": "已交换位于位置 @position1 的位置 @position2 的内容。"
         }
       ]
     }
