@@ -327,10 +327,7 @@ export default class Content {
         this.allTags.length === 1 ? this.allTags : this.selectedTags
       );
 
-      if (
-        this.selectedTags.length === 0 &&
-        this.tagSelector?.isVisible() === false
-      ) {
+      if (this.tagSelector?.isVisible() === false) {
         this.tagSelector?.show();
         this.announceTagSelector(true);
       }
