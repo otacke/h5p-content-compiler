@@ -93,8 +93,8 @@ export default class Contents {
       .filter((keyword) => keyword !== '');
 
     const content = {
-      ...(label && {label: label}),
-      ...(params.image && {image: params.image}),
+      ...(label && { label: label }),
+      ...(params.image && { image: params.image }),
       introduction: introduction,
       contentInstance: contentInstance,
       keywords: keywords,

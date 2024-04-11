@@ -518,7 +518,7 @@ export default class Content {
 
     if (this.mode === this.params.globals.get('modes')['filter']) {
       if (typeof params.isSelected === 'boolean') {
-        this.pool.updateState(params.id, { isSelected: params.isSelected});
+        this.pool.updateState(params.id, { isSelected: params.isSelected });
       }
     }
     else if (this.mode === this.params.globals.get('modes')['reorder']) {
