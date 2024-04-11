@@ -1,5 +1,5 @@
-import Util from '@services/util';
-import Tag from './tag';
+import Util from '@services/util.js';
+import Tag from './tag.js';
 import './tag-selector.scss';
 
 export default class TagSelector {

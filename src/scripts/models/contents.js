@@ -1,5 +1,5 @@
-import Util from '@services/util';
-import ContentInstance from '@models/content-instance';
+import Util from '@services/util.js';
+import ContentInstance from '@models/content-instance.js';
 
 export default class Contents {
 
