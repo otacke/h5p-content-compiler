@@ -46,7 +46,7 @@ export default class TagSelector {
     this.dom.append(this.list);
 
     this.params.tags.forEach((tagParam) => {
-      const uuid = H5P.createUUID();
+      const uuid = `tag-${H5P.createUUID()}`;
       const tag = new Tag(
         {
           text: tagParam.text,
