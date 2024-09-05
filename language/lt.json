@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "Įvadas",
-          "placeholder": "Sveiki ...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "Sveiki ..."
         },
         {
           "label": "Title screen medium"

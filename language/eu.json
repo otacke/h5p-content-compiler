@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "Sarrera",
-          "placeholder": "Ongi etorri ...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "Ongi etorri ..."
         },
         {
           "label": "Izenburuko pantaila ertaina"
