@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "介绍",
-          "placeholder": "欢迎来到...",
-          "default": "<p style=\"text-align: center ;\"></p>"
+          "placeholder": "欢迎来到..."
         },
         {
           "label": "标题屏幕媒体"
