@@ -23,7 +23,7 @@ export default class CardsList {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       contents: {},
-      mode: params.globals.get('modes')['filter']
+      mode: params.globals.get('modes').filter
     }, params);
 
     this.callbacks = Util.extend({
@@ -178,7 +178,7 @@ export default class CardsList {
 
     // Allow to drag cards when in reordering mode
     Object.values(this.cards).forEach((card) => {
-      card.setDraggable(mode === this.params.globals.get('modes')['reorder']);
+      card.setDraggable(mode === this.params.globals.get('modes').reorder);
     });
 
     for (const id in this.cards) {
@@ -196,17 +196,17 @@ export default class CardsList {
   updateAriaLabel() {
     let ariaLabelSegments = [];
 
-    if (this.mode === this.params.globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes').filter) {
       ariaLabelSegments.push(
         this.params.dictionary.get('a11y.cardListFilter')
       );
     }
-    else if (this.mode === this.params.globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes').reorder) {
       ariaLabelSegments.push(
         this.params.dictionary.get('a11y.cardListReorder')
       );
     }
-    else if (this.mode === this.params.globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes').view) {
       ariaLabelSegments.push(
         this.params.dictionary.get('a11y.cardListView')
       );
@@ -291,19 +291,19 @@ export default class CardsList {
    * @param {object} states Card states.
    */
   handleCardClicked(id, states = {}) {
-    if (this.mode === this.params.globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes').filter) {
       this.callbacks.onCardClicked({
         id: id,
         isSelected: states.isSelected
       });
     }
-    else if (this.mode === this.params.globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes').reorder) {
       this.callbacks.onCardClicked({
         id: id,
         isActivated: states.isActivated
       });
     }
-    else if (this.mode === this.params.globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes').view) {
       this.callbacks.onCardClicked({ id: id });
     }
   }
@@ -313,7 +313,7 @@ export default class CardsList {
    * @param {MouseEvent} event Mouse event.
    */
   handleCardMouseDown(event) {
-    if (this.mode !== this.params.globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes').reorder) {
       return;
     }
 
@@ -326,7 +326,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragStart(id, event) {
-    if (this.mode !== this.params.globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes').reorder) {
       return;
     }
 
@@ -362,7 +362,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragEnter(id, event) {
-    if (this.mode !== this.params.globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes').reorder) {
       return;
     }
 
@@ -396,7 +396,7 @@ export default class CardsList {
    * @param {DragEvent} event Drag event.
    */
   handleCardDragLeave(id, event) {
-    if (this.mode !== this.params.globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes').reorder) {
       return;
     }
 
@@ -411,7 +411,7 @@ export default class CardsList {
    * Handle card drag end.
    */
   handleCardDragEnd() {
-    if (this.mode !== this.params.globals.get('modes')['reorder']) {
+    if (this.mode !== this.params.globals.get('modes').reorder) {
       return;
     }
 

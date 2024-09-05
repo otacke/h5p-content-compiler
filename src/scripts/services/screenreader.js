@@ -1,3 +1,6 @@
+/** @constant {number} SCREEN_READER_TIMEOUT_MS Screen reader timeout in ms. */
+const SCREEN_READER_TIMEOUT_MS = 100;
+
 export default class Screenreader {
 
   /**
@@ -52,7 +55,7 @@ export default class Screenreader {
     Screenreader.timeout = window.setTimeout(function () {
       Screenreader.readText = null;
       Screenreader.dom.innerText = '';
-    }, 100);
+    }, SCREEN_READER_TIMEOUT_MS);
   }
 }
 

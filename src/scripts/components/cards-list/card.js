@@ -102,7 +102,7 @@ export default class Card {
     this.status.classList.add('h5p-content-compiler-card-status');
     this.button.append(this.status);
 
-    this.setStatusCode(this.params.globals.get('states')['unstarted']);
+    this.setStatusCode(this.params.globals.get('states').unstarted);
     this.isSelected = false;
     this.isActivated = false;
 
@@ -160,9 +160,10 @@ export default class Card {
    * Update aria label.
    */
   updateAriaLabel() {
-    let ariaLabelSegments = [`${this.params.dictionary.get('a11y.exerciseLabel').replace(/@label/g, this.params.label)}`];
+    let ariaLabelSegments =
+      [`${this.params.dictionary.get('a11y.exerciseLabel').replace(/@label/g, this.params.label)}`];
 
-    if (this.mode === this.params.globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes').filter) {
       const selected = this.isSelected ?
         this.params.dictionary.get('a11y.selected') :
         this.params.dictionary.get('a11y.notSelected');
@@ -170,7 +171,7 @@ export default class Card {
       ariaLabelSegments.push(selected);
 
     }
-    else if (this.mode === this.params.globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes').reorder) {
       if (this.isActivated) {
         ariaLabelSegments.push(
           this.params.dictionary.get('a11y.selectedForReordering')
@@ -182,7 +183,7 @@ export default class Card {
         );
       }
     }
-    else if (this.mode === this.params.globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes').view) {
       ariaLabelSegments.push(
         this.params.dictionary.get(`l10n.status${this.statusCode}`)
       );
@@ -278,7 +279,7 @@ export default class Card {
       `${statusCode.charAt(0).toLocaleUpperCase()}${statusCode.slice(1)}`;
 
     if (
-      this.mode !== this.params.globals.get('modes')['view'] &&
+      this.mode !== this.params.globals.get('modes').view &&
       Object.keys(this.params.globals.get('states')).includes(statusCode)
     ) {
       return;
@@ -298,7 +299,7 @@ export default class Card {
   setMode(mode) {
     this.mode = mode;
 
-    if (mode === this.params.globals.get('modes')['filter']) {
+    if (mode === this.params.globals.get('modes').filter) {
       if (this.isSelected) {
         this.status.innerHTML = this.params.dictionary.get('l10n.selected');
       }
@@ -306,10 +307,10 @@ export default class Card {
         this.status.innerHTML = null;
       }
     }
-    else if (mode === this.params.globals.get('modes')['reorder']) {
+    else if (mode === this.params.globals.get('modes').reorder) {
       this.status.innerHTML = null;
     }
-    else if (mode === this.params.globals.get('modes')['view']) {
+    else if (mode === this.params.globals.get('modes').view) {
       this.status.innerHTML = this.params.dictionary.get(
         `l10n.status${this.statusCode}`
       );
@@ -330,13 +331,13 @@ export default class Card {
    */
   handleClicked() {
     const isSelected = (
-      this.mode === this.params.globals.get('modes')['filter']
+      this.mode === this.params.globals.get('modes').filter
     ) ?
       !this.isSelected :
       this.isSelected;
 
     const isActivated = (
-      this.mode === this.params.globals.get('modes')['reorder']
+      this.mode === this.params.globals.get('modes').reorder
     ) ?
       !this.isActivated :
       this.isActivated;

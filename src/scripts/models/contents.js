@@ -59,7 +59,7 @@ export default class Contents {
     }
 
     params = Util.extend({
-      statusCode: this.params.globals.get('states')['unstarted'],
+      statusCode: this.params.globals.get('states').unstarted,
       keywords: ''
     }, params);
 
@@ -216,7 +216,7 @@ export default class Contents {
   reset() {
     Object.values(this.contents).forEach((content) => {
       content.contentInstance.setState(
-        this.params.globals.get('states')['unstarted']
+        this.params.globals.get('states').unstarted
       );
       content.contentInstance.reset();
     });

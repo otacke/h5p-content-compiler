@@ -41,8 +41,10 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         noCardsSelected: 'You have not selected any content.',
         untitledContent: 'Untitled Content',
         confirmResetHeader: 'Reset all contents?',
+        // eslint-disable-next-line max-len
         confirmResetDialog: 'All your contents and their status will be reset, but your selection will remain as is. Do you want to proceed?',
         confirmResetAllHeader: 'Reset all contents and selections?',
+        // eslint-disable-next-line max-len
         confirmResetAllDialog: 'All your contents and their status and your selections will be reset. Do you want to proceed?',
         no: 'No',
         yes: 'Yes',

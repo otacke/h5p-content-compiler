@@ -11,6 +11,9 @@ import MessageBox from './message-box/message-box.js';
 import MessageBoxHint from './message-box/message-box-hint.js';
 import './content.scss';
 
+/** @constant {number} SCREEN_READER_TIMEOUT_MS Screen reader timeout in ms. */
+const SCREEN_READER_TIMEOUT_MS = 50;
+
 export default class Content {
 
   constructor(params = {}) {
@@ -124,7 +127,7 @@ export default class Content {
           active: this.params.dictionary.get('a11y.buttonFilter'),
         },
         onClick: () => {
-          this.setMode(this.params.globals.get('modes')['filter']);
+          this.setMode(this.params.globals.get('modes').filter);
           this.announceModeChanged();
         }
       },
@@ -135,7 +138,7 @@ export default class Content {
           active: this.params.dictionary.get('a11y.buttonReorder'),
         },
         onClick: () => {
-          this.setMode(this.params.globals.get('modes')['reorder']);
+          this.setMode(this.params.globals.get('modes').reorder);
           this.announceModeChanged();
         }
       },
@@ -146,7 +149,7 @@ export default class Content {
           active: this.params.dictionary.get('a11y.buttonView'),
         },
         onClick: () => {
-          this.setMode(this.params.globals.get('modes')['view']);
+          this.setMode(this.params.globals.get('modes').view);
           this.announceModeChanged();
         }
       }
@@ -279,10 +282,10 @@ export default class Content {
       this.setMode(this.params.previousState.mode);
     }
     else if (this.params.startWithEverything) {
-      this.setMode(this.params.globals.get('modes')['view']);
+      this.setMode(this.params.globals.get('modes').view);
     }
     else {
-      this.setMode(this.params.globals.get('modes')['filter']);
+      this.setMode(this.params.globals.get('modes').filter);
     }
   }
 
@@ -321,7 +324,7 @@ export default class Content {
       this.poolList.setMode(mode);
     }
 
-    if (mode === this.params.globals.get('modes')['filter']) {
+    if (mode === this.params.globals.get('modes').filter) {
       this.toolbar.enableButton('tags');
       this.pool.setVisibilityByKeywords(
         this.allTags.length === 1 ? this.allTags : this.selectedTags
@@ -369,17 +372,17 @@ export default class Content {
    * Announce mode change.
    */
   announceModeChanged() {
-    if (this.mode === this.params.globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes').filter) {
       Screenreader.read(
         this.params.dictionary.get('a11y.switchedToModeFilter')
       );
     }
-    else if (this.mode === this.params.globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes').reorder) {
       Screenreader.read(
         this.params.dictionary.get('a11y.switchedToModeReorder')
       );
     }
-    else if (this.mode === this.params.globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes').view) {
       Screenreader.read(
         this.params.dictionary.get('a11y.switchedToModeView')
       );
@@ -392,13 +395,13 @@ export default class Content {
   updateMessageBox() {
     let html;
 
-    if (this.mode === this.params.globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes').filter) {
       html = this.params.introductionTexts.introFilter;
     }
-    else if (this.mode === this.params.globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes').reorder) {
       html = this.params.introductionTexts.introReorder;
     }
-    else if (this.mode === this.params.globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes').view) {
       html = this.params.introductionTexts.introView;
     }
 
@@ -455,7 +458,7 @@ export default class Content {
       return;
     }
 
-    if (this.mode === this.params.globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes').filter) {
       const numberCardsFiltered = Object.values(this.pool.getContents())
         .filter((content) => content.isVisible).length;
 
@@ -481,7 +484,7 @@ export default class Content {
         this.messageBoxHint.show();
         setTimeout(() => {
           Screenreader.read(this.params.dictionary.get('l10n.noCardsSelected'));
-        }, 50); // Let "switched" message get read first
+        }, SCREEN_READER_TIMEOUT_MS); // Let "switched" message get read first
       }
       else {
         this.messageBoxHint.hide();
@@ -516,12 +519,12 @@ export default class Content {
       return;
     }
 
-    if (this.mode === this.params.globals.get('modes')['filter']) {
+    if (this.mode === this.params.globals.get('modes').filter) {
       if (typeof params.isSelected === 'boolean') {
         this.pool.updateState(params.id, { isSelected: params.isSelected });
       }
     }
-    else if (this.mode === this.params.globals.get('modes')['reorder']) {
+    else if (this.mode === this.params.globals.get('modes').reorder) {
       if (typeof params.isActivated === 'boolean') {
         const activeContents = Object
           .entries(this.pool.getContents())
@@ -539,7 +542,7 @@ export default class Content {
         }
       }
     }
-    else if (this.mode === this.params.globals.get('modes')['view']) {
+    else if (this.mode === this.params.globals.get('modes').view) {
       const content = this.pool.getContent(params.id);
 
       this.exerciseOverlay.setH5PContent(content.contentInstance.getDOM());
@@ -549,7 +552,7 @@ export default class Content {
       );
       this.exerciseOverlay.show();
 
-      content.contentInstance.setState(this.params.globals.get('states')['viewed']);
+      content.contentInstance.setState(this.params.globals.get('states').viewed);
 
       // Keep track to give back focus later
       this.currentCardId = params.id;
@@ -739,20 +742,20 @@ export default class Content {
       this.pool.selectAll(true);
 
       // Move to view
-      if (this.mode !== this.params.globals.get('modes')['view']) {
-        this.setMode(this.params.globals.get('modes')['view']);
+      if (this.mode !== this.params.globals.get('modes').view) {
+        this.setMode(this.params.globals.get('modes').view);
         this.announceModeChanged();
       }
 
       // Required to update status
-      this.poolList.setMode(this.params.globals.get('modes')['view']);
+      this.poolList.setMode(this.params.globals.get('modes').view);
     }
     else {
       this.pool.selectAll(false);
 
       // Move to filter
-      if (this.mode !== this.params.globals.get('modes')['filter']) {
-        this.setMode(this.params.globals.get('modes')['filter']);
+      if (this.mode !== this.params.globals.get('modes').filter) {
+        this.setMode(this.params.globals.get('modes').filter);
         this.announceModeChanged();
       }
     }
