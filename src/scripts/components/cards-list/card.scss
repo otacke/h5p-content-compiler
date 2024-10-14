@@ -1,4 +1,4 @@
-@import "@styles/main";
+@use "@styles/main";
 
 $card-width: var(--card-width, 14rem);
 $card-padding: 0.5rem;
@@ -6,7 +6,7 @@ $content-border-radius: 0.5rem;
 $content-gap: 0.5rem;
 
 .h5p-content-compiler-card {
-  border: 0.1rem solid $color-shadow-dark;
+  border: 0.1rem solid main.$color-shadow-dark;
   border-radius: 0.5rem;
   box-sizing: border-box;
   display: flex;
@@ -30,9 +30,9 @@ $content-gap: 0.5rem;
     width: 100%;
 
     .h5p-content-compiler-card-label {
-      background-color: $color-primary;
+      background-color: main.$color-primary;
       border-radius: $content-border-radius $content-border-radius 0 0;
-      color: $color-background;
+      color: main.$color-background;
       flex-grow: 0;
       font-weight: bold;
       line-height: 1.5rem;
@@ -78,8 +78,8 @@ $content-gap: 0.5rem;
     }
 
     .h5p-content-compiler-card-status {
-      border-top: 1px solid $color-shadow-dark;
-      color: $color-primary;
+      border-top: 1px solid main.$color-shadow-dark;
+      color: main.$color-primary;
       font-weight: bold;
       min-height: 1.5rem;
       overflow: hidden;
@@ -106,8 +106,8 @@ $content-gap: 0.5rem;
 
   &.filter {
     &.selected {
-      border-color: $color-primary;
-      box-shadow: 0 0 0.25rem $color-primary;
+      border-color: main.$color-primary;
+      box-shadow: 0 0 0.25rem main.$color-primary;
     }
 
     &:hover {
@@ -121,8 +121,8 @@ $content-gap: 0.5rem;
     }
 
     &.activated {
-      border-color: $color-primary;
-      box-shadow: 0 0 0.25rem $color-primary;
+      border-color: main.$color-primary;
+      box-shadow: 0 0 0.25rem main.$color-primary;
     }
 
     &:hover {
