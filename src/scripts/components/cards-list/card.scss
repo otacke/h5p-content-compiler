@@ -1,18 +1,18 @@
 @use "@styles/main";
 
-$card-width: var(--card-width, 14rem);
-$card-padding: 0.5rem;
 $content-border-radius: 0.5rem;
 $content-gap: 0.5rem;
 
 .h5p-content-compiler-card {
+  --card-padding: 0.5rem;
+
   border: 0.1rem solid main.$color-shadow-dark;
   border-radius: 0.5rem;
   box-sizing: border-box;
   display: flex;
   list-style-type: none;
-  width: $card-width;
-  padding: $card-padding;
+  width: var(--card-width, 14rem);
+  padding: var(--card-padding, 0.5rem);
 
   .h5p-content-compiler-card-content {
     align-items: inherit;
@@ -55,7 +55,7 @@ $content-gap: 0.5rem;
       }
 
       &.fixed-ratio {
-        height: calc(($card-width - 2 * $card-padding) / var(--card-image-ratio-width, 16) * var(--card-image-ratio-height, 9));
+        height: calc((var(--card-width, 14rem) - 2 * var(--card-padding, 0.5rem)) / var(--card-image-ratio-width, 16) * var(--card-image-ratio-height, 9));
         object-fit: cover;
       }
     }
