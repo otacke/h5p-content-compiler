@@ -19,7 +19,7 @@ export default class TagSelector {
     this.dom.setAttribute('id', this.params.uuid);
     this.dom.setAttribute('role', 'option');
     this.dom.setAttribute(
-      'aria-selected', this.params.selected ? 'true' : 'false'
+      'aria-selected', this.params.selected ? 'true' : 'false',
     );
     this.dom.innerText = this.params.text;
 
@@ -84,7 +84,7 @@ export default class TagSelector {
 
     this.dom.classList.toggle('selected', this.selected);
     this.dom.setAttribute(
-      'aria-selected', this.selected ? 'true' : 'false'
+      'aria-selected', this.selected ? 'true' : 'false',
     );
   }
 }

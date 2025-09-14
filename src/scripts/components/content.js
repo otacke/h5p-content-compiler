@@ -19,7 +19,7 @@ export default class Content {
   constructor(params = {}) {
     this.params = Util.extend({
       contents: [],
-      previousState: {}
+      previousState: {},
     }, params);
 
     this.buildDOM();
@@ -35,7 +35,7 @@ export default class Content {
     if (!this.params.contents.length) {
       this.messageBoxHint = new MessageBoxHint();
       this.messageBoxHint.setText(
-        this.params.dictionary.get('l10n.noContents')
+        this.params.dictionary.get('l10n.noContents'),
       );
       this.dom.append(this.messageBoxHint.getDOM());
 
@@ -74,9 +74,9 @@ export default class Content {
         globals: this.params.globals,
         contents: this.params.contents,
         ...(this.params.previousState.contents && {
-          previousState: this.params.previousState.contents
+          previousState: this.params.previousState.contents,
         }),
-        allKeywordsPreselected: this.params.allKeywordsPreselected
+        allKeywordsPreselected: this.params.allKeywordsPreselected,
       },
       {
         onStateChanged: (params) => {
@@ -84,8 +84,8 @@ export default class Content {
         },
         onCardStateChanged: (id, key, value) => {
           this.poolList.updateCardState(id, key, value);
-        }
-      }
+        },
+      },
     );
 
     // Title screen if set
@@ -99,15 +99,15 @@ export default class Content {
         introduction: this.params.titleScreen.titleScreenIntroduction,
         medium: this.params.titleScreen.titleScreenMedium,
         buttons: [
-          { id: 'start', text: this.params.dictionary.get('l10n.start') }
+          { id: 'start', text: this.params.dictionary.get('l10n.start') },
         ],
         a11y: {
-          screenOpened: this.params.dictionary.get('a11y.startScreenWasOpened')
-        }
+          screenOpened: this.params.dictionary.get('a11y.startScreenWasOpened'),
+        },
       }, {
         onButtonClicked: () => {
           this.handleTitleScreenClosed();
-        }
+        },
       });
 
       this.intro.append(this.startScreen.getDOM());
@@ -129,7 +129,7 @@ export default class Content {
         onClick: () => {
           this.setMode(this.params.globals.get('modes').filter);
           this.announceModeChanged();
-        }
+        },
       },
       {
         id: 'reorder',
@@ -140,7 +140,7 @@ export default class Content {
         onClick: () => {
           this.setMode(this.params.globals.get('modes').reorder);
           this.announceModeChanged();
-        }
+        },
       },
       {
         id: 'view',
@@ -151,8 +151,8 @@ export default class Content {
         onClick: () => {
           this.setMode(this.params.globals.get('modes').view);
           this.announceModeChanged();
-        }
-      }
+        },
+      },
     ];
 
     buttons.push({
@@ -163,7 +163,7 @@ export default class Content {
       },
       onClick: () => {
         this.handleResetConfirmation();
-      }
+      },
     });
 
     buttons.push({
@@ -174,13 +174,13 @@ export default class Content {
       },
       onClick: () => {
         this.handleResetAllConfirmation();
-      }
+      },
     });
 
     // Toolbar
     this.toolbar = new Toolbar({
       dictionary: this.params.dictionary,
-      buttons: buttons
+      buttons: buttons,
     });
     this.main.append(this.toolbar.getDOM());
 
@@ -194,15 +194,15 @@ export default class Content {
           tags: this.allTags.map((word) => {
             return {
               text: word,
-              selected: this.selectedTags.includes(word)
+              selected: this.selectedTags.includes(word),
             };
-          })
+          }),
         },
         {
           onChanged: (selectedTags) => {
             this.handleFilterChanged(selectedTags);
-          }
-        }
+          },
+        },
       );
       this.handleTagSelectorClicked({ active: true, quiet: true });
       this.main.append(this.tagSelector.getDOM());
@@ -213,7 +213,7 @@ export default class Content {
       {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
-        contents: this.pool.getContents()
+        contents: this.pool.getContents(),
       },
       {
         onCardClicked: (params) => {
@@ -224,8 +224,8 @@ export default class Content {
         },
         onGotoToolbar: () => {
           this.toolbar.focus();
-        }
-      }
+        },
+      },
     );
     this.main.append(this.poolList.getDOM());
 
@@ -239,19 +239,19 @@ export default class Content {
 
     this.exerciseOverlay = new ExerciseOverlay(
       {
-        dictionary: this.params.dictionary
+        dictionary: this.params.dictionary,
       },
       {
         onClosed: () => {
           this.handleExerciseClosed();
-        }
-      }
+        },
+      },
     );
     this.dom.append(this.exerciseOverlay.getDOM());
 
     // Confirmation Dialog
     this.confirmationDialog = new ConfirmationDialog({
-      globals: this.params.globals
+      globals: this.params.globals,
     });
     document.body.append(this.confirmationDialog.getDOM());
 
@@ -311,7 +311,7 @@ export default class Content {
     for (const key in this.params.globals.get('modes')) {
       this.toolbar.forceButton(
         key,
-        mode === this.params.globals.get('modes')[key]
+        mode === this.params.globals.get('modes')[key],
       );
 
       if (mode === this.params.globals.get('modes')[key]) {
@@ -327,7 +327,7 @@ export default class Content {
     if (mode === this.params.globals.get('modes').filter) {
       this.toolbar.enableButton('tags');
       this.pool.setVisibilityByKeywords(
-        this.allTags.length === 1 ? this.allTags : this.selectedTags
+        this.allTags.length === 1 ? this.allTags : this.selectedTags,
       );
 
       if (this.tagSelector?.isVisible() === false) {
@@ -374,17 +374,17 @@ export default class Content {
   announceModeChanged() {
     if (this.mode === this.params.globals.get('modes').filter) {
       Screenreader.read(
-        this.params.dictionary.get('a11y.switchedToModeFilter')
+        this.params.dictionary.get('a11y.switchedToModeFilter'),
       );
     }
     else if (this.mode === this.params.globals.get('modes').reorder) {
       Screenreader.read(
-        this.params.dictionary.get('a11y.switchedToModeReorder')
+        this.params.dictionary.get('a11y.switchedToModeReorder'),
       );
     }
     else if (this.mode === this.params.globals.get('modes').view) {
       Screenreader.read(
-        this.params.dictionary.get('a11y.switchedToModeView')
+        this.params.dictionary.get('a11y.switchedToModeView'),
       );
     }
   }
@@ -442,7 +442,7 @@ export default class Content {
     if (Util.isUsingMouse() === false) {
       Screenreader.read(this.params.dictionary.get('a11y.swappedContents')
         .replace(/@position1/, pos2 + 1)
-        .replace(/@position2/, pos1 + 1)
+        .replace(/@position2/, pos1 + 1),
       );
     }
 
@@ -464,7 +464,7 @@ export default class Content {
 
       if (numberCardsFiltered === 0) {
         this.messageBoxHint.setText(
-          this.params.dictionary.get('l10n.noCardsFilter')
+          this.params.dictionary.get('l10n.noCardsFilter'),
         );
         this.messageBoxHint.show();
         Screenreader.read(this.params.dictionary.get('l10n.noCardsFilter'));
@@ -479,7 +479,7 @@ export default class Content {
 
       if (numberCardsSelected === 0) {
         this.messageBoxHint.setText(
-          this.params.dictionary.get('l10n.noCardsSelected')
+          this.params.dictionary.get('l10n.noCardsSelected'),
         );
         this.messageBoxHint.show();
         setTimeout(() => {
@@ -504,7 +504,7 @@ export default class Content {
     return {
       mode: this.mode,
       selectedTags: this.selectedTags,
-      contents: this.pool.getCurrentState()
+      contents: this.pool.getCurrentState(),
     };
   }
 
@@ -548,7 +548,7 @@ export default class Content {
       this.exerciseOverlay.setH5PContent(content.contentInstance.getDOM());
       this.exerciseOverlay.setTitle(
         content?.label || content?.contentInstance?.params?.metadata?.title ||
-        ''
+        '',
       );
       this.exerciseOverlay.show();
 
@@ -691,12 +691,12 @@ export default class Content {
         headerText: this.params.dictionary.get('l10n.confirmResetHeader'),
         dialogText: this.params.dictionary.get('l10n.confirmResetDialog'),
         cancelText: this.params.dictionary.get('l10n.no'),
-        confirmText: this.params.dictionary.get('l10n.yes')
+        confirmText: this.params.dictionary.get('l10n.yes'),
       }, {
         onConfirmed: () => {
           this.handleReset();
-        }
-      }
+        },
+      },
     );
 
     this.confirmationDialog.show();
@@ -711,12 +711,12 @@ export default class Content {
         headerText: this.params.dictionary.get('l10n.confirmResetAllHeader'),
         dialogText: this.params.dictionary.get('l10n.confirmResetAllDialog'),
         cancelText: this.params.dictionary.get('l10n.no'),
-        confirmText: this.params.dictionary.get('l10n.yes')
+        confirmText: this.params.dictionary.get('l10n.yes'),
       }, {
         onConfirmed: () => {
           this.handleResetAll();
-        }
-      }
+        },
+      },
     );
 
     this.confirmationDialog.show();

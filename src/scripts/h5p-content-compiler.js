@@ -23,12 +23,12 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         imageSizing: 'custom',
         customRatioWidth: 16,
         customRatioHeight: 9,
-        introClamp: 'unset'
+        introClamp: 'unset',
       },
       behaviour: {
         startWithEverything: false,
         allKeywordsPreselected: true,
-        bindSelectionToTags: true
+        bindSelectionToTags: true,
       },
       l10n: {
         start: 'Start',
@@ -41,14 +41,14 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         noCardsSelected: 'You have not selected any content.',
         untitledContent: 'Untitled Content',
         confirmResetHeader: 'Reset all contents?',
-        // eslint-disable-next-line max-len
+        // eslint-disable-next-line @stylistic/js/max-len
         confirmResetDialog: 'All your contents and their status will be reset, but your selection will remain as is. Do you want to proceed?',
         confirmResetAllHeader: 'Reset all contents and selections?',
-        // eslint-disable-next-line max-len
+        // eslint-disable-next-line @stylistic/js/max-len
         confirmResetAllDialog: 'All your contents and their status and your selections will be reset. Do you want to proceed?',
         no: 'No',
         yes: 'Yes',
-        noContents: 'No valid contents were set.'
+        noContents: 'No valid contents were set.',
       },
       a11y: {
         exerciseLabel: 'Exercise: @label',
@@ -73,8 +73,8 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         switchedToModeFilter: 'Switched to select mode.',
         switchedToModeReorder: 'Switched to reorder mode.',
         switchedToModeView: 'Switched to view mode.',
-        swappedContents: 'Swapped content at position @position1 with content at position @position2.'
-      }
+        swappedContents: 'Swapped content at position @position1 with content at position @position2.',
+      },
     }, params);
 
     if (this.params.behaviour.startWithEverything) {
@@ -138,15 +138,15 @@ export default class ContentCompiler extends H5P.EventDispatcher {
     this.dom.style.setProperty('--card-width', this.params.visuals.cardWidth);
 
     this.dom.style.setProperty(
-      '--card-image-ratio-width', this.params.visuals.customRatioWidth
+      '--card-image-ratio-width', this.params.visuals.customRatioWidth,
     );
 
     this.dom.style.setProperty(
-      '--card-image-ratio-height', this.params.visuals.customRatioHeight
+      '--card-image-ratio-height', this.params.visuals.customRatioHeight,
     );
 
     this.dom.style.setProperty(
-      '--card-introduction-clamp', this.params.visuals.introClamp
+      '--card-introduction-clamp', this.params.visuals.introClamp,
     );
   }
 
@@ -174,13 +174,13 @@ export default class ContentCompiler extends H5P.EventDispatcher {
         ...(
           Object.keys(this.previousState).length &&
           { previousState: this.previousState.content }
-        )
+        ),
       },
       {
         resize: () => {
           this.trigger('resize');
-        }
-      }
+        },
+      },
     );
     this.dom.append(this.content.getDOM());
   }
@@ -192,7 +192,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
   getTitle() {
     // H5P Core function: createTitle
     return H5P.createTitle(
-      this.extras?.metadata?.title || ContentCompiler.DEFAULT_DESCRIPTION
+      this.extras?.metadata?.title || ContentCompiler.DEFAULT_DESCRIPTION,
     );
   }
 
@@ -210,7 +210,7 @@ export default class ContentCompiler extends H5P.EventDispatcher {
    */
   getCurrentState() {
     return {
-      content: this.content.getCurrentState()
+      content: this.content.getCurrentState(),
     };
   }
 }
@@ -226,12 +226,12 @@ ContentCompiler.STATES = {
   unstarted: 0,
   viewed: 1,
   completed: 2,
-  cleared: 3
+  cleared: 3,
 };
 
 /** @constant {object} MODES Modes lookup */
 ContentCompiler.MODES = {
   filter: 0,
   reorder: 1,
-  view: 2
+  view: 2,
 };

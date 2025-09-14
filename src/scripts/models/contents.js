@@ -6,12 +6,12 @@ export default class Contents {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       contents: [],
-      previousState: {}
+      previousState: {},
     }, params);
 
     this.callbacks = Util.extend({
       onStateChanged: () => {},
-      onCardStateChanged: () => {}
+      onCardStateChanged: () => {},
     }, callbacks);
 
     if (Object.keys(this.params.previousState).length) {
@@ -60,7 +60,7 @@ export default class Contents {
 
     params = Util.extend({
       statusCode: this.params.globals.get('states').unstarted,
-      keywords: ''
+      keywords: '',
     }, params);
 
     const label = (!params.label && !params.image && !params.introduction) ?
@@ -75,16 +75,16 @@ export default class Contents {
       {
         globals: this.params.globals,
         contentParams: params.contentType,
-        previousState: params.previousState
+        previousState: params.previousState,
       },
       {
         onStateChanged: (state) => {
           this.callbacks.onStateChanged({
             id: params.contentType.subContentId,
-            state: state
+            state: state,
           });
-        }
-      }
+        },
+      },
     );
 
     const keywords = params.keywords
@@ -102,7 +102,7 @@ export default class Contents {
       isSelected: false,
       isVisible: this.params.allKeywordsPreselected,
       position: params.position,
-      statusCode: params.statusCode
+      statusCode: params.statusCode,
     };
 
     this.contents[params.contentType.subContentId] = content;
@@ -167,7 +167,7 @@ export default class Contents {
     Object.keys(entries).forEach((key) => {
       if (
         [
-          'statusCode', 'isSelected', 'isActivated', 'position', 'isVisible'
+          'statusCode', 'isSelected', 'isActivated', 'position', 'isVisible',
         ].includes(key)
       ) {
         this.contents[id][key] = entries[key];
@@ -187,7 +187,7 @@ export default class Contents {
 
     Object.entries(this.contents).forEach((content) => {
       this.updateState(content[0], {
-        isVisible: isVisible
+        isVisible: isVisible,
       });
     });
   }
@@ -205,7 +205,7 @@ export default class Contents {
       );
 
       this.updateState(content[0], {
-        isVisible: isVisible
+        isVisible: isVisible,
       });
     });
   }
@@ -216,7 +216,7 @@ export default class Contents {
   reset() {
     Object.values(this.contents).forEach((content) => {
       content.contentInstance.setState(
-        this.params.globals.get('states').unstarted
+        this.params.globals.get('states').unstarted,
       );
       content.contentInstance.reset();
     });
@@ -252,7 +252,7 @@ export default class Contents {
       );
 
       this.updateState(content[0], {
-        isSelected: influencedByTags
+        isSelected: influencedByTags,
       });
     });
   }
@@ -270,7 +270,7 @@ export default class Contents {
         isSelected: content.isSelected,
         position: content.position,
         statusCode: content.statusCode,
-        instance: content.contentInstance?.instance?.getCurrentState?.() ?? {}
+        instance: content.contentInstance?.instance?.getCurrentState?.() ?? {},
       };
     }
 

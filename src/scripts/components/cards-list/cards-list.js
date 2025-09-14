@@ -23,7 +23,7 @@ export default class CardsList {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       contents: {},
-      mode: params.globals.get('modes').filter
+      mode: params.globals.get('modes').filter,
     }, params);
 
     this.callbacks = Util.extend({
@@ -34,7 +34,7 @@ export default class CardsList {
       onCardDragEnter: () => {},
       onCardDragLeave: () => {},
       onCardDragEnd: () => {},
-      onGotoToolbar: () => {}
+      onGotoToolbar: () => {},
     }, callbacks);
 
     this.dom = document.createElement('ul');
@@ -59,8 +59,8 @@ export default class CardsList {
             image: contentParams.image,
             introduction: contentParams.introduction,
             keywords: contentParams.keywords,
-            visuals: contentParams.visuals
-          }
+            visuals: contentParams.visuals,
+          },
         },
         {
           onClicked: (states) => {
@@ -80,8 +80,8 @@ export default class CardsList {
           },
           onDragEnd: () => {
             this.handleCardDragEnd();
-          }
-        }
+          },
+        },
       );
     }
 
@@ -113,9 +113,9 @@ export default class CardsList {
       {
         ...params.card,
         dictionary: this.params.dictionary,
-        globals: this.params.globals
+        globals: this.params.globals,
       },
-      callbacks
+      callbacks,
     );
     this.dom.append(this.cards[params.id].getDOM());
   }
@@ -198,17 +198,17 @@ export default class CardsList {
 
     if (this.mode === this.params.globals.get('modes').filter) {
       ariaLabelSegments.push(
-        this.params.dictionary.get('a11y.cardListFilter')
+        this.params.dictionary.get('a11y.cardListFilter'),
       );
     }
     else if (this.mode === this.params.globals.get('modes').reorder) {
       ariaLabelSegments.push(
-        this.params.dictionary.get('a11y.cardListReorder')
+        this.params.dictionary.get('a11y.cardListReorder'),
       );
     }
     else if (this.mode === this.params.globals.get('modes').view) {
       ariaLabelSegments.push(
-        this.params.dictionary.get('a11y.cardListView')
+        this.params.dictionary.get('a11y.cardListView'),
       );
     }
     else {
@@ -294,13 +294,13 @@ export default class CardsList {
     if (this.mode === this.params.globals.get('modes').filter) {
       this.callbacks.onCardClicked({
         id: id,
-        isSelected: states.isSelected
+        isSelected: states.isSelected,
       });
     }
     else if (this.mode === this.params.globals.get('modes').reorder) {
       this.callbacks.onCardClicked({
         id: id,
-        isActivated: states.isActivated
+        isActivated: states.isActivated,
       });
     }
     else if (this.mode === this.params.globals.get('modes').view) {
@@ -336,7 +336,7 @@ export default class CardsList {
       this.pointerPosition.x -
         this.cards[id].getDOM().getBoundingClientRect().left,
       this.pointerPosition.y -
-        this.cards[id].getDOM().getBoundingClientRect().top
+        this.cards[id].getDOM().getBoundingClientRect().top,
     );
 
     this.draggedElement = event.currentTarget;
@@ -345,11 +345,11 @@ export default class CardsList {
     clearTimeout(this.placeholderTimeout);
     this.placeholderTimeout = window.setTimeout(() => {
       this.placeholder.setSize(
-        this.draggedElement.offsetWidth, this.draggedElement.offsetHeight
+        this.draggedElement.offsetWidth, this.draggedElement.offsetHeight,
       );
 
       this.dom.insertBefore(
-        this.placeholder.getDOM(), this.draggedElement.nextSibling
+        this.placeholder.getDOM(), this.draggedElement.nextSibling,
       );
 
       this.cards[id].hide();
@@ -376,7 +376,7 @@ export default class CardsList {
       this.swapCards(this.dropzoneElement, this.draggedElement);
 
       this.dom.insertBefore(
-        this.placeholder.getDOM(), this.draggedElement.nextSibling
+        this.placeholder.getDOM(), this.draggedElement.nextSibling,
       );
 
       const cardIndex1 = Object.values(this.cards)
@@ -385,7 +385,7 @@ export default class CardsList {
 
       this.callbacks.onCardsSwapped({
         id1: id1,
-        id2: id
+        id2: id,
       });
     }
   }

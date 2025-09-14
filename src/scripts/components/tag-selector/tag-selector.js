@@ -12,7 +12,7 @@ export default class TagSelector {
   constructor(params, callbacks) {
     // Set missing params
     this.params = Util.extend({
-      tags: []
+      tags: [],
     }, params || {});
 
     this.callbacks = Util.extend({
@@ -28,7 +28,7 @@ export default class TagSelector {
     this.list.setAttribute('role', 'listbox');
     this.list.setAttribute('tabindex', '0');
     this.list.setAttribute(
-      'aria-label', this.params.dictionary.get('a11y.tagSelector')
+      'aria-label', this.params.dictionary.get('a11y.tagSelector'),
     );
     this.list.setAttribute('aria-multiselectable', 'true');
     this.list.addEventListener('keydown', (event) => {
@@ -51,8 +51,8 @@ export default class TagSelector {
         {
           text: tagParam.text,
           selected: tagParam.selected,
-          uuid: uuid
-        }
+          uuid: uuid,
+        },
       );
 
       this.list.append(tag.getDOM());
@@ -199,7 +199,7 @@ export default class TagSelector {
     });
 
     this.list.setAttribute(
-      'aria-activedescendant', Object.keys(this.tags)[this.currentTagIndex]
+      'aria-activedescendant', Object.keys(this.tags)[this.currentTagIndex],
     );
   }
 
@@ -234,12 +234,12 @@ export default class TagSelector {
     }
     else if (event.code === 'End') {
       this.moveButtonFocus(
-        Object.keys(this.buttons).length - 1 - this.currentTagIndex
+        Object.keys(this.buttons).length - 1 - this.currentTagIndex,
       );
     }
     else if (event.code === 'Enter' || event.code === 'Space') {
       this.handleClicked(
-        { target: Object.values(this.tags)[this.currentTagIndex].getDOM() }
+        { target: Object.values(this.tags)[this.currentTagIndex].getDOM() },
       );
     }
     else if (event.code === 'KeyA' && event.ctrlKey) {

@@ -19,7 +19,7 @@ export default class Card {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      keywords: []
+      keywords: [],
     }, params);
 
     this.callbacks = Util.extend({
@@ -28,7 +28,7 @@ export default class Card {
       onDragStart: () => {},
       onDragEnter: () => {},
       onDragLeave: () => {},
-      onDragEnd: () => {}
+      onDragEnd: () => {},
     }, callbacks);
 
     this.dom = document.createElement('li');
@@ -82,7 +82,7 @@ export default class Card {
       }
 
       H5P.setSource(
-        image, this.params.image, this.params.globals.get('contentId')
+        image, this.params.image, this.params.globals.get('contentId'),
       );
 
       this.button.append(image);
@@ -174,18 +174,18 @@ export default class Card {
     else if (this.mode === this.params.globals.get('modes').reorder) {
       if (this.isActivated) {
         ariaLabelSegments.push(
-          this.params.dictionary.get('a11y.selectedForReordering')
+          this.params.dictionary.get('a11y.selectedForReordering'),
         );
       }
       else if (this.isDropzone) {
         ariaLabelSegments.push(
-          this.params.dictionary.get('a11y.selectedForDropzone')
+          this.params.dictionary.get('a11y.selectedForDropzone'),
         );
       }
     }
     else if (this.mode === this.params.globals.get('modes').view) {
       ariaLabelSegments.push(
-        this.params.dictionary.get(`l10n.status${this.statusCode}`)
+        this.params.dictionary.get(`l10n.status${this.statusCode}`),
       );
     }
     else {
@@ -288,7 +288,7 @@ export default class Card {
     this.updateAriaLabel();
 
     this.status.innerHTML = this.params.dictionary.get(
-      `l10n.status${this.statusCode}`
+      `l10n.status${this.statusCode}`,
     );
   }
 
@@ -312,14 +312,14 @@ export default class Card {
     }
     else if (mode === this.params.globals.get('modes').view) {
       this.status.innerHTML = this.params.dictionary.get(
-        `l10n.status${this.statusCode}`
+        `l10n.status${this.statusCode}`,
       );
     }
 
     Object.keys(this.params.globals.get('modes')).forEach((key) => {
       this.dom.classList.toggle(
         key,
-        mode === this.params.globals.get('modes')[key]
+        mode === this.params.globals.get('modes')[key],
       );
     });
 
@@ -344,7 +344,7 @@ export default class Card {
 
     this.callbacks.onClicked({
       isSelected: isSelected,
-      isActivated: isActivated
+      isActivated: isActivated,
     });
   }
 
